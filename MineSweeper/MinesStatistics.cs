@@ -14,6 +14,7 @@ namespace MineSweeper
         /// <summary>
         /// Information about one winner
         /// </summary>
+        [Serializable]
         public struct WinnerInfo : IComparable
         {
             /// <summary>
@@ -41,6 +42,7 @@ namespace MineSweeper
         /// <summary>
         /// Information about statistics for one game setting (preset)
         /// </summary>
+        [Serializable]
         public struct PresetStatsInfo
         {
             /// <summary>
@@ -107,12 +109,12 @@ namespace MineSweeper
         public MinesStatistics()
         {
             Stats = new PresetStatsInfo[3];
+            
+            Array.Clear(Stats, 0, 3);
 
             Stats[0].Preset = MinesSettings.Preset.Newbie;
             Stats[1].Preset = MinesSettings.Preset.Amateur;
             Stats[2].Preset = MinesSettings.Preset.Professional;
-
-            Array.Clear(Stats, 0, 3);
         }
 
         /// <summary>
@@ -175,7 +177,7 @@ namespace MineSweeper
         {
             int topLength = (Stats[index].TopFive == null) ? 0 : Stats[index].TopFive.Length;
 
-            if (topLength > 0)
+            if (topLength >= 5)
             {
                 if (Stats[index].TopFive[topLength - 1].GameTime > gameTime)
                 {

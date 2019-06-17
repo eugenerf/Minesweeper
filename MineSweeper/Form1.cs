@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Soap;
+using System.Runtime.Serialization;
 
 namespace MineSweeper
 {
@@ -21,6 +22,7 @@ namespace MineSweeper
                         RBDown = null;  //right mouse button is now pushed down
         FormAbout formAbout = null;
         FormSettings formSettings = null;
+        FormAskName formAskName = null;
 
         public FormMineSweeper()
         {
@@ -34,9 +36,14 @@ namespace MineSweeper
                 FileStream fs = new FileStream("minesettings.soap", FileMode.Open);
                 SoapFormatter formatter = new SoapFormatter();
                 MS = (MinesSettings)formatter.Deserialize(fs);
+                fs.Dispose();
                 fs = null;
             }
             catch(FileNotFoundException)
+            {
+                MS = new MinesSettings(MinesSettings.Preset.Newbie);
+            }
+            catch (SerializationException)
             {
                 MS = new MinesSettings(MinesSettings.Preset.Newbie);
             }
@@ -46,9 +53,14 @@ namespace MineSweeper
                 FileStream fs = new FileStream("minestats.soap", FileMode.Open);
                 SoapFormatter formatter = new SoapFormatter();
                 MStats = (MinesStatistics)formatter.Deserialize(fs);
+                fs.Dispose();
                 fs = null;
             }
             catch (FileNotFoundException)
+            {
+                MStats = new MinesStatistics();
+            }
+            catch (SerializationException)
             {
                 MStats = new MinesStatistics();
             }
@@ -379,8 +391,8 @@ namespace MineSweeper
 
             formAbout.Location = new Point(Location.X + Width / 2 - formAbout.Size.Width / 2, 
                                             Location.Y + Height / 2 - formAbout.Size.Height / 2);
-            
-            formAbout.Show();
+
+            formAbout.ShowDialog();
         }
 
         private void tsmiNewGame_Click(object sender, EventArgs e)
@@ -400,7 +412,7 @@ namespace MineSweeper
 
             formSettings.Location = new Point(Location.X + Width / 2 - formSettings.Width / 2,
                                             Location.Y + Height / 2 - formSettings.Height / 2);
-            formSettings.Show();
+            formSettings.ShowDialog();
         }
 
         /// <summary>
@@ -455,8 +467,8 @@ namespace MineSweeper
                     case MinesEngine.GameState.Loose:
                         tTime.Stop();
                         butNewGame.ImageIndex = 3;
-                        MStats.CalcStats(ME, MS, GameSeconds);
-                        for(int k = 0; k < GS.NumMinesBombed; k++)
+                        MStats.CalcStats(ME, MS, GameSeconds);                        
+                        for (int k = 0; k < GS.NumMinesBombed; k++)
                             FL[GS.BombedMines[k].Column][GS.BombedMines[k].Row].BackColor = Color.Red;
                         for (int k = 0; k < GS.NumWrongFlags; k++)
                         {
@@ -500,19 +512,49 @@ namespace MineSweeper
                 }
             }
             else if (SameButton(curButton,RBDown))                                  //same right button upped as was down
-            {                
-                ME.ChangeMarker(i, j);
-                if (ME[i, j].marker > 0) FB[i][j].ImageIndex = ME[i, j].marker;
-                else FB[i][j].ImageIndex = -1;
-                lMines.Text = ((int)ME.NumMines - (int)ME.NumFlags).ToString();
+            {
+                if (sender.GetType().ToString().IndexOf("Button") != -1)
+                {
+                    ME.ChangeMarker(i, j);
+                    if (ME[i, j].marker > 0) FB[i][j].ImageIndex = ME[i, j].marker;
+                    else FB[i][j].ImageIndex = -1;
+                    lMines.Text = ((int)ME.NumMines - (int)ME.NumFlags).ToString();
+                }
             }
             LBDown = null;
-            RBDown = null;
+            RBDown = null;            
+        }
+
+        private void FormMineSweeper_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            try
+            {
+                SoapFormatter formatter = new SoapFormatter();
+                FileStream fs = new FileStream("minestats.soap", FileMode.Create);
+                formatter.Serialize(fs, MStats);
+                fs.Flush();
+                fs = null;
+            }
+            catch (UnauthorizedAccessException)
+            {
+
+            }
         }
 
         public string AskForUserName()
         {
-            return "";
+            formAskName = new FormAskName(this);
+            Enabled = false;
+
+            formAskName.Location=new Point(Location.X + Width / 2 - formAskName.Width / 2,
+                                            Location.Y + Height / 2 - formAskName.Height / 2);
+            formAskName.ShowDialog();
+
+            string res = formAskName.PlayerName;
+            if (res.ToLower() == "zaza") res = char.ConvertFromUtf32(0x1f498) + res + char.ConvertFromUtf32(0x1f498);
+            MessageBox.Show(res);
+
+            return formAskName.PlayerName;
         }
     }
 }

@@ -52,15 +52,14 @@
             // 
             // msMenu
             // 
-            resources.ApplyResources(this.msMenu, "msMenu");
             this.msMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsmiGame,
             this.tsmiAbout});
+            resources.ApplyResources(this.msMenu, "msMenu");
             this.msMenu.Name = "msMenu";
             // 
             // tsmiGame
             // 
-            resources.ApplyResources(this.tsmiGame, "tsmiGame");
             this.tsmiGame.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.tsmiGame.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsmiNewGame,
@@ -69,43 +68,44 @@
             this.toolStripSeparator2,
             this.tsmiExit});
             this.tsmiGame.Name = "tsmiGame";
+            resources.ApplyResources(this.tsmiGame, "tsmiGame");
             // 
             // tsmiNewGame
             // 
-            resources.ApplyResources(this.tsmiNewGame, "tsmiNewGame");
             this.tsmiNewGame.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.tsmiNewGame.Name = "tsmiNewGame";
+            resources.ApplyResources(this.tsmiNewGame, "tsmiNewGame");
             this.tsmiNewGame.Click += new System.EventHandler(this.tsmiNewGame_Click);
             // 
             // toolStripSeparator1
             // 
-            resources.ApplyResources(this.toolStripSeparator1, "toolStripSeparator1");
             this.toolStripSeparator1.Name = "toolStripSeparator1";
+            resources.ApplyResources(this.toolStripSeparator1, "toolStripSeparator1");
             // 
             // tsmiParameters
             // 
-            resources.ApplyResources(this.tsmiParameters, "tsmiParameters");
             this.tsmiParameters.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.tsmiParameters.Name = "tsmiParameters";
+            resources.ApplyResources(this.tsmiParameters, "tsmiParameters");
             this.tsmiParameters.Click += new System.EventHandler(this.tsmiParameters_Click);
             // 
             // toolStripSeparator2
             // 
-            resources.ApplyResources(this.toolStripSeparator2, "toolStripSeparator2");
             this.toolStripSeparator2.Name = "toolStripSeparator2";
+            resources.ApplyResources(this.toolStripSeparator2, "toolStripSeparator2");
             // 
             // tsmiExit
             // 
-            resources.ApplyResources(this.tsmiExit, "tsmiExit");
             this.tsmiExit.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.tsmiExit.Name = "tsmiExit";
+            resources.ApplyResources(this.tsmiExit, "tsmiExit");
             this.tsmiExit.Click += new System.EventHandler(this.tsmiExit_Click);
             // 
             // tsmiAbout
             // 
-            resources.ApplyResources(this.tsmiAbout, "tsmiAbout");
             this.tsmiAbout.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.tsmiAbout.Name = "tsmiAbout";
+            resources.ApplyResources(this.tsmiAbout, "tsmiAbout");
             this.tsmiAbout.Click += new System.EventHandler(this.tsmiAbout_Click);
             // 
             // gbMineField
@@ -190,6 +190,7 @@
             this.MainMenuStrip = this.msMenu;
             this.MaximizeBox = false;
             this.Name = "FormMineSweeper";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormMineSweeper_FormClosing);
             this.Load += new System.EventHandler(this.FormMineSweeper_Load);
             this.msMenu.ResumeLayout(false);
             this.msMenu.PerformLayout();
