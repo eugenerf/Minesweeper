@@ -1,10 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using System.Runtime.Serialization.Formatters.Soap;
 using System.IO;
@@ -31,7 +25,7 @@ namespace MineSweeper
             try
             {
                 SoapFormatter formatter = new SoapFormatter();
-                FileStream fs = new FileStream("minessettings.soap", FileMode.Create);
+                FileStream fs = new FileStream(Path.GetTempPath() + "minesettings.soap", FileMode.Create);
                 formatter.Serialize(fs, formParent.MS);
                 fs.Flush();
                 fs = null;

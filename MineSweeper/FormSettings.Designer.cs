@@ -31,41 +31,39 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormSettings));
             this.butClose = new System.Windows.Forms.Button();
             this.gbParameters = new System.Windows.Forms.GroupBox();
-            this.rbNewbie = new System.Windows.Forms.RadioButton();
-            this.rbAmateur = new System.Windows.Forms.RadioButton();
-            this.rbProfessional = new System.Windows.Forms.RadioButton();
-            this.rbCustom = new System.Windows.Forms.RadioButton();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
-            this.nudHeight = new System.Windows.Forms.NumericUpDown();
-            this.nudWidth = new System.Windows.Forms.NumericUpDown();
-            this.label8 = new System.Windows.Forms.Label();
             this.nudMines = new System.Windows.Forms.NumericUpDown();
             this.label9 = new System.Windows.Forms.Label();
+            this.nudWidth = new System.Windows.Forms.NumericUpDown();
+            this.label8 = new System.Windows.Forms.Label();
+            this.nudHeight = new System.Windows.Forms.NumericUpDown();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.rbCustom = new System.Windows.Forms.RadioButton();
+            this.rbProfessional = new System.Windows.Forms.RadioButton();
+            this.rbAmateur = new System.Windows.Forms.RadioButton();
+            this.rbNewbie = new System.Windows.Forms.RadioButton();
             this.gbParameters.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nudHeight)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nudWidth)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudMines)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudWidth)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudHeight)).BeginInit();
             this.SuspendLayout();
             // 
             // butClose
             // 
-            this.butClose.Location = new System.Drawing.Point(167, 176);
+            resources.ApplyResources(this.butClose, "butClose");
             this.butClose.Name = "butClose";
-            this.butClose.Size = new System.Drawing.Size(75, 23);
-            this.butClose.TabIndex = 0;
             this.butClose.TabStop = false;
-            this.butClose.Text = "Close";
             this.butClose.UseVisualStyleBackColor = true;
             this.butClose.Click += new System.EventHandler(this.butClose_Click);
             // 
             // gbParameters
             // 
+            resources.ApplyResources(this.gbParameters, "gbParameters");
             this.gbParameters.Controls.Add(this.nudMines);
             this.gbParameters.Controls.Add(this.label9);
             this.gbParameters.Controls.Add(this.nudWidth);
@@ -82,182 +80,12 @@
             this.gbParameters.Controls.Add(this.rbProfessional);
             this.gbParameters.Controls.Add(this.rbAmateur);
             this.gbParameters.Controls.Add(this.rbNewbie);
-            this.gbParameters.Location = new System.Drawing.Point(0, 0);
             this.gbParameters.Name = "gbParameters";
-            this.gbParameters.Size = new System.Drawing.Size(250, 170);
-            this.gbParameters.TabIndex = 1;
             this.gbParameters.TabStop = false;
-            // 
-            // rbNewbie
-            // 
-            this.rbNewbie.AutoSize = true;
-            this.rbNewbie.Location = new System.Drawing.Point(6, 12);
-            this.rbNewbie.Name = "rbNewbie";
-            this.rbNewbie.Size = new System.Drawing.Size(68, 17);
-            this.rbNewbie.TabIndex = 0;
-            this.rbNewbie.Text = "Новичок";
-            this.rbNewbie.UseVisualStyleBackColor = true;
-            this.rbNewbie.CheckedChanged += new System.EventHandler(this.rbNewbie_CheckedChanged);
-            // 
-            // rbAmateur
-            // 
-            this.rbAmateur.AutoSize = true;
-            this.rbAmateur.Location = new System.Drawing.Point(6, 64);
-            this.rbAmateur.Name = "rbAmateur";
-            this.rbAmateur.Size = new System.Drawing.Size(76, 17);
-            this.rbAmateur.TabIndex = 1;
-            this.rbAmateur.Text = "Любитель";
-            this.rbAmateur.UseVisualStyleBackColor = true;
-            this.rbAmateur.CheckedChanged += new System.EventHandler(this.rbAmateur_CheckedChanged);
-            // 
-            // rbProfessional
-            // 
-            this.rbProfessional.AutoSize = true;
-            this.rbProfessional.Location = new System.Drawing.Point(6, 117);
-            this.rbProfessional.Name = "rbProfessional";
-            this.rbProfessional.Size = new System.Drawing.Size(101, 17);
-            this.rbProfessional.TabIndex = 2;
-            this.rbProfessional.Text = "Профессионал";
-            this.rbProfessional.UseVisualStyleBackColor = true;
-            this.rbProfessional.CheckedChanged += new System.EventHandler(this.rbProfessional_CheckedChanged);
-            // 
-            // rbCustom
-            // 
-            this.rbCustom.AutoSize = true;
-            this.rbCustom.Location = new System.Drawing.Point(177, 12);
-            this.rbCustom.Name = "rbCustom";
-            this.rbCustom.Size = new System.Drawing.Size(65, 17);
-            this.rbCustom.TabIndex = 3;
-            this.rbCustom.Text = "Особый";
-            this.rbCustom.UseVisualStyleBackColor = true;
-            this.rbCustom.CheckedChanged += new System.EventHandler(this.rbCustom_CheckedChanged);
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(23, 29);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(94, 13);
-            this.label1.TabIndex = 4;
-            this.label1.Text = "Поле: 9 х 9 ячеек";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(23, 42);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(46, 13);
-            this.label2.TabIndex = 5;
-            this.label2.Text = "Мин: 10";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(23, 94);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(46, 13);
-            this.label3.TabIndex = 7;
-            this.label3.Text = "Мин: 40";
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(23, 81);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(106, 13);
-            this.label4.TabIndex = 6;
-            this.label4.Text = "Поле: 16 х 16 ячеек";
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(23, 147);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(46, 13);
-            this.label5.TabIndex = 9;
-            this.label5.Text = "Мин: 99";
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(23, 134);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(106, 13);
-            this.label6.TabIndex = 8;
-            this.label6.Text = "Поле: 16 х 30 ячеек";
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(150, 29);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(48, 13);
-            this.label7.TabIndex = 10;
-            this.label7.Text = "Высота:";
-            // 
-            // nudHeight
-            // 
-            this.nudHeight.Enabled = false;
-            this.nudHeight.Location = new System.Drawing.Point(202, 27);
-            this.nudHeight.Maximum = new decimal(new int[] {
-            24,
-            0,
-            0,
-            0});
-            this.nudHeight.Minimum = new decimal(new int[] {
-            9,
-            0,
-            0,
-            0});
-            this.nudHeight.Name = "nudHeight";
-            this.nudHeight.Size = new System.Drawing.Size(40, 20);
-            this.nudHeight.TabIndex = 11;
-            this.nudHeight.TabStop = false;
-            this.nudHeight.Value = new decimal(new int[] {
-            9,
-            0,
-            0,
-            0});
-            this.nudHeight.ValueChanged += new System.EventHandler(this.nudHeight_ValueChanged);
-            // 
-            // nudWidth
-            // 
-            this.nudWidth.Enabled = false;
-            this.nudWidth.Location = new System.Drawing.Point(202, 53);
-            this.nudWidth.Maximum = new decimal(new int[] {
-            30,
-            0,
-            0,
-            0});
-            this.nudWidth.Minimum = new decimal(new int[] {
-            9,
-            0,
-            0,
-            0});
-            this.nudWidth.Name = "nudWidth";
-            this.nudWidth.Size = new System.Drawing.Size(40, 20);
-            this.nudWidth.TabIndex = 13;
-            this.nudWidth.TabStop = false;
-            this.nudWidth.Value = new decimal(new int[] {
-            9,
-            0,
-            0,
-            0});
-            this.nudWidth.ValueChanged += new System.EventHandler(this.nudWidth_ValueChanged);
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(149, 55);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(49, 13);
-            this.label8.TabIndex = 12;
-            this.label8.Text = "Ширина:";
             // 
             // nudMines
             // 
-            this.nudMines.Enabled = false;
-            this.nudMines.Location = new System.Drawing.Point(202, 79);
+            resources.ApplyResources(this.nudMines, "nudMines");
             this.nudMines.Maximum = new decimal(new int[] {
             668,
             0,
@@ -269,8 +97,6 @@
             0,
             0});
             this.nudMines.Name = "nudMines";
-            this.nudMines.Size = new System.Drawing.Size(40, 20);
-            this.nudMines.TabIndex = 15;
             this.nudMines.TabStop = false;
             this.nudMines.Value = new decimal(new int[] {
             9,
@@ -281,36 +107,140 @@
             // 
             // label9
             // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(159, 81);
+            resources.ApplyResources(this.label9, "label9");
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(39, 13);
-            this.label9.TabIndex = 14;
-            this.label9.Text = "Мины:";
+            // 
+            // nudWidth
+            // 
+            resources.ApplyResources(this.nudWidth, "nudWidth");
+            this.nudWidth.Maximum = new decimal(new int[] {
+            30,
+            0,
+            0,
+            0});
+            this.nudWidth.Minimum = new decimal(new int[] {
+            9,
+            0,
+            0,
+            0});
+            this.nudWidth.Name = "nudWidth";
+            this.nudWidth.TabStop = false;
+            this.nudWidth.Value = new decimal(new int[] {
+            9,
+            0,
+            0,
+            0});
+            this.nudWidth.ValueChanged += new System.EventHandler(this.nudWidth_ValueChanged);
+            // 
+            // label8
+            // 
+            resources.ApplyResources(this.label8, "label8");
+            this.label8.Name = "label8";
+            // 
+            // nudHeight
+            // 
+            resources.ApplyResources(this.nudHeight, "nudHeight");
+            this.nudHeight.Maximum = new decimal(new int[] {
+            24,
+            0,
+            0,
+            0});
+            this.nudHeight.Minimum = new decimal(new int[] {
+            9,
+            0,
+            0,
+            0});
+            this.nudHeight.Name = "nudHeight";
+            this.nudHeight.TabStop = false;
+            this.nudHeight.Value = new decimal(new int[] {
+            9,
+            0,
+            0,
+            0});
+            this.nudHeight.ValueChanged += new System.EventHandler(this.nudHeight_ValueChanged);
+            // 
+            // label7
+            // 
+            resources.ApplyResources(this.label7, "label7");
+            this.label7.Name = "label7";
+            // 
+            // label5
+            // 
+            resources.ApplyResources(this.label5, "label5");
+            this.label5.Name = "label5";
+            // 
+            // label6
+            // 
+            resources.ApplyResources(this.label6, "label6");
+            this.label6.Name = "label6";
+            // 
+            // label3
+            // 
+            resources.ApplyResources(this.label3, "label3");
+            this.label3.Name = "label3";
+            // 
+            // label4
+            // 
+            resources.ApplyResources(this.label4, "label4");
+            this.label4.Name = "label4";
+            // 
+            // label2
+            // 
+            resources.ApplyResources(this.label2, "label2");
+            this.label2.Name = "label2";
+            // 
+            // label1
+            // 
+            resources.ApplyResources(this.label1, "label1");
+            this.label1.Name = "label1";
+            // 
+            // rbCustom
+            // 
+            resources.ApplyResources(this.rbCustom, "rbCustom");
+            this.rbCustom.Name = "rbCustom";
+            this.rbCustom.UseVisualStyleBackColor = true;
+            this.rbCustom.CheckedChanged += new System.EventHandler(this.rbCustom_CheckedChanged);
+            // 
+            // rbProfessional
+            // 
+            resources.ApplyResources(this.rbProfessional, "rbProfessional");
+            this.rbProfessional.Name = "rbProfessional";
+            this.rbProfessional.UseVisualStyleBackColor = true;
+            this.rbProfessional.CheckedChanged += new System.EventHandler(this.rbProfessional_CheckedChanged);
+            // 
+            // rbAmateur
+            // 
+            resources.ApplyResources(this.rbAmateur, "rbAmateur");
+            this.rbAmateur.Name = "rbAmateur";
+            this.rbAmateur.UseVisualStyleBackColor = true;
+            this.rbAmateur.CheckedChanged += new System.EventHandler(this.rbAmateur_CheckedChanged);
+            // 
+            // rbNewbie
+            // 
+            resources.ApplyResources(this.rbNewbie, "rbNewbie");
+            this.rbNewbie.Name = "rbNewbie";
+            this.rbNewbie.UseVisualStyleBackColor = true;
+            this.rbNewbie.CheckedChanged += new System.EventHandler(this.rbNewbie_CheckedChanged);
             // 
             // FormSettings
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(252, 208);
             this.Controls.Add(this.gbParameters);
             this.Controls.Add(this.butClose);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FormSettings";
             this.ShowInTaskbar = false;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
-            this.Text = "Параметры";
             this.TopMost = true;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormSettings_FormClosing);
             this.Load += new System.EventHandler(this.FormSettings_Load);
             this.gbParameters.ResumeLayout(false);
             this.gbParameters.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nudHeight)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nudWidth)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudMines)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudWidth)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudHeight)).EndInit();
             this.ResumeLayout(false);
 
         }

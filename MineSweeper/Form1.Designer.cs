@@ -52,17 +52,15 @@
             // 
             // msMenu
             // 
+            resources.ApplyResources(this.msMenu, "msMenu");
             this.msMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsmiGame,
             this.tsmiAbout});
-            this.msMenu.Location = new System.Drawing.Point(0, 0);
             this.msMenu.Name = "msMenu";
-            this.msMenu.Size = new System.Drawing.Size(209, 24);
-            this.msMenu.TabIndex = 0;
-            this.msMenu.Text = "Main menu";
             // 
             // tsmiGame
             // 
+            resources.ApplyResources(this.tsmiGame, "tsmiGame");
             this.tsmiGame.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.tsmiGame.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsmiNewGame,
@@ -71,71 +69,56 @@
             this.toolStripSeparator2,
             this.tsmiExit});
             this.tsmiGame.Name = "tsmiGame";
-            this.tsmiGame.Size = new System.Drawing.Size(46, 20);
-            this.tsmiGame.Text = "Игра";
             // 
             // tsmiNewGame
             // 
+            resources.ApplyResources(this.tsmiNewGame, "tsmiNewGame");
             this.tsmiNewGame.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.tsmiNewGame.Name = "tsmiNewGame";
-            this.tsmiNewGame.Size = new System.Drawing.Size(138, 22);
-            this.tsmiNewGame.Text = "Новая игра";
             this.tsmiNewGame.Click += new System.EventHandler(this.tsmiNewGame_Click);
             // 
             // toolStripSeparator1
             // 
+            resources.ApplyResources(this.toolStripSeparator1, "toolStripSeparator1");
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(135, 6);
             // 
             // tsmiParameters
             // 
+            resources.ApplyResources(this.tsmiParameters, "tsmiParameters");
             this.tsmiParameters.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.tsmiParameters.Name = "tsmiParameters";
-            this.tsmiParameters.Size = new System.Drawing.Size(138, 22);
-            this.tsmiParameters.Text = "Параметры";
             this.tsmiParameters.Click += new System.EventHandler(this.tsmiParameters_Click);
             // 
             // toolStripSeparator2
             // 
+            resources.ApplyResources(this.toolStripSeparator2, "toolStripSeparator2");
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(135, 6);
             // 
             // tsmiExit
             // 
+            resources.ApplyResources(this.tsmiExit, "tsmiExit");
             this.tsmiExit.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.tsmiExit.Name = "tsmiExit";
-            this.tsmiExit.Size = new System.Drawing.Size(138, 22);
-            this.tsmiExit.Text = "Выход";
             this.tsmiExit.Click += new System.EventHandler(this.tsmiExit_Click);
             // 
             // tsmiAbout
             // 
+            resources.ApplyResources(this.tsmiAbout, "tsmiAbout");
             this.tsmiAbout.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.tsmiAbout.Name = "tsmiAbout";
-            this.tsmiAbout.Size = new System.Drawing.Size(63, 20);
-            this.tsmiAbout.Text = "Об игре";
             this.tsmiAbout.Click += new System.EventHandler(this.tsmiAbout_Click);
             // 
             // gbMineField
             // 
-            this.gbMineField.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.gbMineField.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.gbMineField.Location = new System.Drawing.Point(5, 62);
+            resources.ApplyResources(this.gbMineField, "gbMineField");
             this.gbMineField.Name = "gbMineField";
-            this.gbMineField.Size = new System.Drawing.Size(200, 200);
-            this.gbMineField.TabIndex = 1;
             this.gbMineField.TabStop = false;
             // 
             // butNewGame
             // 
-            this.butNewGame.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.butNewGame.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.butNewGame.ImageIndex = 2;
+            resources.ApplyResources(this.butNewGame, "butNewGame");
             this.butNewGame.ImageList = this.ilIconsHeader;
-            this.butNewGame.Location = new System.Drawing.Point(90, 30);
             this.butNewGame.Name = "butNewGame";
-            this.butNewGame.Size = new System.Drawing.Size(30, 30);
-            this.butNewGame.TabIndex = 2;
             this.butNewGame.TabStop = false;
             this.butNewGame.UseVisualStyleBackColor = true;
             this.butNewGame.Click += new System.EventHandler(this.butNewGame_Click);
@@ -152,29 +135,19 @@
             // 
             // lMines
             // 
-            this.lMines.Anchor = System.Windows.Forms.AnchorStyles.None;
+            resources.ApplyResources(this.lMines, "lMines");
             this.lMines.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.lMines.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lMines.Font = new System.Drawing.Font("Candara", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.lMines.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.lMines.Location = new System.Drawing.Point(45, 30);
             this.lMines.Name = "lMines";
-            this.lMines.Size = new System.Drawing.Size(40, 30);
-            this.lMines.TabIndex = 4;
-            this.lMines.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // lTime
             // 
-            this.lTime.Anchor = System.Windows.Forms.AnchorStyles.None;
+            resources.ApplyResources(this.lTime, "lTime");
             this.lTime.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.lTime.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lTime.Font = new System.Drawing.Font("Candara", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.lTime.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.lTime.Location = new System.Drawing.Point(160, 30);
             this.lTime.Name = "lTime";
-            this.lTime.Size = new System.Drawing.Size(40, 30);
-            this.lTime.TabIndex = 5;
-            this.lTime.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // tTime
             // 
@@ -183,23 +156,15 @@
             // 
             // lMineIco
             // 
-            this.lMineIco.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.lMineIco.ImageIndex = 0;
+            resources.ApplyResources(this.lMineIco, "lMineIco");
             this.lMineIco.ImageList = this.ilIconsHeader;
-            this.lMineIco.Location = new System.Drawing.Point(10, 30);
             this.lMineIco.Name = "lMineIco";
-            this.lMineIco.Size = new System.Drawing.Size(30, 30);
-            this.lMineIco.TabIndex = 6;
             // 
             // lTimeIco
             // 
-            this.lTimeIco.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.lTimeIco.ImageIndex = 1;
+            resources.ApplyResources(this.lTimeIco, "lTimeIco");
             this.lTimeIco.ImageList = this.ilIconsHeader;
-            this.lTimeIco.Location = new System.Drawing.Point(125, 30);
             this.lTimeIco.Name = "lTimeIco";
-            this.lTimeIco.Size = new System.Drawing.Size(30, 30);
-            this.lTimeIco.TabIndex = 7;
             // 
             // ilIconsField
             // 
@@ -211,11 +176,9 @@
             // 
             // FormMineSweeper
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.SystemColors.Control;
-            this.ClientSize = new System.Drawing.Size(209, 266);
             this.Controls.Add(this.lTimeIco);
             this.Controls.Add(this.lMineIco);
             this.Controls.Add(this.lTime);
@@ -224,12 +187,9 @@
             this.Controls.Add(this.gbMineField);
             this.Controls.Add(this.msMenu);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.msMenu;
             this.MaximizeBox = false;
             this.Name = "FormMineSweeper";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "MineSweeper";
             this.Load += new System.EventHandler(this.FormMineSweeper_Load);
             this.msMenu.ResumeLayout(false);
             this.msMenu.PerformLayout();

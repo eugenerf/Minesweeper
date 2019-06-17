@@ -38,72 +38,47 @@
             // 
             // label1
             // 
-            this.label1.Image = ((System.Drawing.Image)(resources.GetObject("label1.Image")));
-            this.label1.Location = new System.Drawing.Point(12, 9);
+            resources.ApplyResources(this.label1, "label1");
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(67, 69);
-            this.label1.TabIndex = 0;
             // 
             // butClose
             // 
-            this.butClose.Location = new System.Drawing.Point(250, 84);
+            resources.ApplyResources(this.butClose, "butClose");
             this.butClose.Name = "butClose";
-            this.butClose.Size = new System.Drawing.Size(75, 23);
-            this.butClose.TabIndex = 1;
             this.butClose.TabStop = false;
-            this.butClose.Text = "Close";
             this.butClose.UseVisualStyleBackColor = true;
             this.butClose.Click += new System.EventHandler(this.butClose_Click);
             // 
             // label2
             // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Candara", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label2.Location = new System.Drawing.Point(92, 21);
+            resources.ApplyResources(this.label2, "label2");
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(233, 19);
-            this.label2.TabIndex = 2;
-            this.label2.Text = "Простейший клон игры \"Сапер\"";
             // 
             // label3
             // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Candara", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label3.Location = new System.Drawing.Point(92, 40);
+            resources.ApplyResources(this.label3, "label3");
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(174, 19);
-            this.label3.TabIndex = 3;
-            this.label3.Text = "Автор: Evgenii Melnikov";
             // 
             // label4
             // 
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Candara", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label4.Location = new System.Drawing.Point(93, 59);
+            resources.ApplyResources(this.label4, "label4");
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(53, 15);
-            this.label4.TabIndex = 4;
-            this.label4.Text = "2019 год";
             // 
             // FormAbout
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.InactiveCaption;
-            this.ClientSize = new System.Drawing.Size(337, 123);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.butClose);
             this.Controls.Add(this.label1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FormAbout";
             this.ShowInTaskbar = false;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
-            this.Text = "О приложении";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormAbout_FormClosing);
             this.ResumeLayout(false);
             this.PerformLayout();

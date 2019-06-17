@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Soap;
+using System.Globalization;
 
 namespace MineSweeper
 {
@@ -30,7 +31,7 @@ namespace MineSweeper
         {
             try
             {
-                FileStream fs = new FileStream("minessettings.soap", FileMode.Open);
+                FileStream fs = new FileStream(Path.GetTempPath() + "minesettings.soap", FileMode.Open);
                 SoapFormatter formatter = new SoapFormatter();
                 MS = (MinesSettings)formatter.Deserialize(fs);
                 fs = null;
