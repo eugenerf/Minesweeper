@@ -2463,4 +2463,13 @@
         ////////
 </value>
   </data>
+  <data name="$this.Text" xml:space="preserve">
+    <value>О приложении</value>
+  </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>Простейший клон игры "Сапер"</value>
+  </data>
+  <data name="label4.Text" xml:space="preserve">
+    <value>2019 год</value>
+  </data>
 </root>
