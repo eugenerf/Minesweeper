@@ -69,9 +69,19 @@ namespace MineSweeper
             public uint NumMinesBombed;
 
             /// <summary>
+            /// Number of wrongly placed flags
+            /// </summary>
+            public uint NumWrongFlags;
+
+            /// <summary>
             /// Bombed mines coordinates
             /// </summary>
             public CellCoordinates[] BombedMines;
+
+            /// <summary>
+            /// Wrongly placed flags
+            /// </summary>
+            public CellCoordinates[] WrongFlags;
         }
 
         /// <summary>
@@ -383,14 +393,14 @@ namespace MineSweeper
         {
             if (CurrentGameState.State == GameState.Stopped) return CurrentGameState;
 
-            bool AllCorrect = true,     //true when there are no markers on safe cells (with no mines)
-                NoUnMarkedMines = true;  //true when there are no unmarked mines
-
             if (CurrentGameState.State == GameState.Win || CurrentGameState.State == GameState.Loose)
             {
                 CurrentGameState.State = GameState.Stopped;
                 return CurrentGameState;
             }
+
+            bool AllCorrect = true,     //true when all mines are marked correctly (no wrong flags)
+                NoUnMarkedMines = true;  //true when there are no unmarked mines
 
             for (int dI = -1; dI <= 1; dI++)
             {
@@ -406,7 +416,13 @@ namespace MineSweeper
                         CurrentGameState.BombedMines[CurrentGameState.NumMinesBombed++] = 
                             new CellCoordinates { Column = i + dI, Row = j + dJ };
                     }
-                    if (markers[i + dI][j + dJ] == 1 && field[i + dI][j + dJ] != -1) AllCorrect = false;        //marked but no mine
+                    if (markers[i + dI][j + dJ] == 1 && field[i + dI][j + dJ] != -1)    //marked but no mine
+                    {
+                        AllCorrect = false;
+                        Array.Resize(ref CurrentGameState.WrongFlags, (int)(CurrentGameState.NumWrongFlags + 1));
+                        CurrentGameState.WrongFlags[CurrentGameState.NumWrongFlags++] =
+                            new CellCoordinates { Column = i + dI, Row = j + dJ };
+                    }
                 }
             }
 
@@ -419,7 +435,9 @@ namespace MineSweeper
             }
 
             CurrentGameState.NumMinesBombed = 0;
+            CurrentGameState.NumWrongFlags = 0;
             CurrentGameState.BombedMines = null;
+            CurrentGameState.WrongFlags = null;
 
             if (AllCorrect && NoUnMarkedMines)  //no errors in mine marking and all mines are marked
                                                 //open cells

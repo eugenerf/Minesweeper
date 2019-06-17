@@ -1,14 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
-using System.Threading;
 using System.Runtime.Serialization.Formatters.Soap;
 
 namespace MineSweeper
@@ -17,7 +10,7 @@ namespace MineSweeper
     {
         const int FBSize = 30;  //size of the buttons on the field
 
-        public MinesSettings MS;               //minesweeper settings
+        public MinesSettings MS;        //minesweeper settings
         MinesEngine ME;                 //minesweeper engine
         Button[][] FB;                  //buttons array for the minefield
         Label[][] FL;                   //labels array for the minefield
@@ -453,6 +446,12 @@ namespace MineSweeper
                         butNewGame.ImageIndex = 3;
                         for(int k = 0; k < GS.NumMinesBombed; k++)
                             FL[GS.BombedMines[k].Column][GS.BombedMines[k].Row].BackColor = Color.Red;
+                        for (int k = 0; k < GS.NumWrongFlags; k++)
+                        {
+                            FL[GS.WrongFlags[k].Column][GS.WrongFlags[k].Row].BackColor = Color.Red;
+                            FL[GS.WrongFlags[k].Column][GS.WrongFlags[k].Row].Text = "";
+                            FL[GS.WrongFlags[k].Column][GS.WrongFlags[k].Row].ImageIndex = 1;
+                        }
                         break;
                     case MinesEngine.GameState.Win:
                         tTime.Stop();
