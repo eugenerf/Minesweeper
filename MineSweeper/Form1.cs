@@ -31,7 +31,7 @@ namespace MineSweeper
         {
             try
             {
-                FileStream fs = new FileStream(Path.GetTempPath() + "minesettings.soap", FileMode.Open);
+                FileStream fs = new FileStream("minesettings.soap", FileMode.Open);
                 SoapFormatter formatter = new SoapFormatter();
                 MS = (MinesSettings)formatter.Deserialize(fs);
                 fs = null;
@@ -55,8 +55,6 @@ namespace MineSweeper
             else ME.NewGame(MS);
             Array.Resize(ref FB, MS.FieldWidth);
             Array.Resize(ref FL, MS.FieldWidth);
-            //FB = new Button[MS.FieldWidth][];
-            //FL = new Label[MS.FieldWidth][];
 
             GameStart = false;
             GameSeconds = 0;

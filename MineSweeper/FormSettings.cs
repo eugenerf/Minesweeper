@@ -25,7 +25,7 @@ namespace MineSweeper
             try
             {
                 SoapFormatter formatter = new SoapFormatter();
-                FileStream fs = new FileStream(Path.GetTempPath() + "minesettings.soap", FileMode.Create);
+                FileStream fs = new FileStream("minesettings.soap", FileMode.Create);
                 formatter.Serialize(fs, formParent.MS);
                 fs.Flush();
                 fs = null;
