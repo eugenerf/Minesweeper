@@ -1,0 +1,410 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using System.IO;
+using System.Threading;
+using System.Runtime.Serialization.Formatters.Soap;
+
+namespace MineSweeper
+{
+    public partial class FormMineSweeper : Form
+    {
+        const int FBSize = 30;  //size of the buttons on the field
+
+        public MinesSettings MS;               //minesweeper settings
+        MinesEngine ME;                 //minesweeper engine
+        Button[][] FB;                  //buttons array for the minefield
+        Label[][] FL;                   //labels array for the minefield
+        bool GameStart = false;         //true when game started
+        uint GameSeconds = 0;           //duration of the current game in seconds
+        MouseEventArgs LBDown = null,   //left mouse button is now pushed down
+                        RBDown = null;  //right mouse button is now pushed down
+        FormAbout formAbout = null;
+        FormSettings formSettings = null;
+
+        public FormMineSweeper()
+        {
+            InitializeComponent();
+        }
+
+        private void FormMineSweeper_Load(object sender, EventArgs e)
+        {
+            try
+            {
+                FileStream fs = new FileStream("minessettings.soap", FileMode.Open);
+                SoapFormatter formatter = new SoapFormatter();
+                MS = (MinesSettings)formatter.Deserialize(fs);
+                fs = null;
+            }
+            catch(FileNotFoundException)
+            {
+                MS = new MinesSettings(MinesSettings.Preset.Newbie);
+            }
+            
+            InitialiseField();
+        }
+
+        /// <summary>
+        /// Initialises the new minefield and redraws the form for it
+        /// </summary>
+        public void InitialiseField()
+        {
+            ME = new MinesEngine(MS);
+            FB = new Button[MS.FieldWidth][];
+            FL = new Label[MS.FieldWidth][];
+
+            GameStart = false;
+            GameSeconds = 0;
+            tTime.Stop();
+
+            gbMineField.Controls.Clear();
+            butNewGame.ImageIndex = 2;
+
+            for (int i = 0; i < MS.FieldWidth; i++)
+            {
+                FB[i] = new Button[MS.FieldHeight];
+                FL[i] = new Label[MS.FieldHeight];
+                for (int j = 0; j < MS.FieldHeight; j++)
+                {
+                    FB[i][j] = new Button();
+                    FB[i][j].Anchor = AnchorStyles.Top | AnchorStyles.Left;
+                    FB[i][j].AutoSize = false;
+                    FB[i][j].BackColor = SystemColors.ButtonFace;
+                    FB[i][j].Enabled = true;
+                    FB[i][j].Location = new Point(FBSize * i + 10, FBSize * j + 10);
+                    FB[i][j].Size = new Size(FBSize, FBSize);
+                    FB[i][j].TabStop = false;
+                    FB[i][j].Visible = true;
+                    FB[i][j].ImageList = ilIconsField;
+                    FB[i][j].ImageIndex = -1;
+                    FB[i][j].MouseDown += Cell_Down;
+                    FB[i][j].MouseUp += Cell_Up;
+
+                    FL[i][j] = new Label();
+                    FL[i][j].Anchor = AnchorStyles.Top | AnchorStyles.Left;
+                    FL[i][j].AutoSize = false;
+                    FL[i][j].BackColor = SystemColors.Control;
+                    FL[i][j].BorderStyle = BorderStyle.FixedSingle;
+                    FL[i][j].Enabled = true;
+                    FL[i][j].Font = new Font("Candara", 14, FontStyle.Bold);
+                    FL[i][j].ImageAlign = ContentAlignment.MiddleCenter;
+                    FL[i][j].Location = new Point(FBSize * i + 10, FBSize * j + 10);
+                    FL[i][j].Size = new Size(FBSize, FBSize);
+                    FL[i][j].TextAlign = ContentAlignment.MiddleCenter;
+                    FL[i][j].Visible = false;
+                    FL[i][j].Text = "";
+                    FL[i][j].ImageList = ilIconsField;
+                    FL[i][j].ImageIndex = -1;
+                    FL[i][j].MouseDown += Cell_Down;
+                    FL[i][j].MouseUp += Cell_Up;
+
+                    gbMineField.Controls.Add(FB[i][j]);
+                    gbMineField.Controls.Add(FL[i][j]);
+                    gbMineField.Location = new Point(5, 30 + 30);
+                    gbMineField.Size = new Size(MS.FieldWidth * FBSize + 20, MS.FieldHeight * FBSize + 20);
+
+                    lMineIco.Location = new Point(5, 30);
+                    lMines.Location = new Point(40, 30);
+
+                    lTime.Location = new Point(MS.FieldWidth * FBSize + 20 + 5 - 40, 30);
+                    lTimeIco.Location = new Point(MS.FieldWidth * FBSize + 20 + 5 - 40 - 5 - 30, 30);
+
+                    butNewGame.Location = new Point((int)((MS.FieldWidth * FBSize + 20 + 10) - 30) / 2, 30);
+
+                    Size = new Size(MS.FieldWidth * FBSize + 20 + 25, MS.FieldHeight * FBSize + 20 + 30 + 30 + 45);
+                }
+            }
+
+            lMines.Text = MS.NumMines.ToString();
+        }
+
+        /// <summary>
+        /// Game timer
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void tTime_Tick(object sender, EventArgs e)
+        {
+            GameSeconds++;
+            lTime.Text = GameSeconds.ToString();
+        }
+
+        /// <summary>
+        /// Redraws opened cells of the minefield
+        /// </summary>
+        private void RedrawOpened()
+        {
+            for (int i = 0; i < ME.Width; i++)
+            {
+                for (int j = 0; j < ME.Height; j++)
+                {
+                    if (ME[i, j].state)
+                    {
+                        FB[i][j].Visible = false;
+                        if (ME[i, j].cell == -1)
+                        {
+                            FL[i][j].ImageIndex = 0;
+                        }
+                        else if (ME[i, j].cell != 0)
+                        {
+                            FL[i][j].ForeColor = Color.FromArgb(255 / 7 * (ME[i, j].cell - 1), 0, 255 - 255 / 7 * (ME[i, j].cell - 1));
+                            FL[i][j].Text = ME[i, j].cell.ToString();
+                        }
+                        FL[i][j].Visible = true;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// New game button click
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void butNewGame_Click(object sender, EventArgs e)
+        {
+            if (MS == null) MS = new MinesSettings(MinesSettings.Preset.Newbie);
+            InitialiseField();
+        }
+
+        /// <summary>
+        /// Gets the indices of the cell that corresponds to the clicked button on the minefield
+        /// </summary>
+        /// <param name="but">Clicked button</param>
+        /// <param name="column">Output of the column number</param>
+        /// <param name="row">Output of the row number</param>
+        /// <returns>True if indices were successfully found</returns>
+        private bool GetCellIndex(Button but, out int column, out int row)
+        {
+            for (int i = 0; i < FB.Length; i++)
+            {
+                for (int j = 0; j < FB[i].Length; j++)
+                {                    
+                    if (but.Equals(FB[i][j]))
+                    {
+                        column = i;
+                        row = j;
+                        return true;
+                    }
+                }
+            }
+            row = -1;
+            column = -1;
+            return false;
+        }
+
+        /// <summary>
+        /// Gets the indices of the cell that corresponds to the clicked label on the minefield
+        /// </summary>
+        /// <param name="lab">Clicked label</param>
+        /// <param name="column">Output of the column number</param>
+        /// <param name="row">Output of the row number</param>
+        /// <returns>True if indices were successfully found</returns>
+        private bool GetCellIndex(Label lab, out int column, out int row)
+        {
+            for (int i = 0; i < FB.Length; i++)
+            {
+                for (int j = 0; j < FB[i].Length; j++)
+                {
+                    if (lab.Equals(FL[i][j]))
+                    {
+                        column = i;
+                        row = j;
+                        return true;
+                    }
+                }
+            }
+            row = -1;
+            column = -1;
+            return false;
+        }
+
+        /// <summary>
+        /// Mouse button goes down on the minefield cell
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Cell_Down(object sender, MouseEventArgs e)
+        {
+            int i = 0, j = 0;
+            if (sender.GetType().ToString().IndexOf("Button") != -1)
+            {
+                if (!GetCellIndex((Button)sender, out i, out j)) return;
+            }
+            else if (sender.GetType().ToString().IndexOf("Label") != -1)
+            {
+                if (!GetCellIndex((Label)sender, out i, out j)) return;
+            }
+            else return;
+
+            if (e.Button == MouseButtons.Left)
+                LBDown = new MouseEventArgs(MouseButtons.Left, 1, i, j, 0);
+            if (e.Button == MouseButtons.Right)
+                RBDown = new MouseEventArgs(MouseButtons.Right, 1, i, j, 0);
+
+            if (SameButton(LBDown,RBDown))
+            {
+                for (int dI = -1; dI <= 1; dI++)
+                {
+                    for (int dJ = -1; dJ <= 1; dJ++)
+                    {
+                        if (i + dI < 0 || i + dI >= ME.Width) continue;
+                        if (j + dJ < 0 || j + dJ >= ME.Height) continue;
+                        FB[i + dI][j + dJ].BackColor = SystemColors.ControlLight;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Checks whether specified mouse events correspond to the same minefield-cell-button
+        /// </summary>
+        /// <param name="left">Left mouse button event</param>
+        /// <param name="right">Right mouse button event</param>
+        /// <returns>True if button is the same</returns>
+        private bool SameButton(MouseEventArgs left, MouseEventArgs right)
+        {
+            if (left != null && 
+                right != null &&
+                left?.X == right?.X &&
+                left?.Y == right?.Y)
+
+                return true;
+            return false;
+        }
+
+        private void tsmiAbout_Click(object sender, EventArgs e)
+        {
+            formAbout = new FormAbout(this);
+            Enabled = false;
+
+            formAbout.Location = new Point(Location.X + Width / 2 - formAbout.Size.Width / 2, 
+                                            Location.Y + Height / 2 - formAbout.Size.Height / 2);
+            
+            formAbout.Show();
+        }
+
+        private void tsmiNewGame_Click(object sender, EventArgs e)
+        {
+            butNewGame_Click(sender, e);
+        }
+
+        private void tsmiExit_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
+
+        private void tsmiParameters_Click(object sender, EventArgs e)
+        {
+            formSettings = new FormSettings(this);
+            Enabled = false;
+
+            formSettings.Location = new Point(Location.X + Width / 2 - formSettings.Width / 2,
+                                            Location.Y + Height / 2 - formSettings.Height / 2);
+            formSettings.Show();
+        }
+
+        /// <summary>
+        /// Mouse button goes down on the minefield cell
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Cell_Up(object sender, MouseEventArgs e)
+        {
+            int i = 0, j = 0;
+            if (sender.GetType().ToString().IndexOf("Button") != -1)
+            {
+                if (!GetCellIndex((Button)sender, out i, out j)) return;
+            }
+            else if (sender.GetType().ToString().IndexOf("Label") != -1)
+            {
+                if (!GetCellIndex((Label)sender, out i, out j)) return;
+            }
+            else return;
+
+            MouseEventArgs curButton = new MouseEventArgs(e.Button, e.Clicks, i, j, e.Delta);
+
+            if (!GameStart) //game not started yet
+            {
+                if (SameButton(LBDown, curButton) || SameButton(curButton, RBDown)) //up on the same button as was down
+                {
+                    GameStart = true;
+                    GameSeconds = 0;
+                    tTime.Start();
+                }
+            }
+
+            if (SameButton(LBDown,RBDown))   //left+right button upped
+            {
+                for (int dI = -1; dI <= 1; dI++)
+                {
+                    for (int dJ = -1; dJ <= 1; dJ++)
+                    {
+                        if (i + dI < 0 || i + dI >= ME.Width) continue;
+                        if (j + dJ < 0 || j + dJ >= ME.Height) continue;
+                        FB[i + dI][j + dJ].BackColor = SystemColors.ButtonFace;
+                    }
+                }
+
+                MinesEngine.CurrentGameStateInfo GS = ME.OpenMany(i, j);
+                RedrawOpened();
+
+                switch (GS.State)
+                {
+                    case MinesEngine.GameState.InProgress:
+                        break;
+                    case MinesEngine.GameState.Loose:
+                        tTime.Stop();
+                        butNewGame.ImageIndex = 3;
+                        for(int k = 0; k < GS.NumMinesBombed; k++)
+                            FL[GS.BombedMines[k].Column][GS.BombedMines[k].Row].BackColor = Color.Red;
+                        MessageBox.Show("Сапер ошибся", "БАБАХ!!!", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                        break;
+                    case MinesEngine.GameState.Win:
+                        tTime.Stop();
+                        butNewGame.ImageIndex = 4;
+                        MessageBox.Show("Сапер справился... на этот раз", "УФФФ...", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        break;
+                }
+            }
+            else if (SameButton(LBDown,curButton))        //same left button upped as was down
+            {
+                MinesEngine.CurrentGameStateInfo GS = ME.OpenCell(i, j);
+                RedrawOpened();
+
+                switch (GS.State)
+                {
+                    case MinesEngine.GameState.InProgress:
+                        break;
+                    case MinesEngine.GameState.Loose:
+                        tTime.Stop();
+                        butNewGame.ImageIndex = 3;
+                        for (int k = 0; k < GS.NumMinesBombed; k++)
+                            FL[GS.BombedMines[k].Column][GS.BombedMines[k].Row].BackColor = Color.Red;
+                        MessageBox.Show("Сапер ошибся", "БАБАХ!!!", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                        break;
+                    case MinesEngine.GameState.Win:
+                        tTime.Stop();
+                        butNewGame.ImageIndex = 4;
+                        MessageBox.Show("Сапер справился... на этот раз", "УФФФ...", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        break;
+                }
+            }
+            else if (SameButton(curButton,RBDown))        //same right button upped as was down
+            {                
+                ME.ChangeMarker(i, j);
+                if (ME[i, j].marker > 0) FB[i][j].ImageIndex = ME[i, j].marker;
+                else FB[i][j].ImageIndex = -1;
+                lMines.Text = ((int)ME.NumMines - (int)ME.NumFlags).ToString();
+            }
+            LBDown = null;
+            RBDown = null;
+        }
+    }
+}
