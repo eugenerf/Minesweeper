@@ -55,9 +55,14 @@ namespace MineSweeper
         /// </summary>
         public void InitialiseField()
         {
-            ME = new MinesEngine(MS);
-            FB = new Button[MS.FieldWidth][];
-            FL = new Label[MS.FieldWidth][];
+            int oldWidth = (FB == null) ? 0 : FB.Length;
+            int oldHeight = (oldWidth == 0) ? 0 : ((FB[0] == null) ? 0 : FB[0].Length);
+            if (ME == null) ME = new MinesEngine(MS);
+            else ME.NewGame(MS);
+            Array.Resize(ref FB, MS.FieldWidth);
+            Array.Resize(ref FL, MS.FieldWidth);
+            //FB = new Button[MS.FieldWidth][];
+            //FL = new Label[MS.FieldWidth][];
 
             GameStart = false;
             GameSeconds = 0;
@@ -66,30 +71,86 @@ namespace MineSweeper
             gbMineField.Controls.Clear();
             butNewGame.ImageIndex = 2;
 
-            for (int i = 0; i < MS.FieldWidth; i++)
+            for(int i = 0; i < oldWidth && i < MS.FieldWidth; i++)
             {
-                FB[i] = new Button[MS.FieldHeight];
-                FL[i] = new Label[MS.FieldHeight];
+                Array.Resize(ref FB[i], MS.FieldHeight);
+                Array.Resize(ref FL[i], MS.FieldHeight);
+                for(int j = 0; j < oldHeight && j < MS.FieldHeight; j++)
+                {
+                    FB[i][j].BackColor = SystemColors.ButtonFace;
+                    FB[i][j].ImageIndex = -1;
+                    FB[i][j].Visible = true;
+
+                    FL[i][j].BackColor = SystemColors.Control;
+                    FL[i][j].ImageIndex = -1;
+                    FL[i][j].Text = "";
+                    FL[i][j].Visible = false;
+
+                    gbMineField.Controls.Add(FB[i][j]);
+                    gbMineField.Controls.Add(FL[i][j]);
+                }
+                for(int j = oldHeight; j < MS.FieldHeight; j++)
+                {
+                    FB[i][j] = new Button();
+                    FB[i][j].Anchor = AnchorStyles.Top | AnchorStyles.Left;
+                    FB[i][j].AutoSize = false;                    
+                    FB[i][j].Enabled = true;
+                    FB[i][j].Location = new Point(FBSize * i + 10, FBSize * j + 10);
+                    FB[i][j].Size = new Size(FBSize, FBSize);
+                    FB[i][j].TabStop = false;                    
+                    FB[i][j].ImageList = ilIconsField;                    
+                    FB[i][j].MouseDown += Cell_Down;
+                    FB[i][j].MouseUp += Cell_Up;
+                    FB[i][j].BackColor = SystemColors.ButtonFace;
+                    FB[i][j].ImageIndex = -1;
+                    FB[i][j].Visible = true;
+
+                    FL[i][j] = new Label();
+                    FL[i][j].Anchor = AnchorStyles.Top | AnchorStyles.Left;
+                    FL[i][j].AutoSize = false;                    
+                    FL[i][j].BorderStyle = BorderStyle.FixedSingle;
+                    FL[i][j].Enabled = true;
+                    FL[i][j].Font = new Font("Candara", 14, FontStyle.Bold);
+                    FL[i][j].ImageAlign = ContentAlignment.MiddleCenter;
+                    FL[i][j].Location = new Point(FBSize * i + 10, FBSize * j + 10);
+                    FL[i][j].Size = new Size(FBSize, FBSize);
+                    FL[i][j].TextAlign = ContentAlignment.MiddleCenter;                    
+                    FL[i][j].ImageList = ilIconsField;                    
+                    FL[i][j].MouseDown += Cell_Down;
+                    FL[i][j].MouseUp += Cell_Up;
+                    FL[i][j].BackColor = SystemColors.Control;
+                    FL[i][j].ImageIndex = -1;                    
+                    FL[i][j].Text = "";
+                    FL[i][j].Visible = false;
+
+                    gbMineField.Controls.Add(FB[i][j]);
+                    gbMineField.Controls.Add(FL[i][j]);
+                }
+            }
+
+            for (int i = oldWidth; i < MS.FieldWidth; i++)
+            {
+                Array.Resize(ref FB[i], MS.FieldHeight);
+                Array.Resize(ref FL[i], MS.FieldHeight);
                 for (int j = 0; j < MS.FieldHeight; j++)
                 {
                     FB[i][j] = new Button();
                     FB[i][j].Anchor = AnchorStyles.Top | AnchorStyles.Left;
                     FB[i][j].AutoSize = false;
-                    FB[i][j].BackColor = SystemColors.ButtonFace;
                     FB[i][j].Enabled = true;
                     FB[i][j].Location = new Point(FBSize * i + 10, FBSize * j + 10);
                     FB[i][j].Size = new Size(FBSize, FBSize);
                     FB[i][j].TabStop = false;
-                    FB[i][j].Visible = true;
                     FB[i][j].ImageList = ilIconsField;
-                    FB[i][j].ImageIndex = -1;
                     FB[i][j].MouseDown += Cell_Down;
                     FB[i][j].MouseUp += Cell_Up;
+                    FB[i][j].BackColor = SystemColors.ButtonFace;
+                    FB[i][j].ImageIndex = -1;
+                    FB[i][j].Visible = true;
 
                     FL[i][j] = new Label();
                     FL[i][j].Anchor = AnchorStyles.Top | AnchorStyles.Left;
                     FL[i][j].AutoSize = false;
-                    FL[i][j].BackColor = SystemColors.Control;
                     FL[i][j].BorderStyle = BorderStyle.FixedSingle;
                     FL[i][j].Enabled = true;
                     FL[i][j].Font = new Font("Candara", 14, FontStyle.Bold);
@@ -97,29 +158,31 @@ namespace MineSweeper
                     FL[i][j].Location = new Point(FBSize * i + 10, FBSize * j + 10);
                     FL[i][j].Size = new Size(FBSize, FBSize);
                     FL[i][j].TextAlign = ContentAlignment.MiddleCenter;
-                    FL[i][j].Visible = false;
-                    FL[i][j].Text = "";
                     FL[i][j].ImageList = ilIconsField;
-                    FL[i][j].ImageIndex = -1;
                     FL[i][j].MouseDown += Cell_Down;
                     FL[i][j].MouseUp += Cell_Up;
+                    FL[i][j].BackColor = SystemColors.Control;
+                    FL[i][j].ImageIndex = -1;
+                    FL[i][j].Text = "";
+                    FL[i][j].Visible = false;
 
                     gbMineField.Controls.Add(FB[i][j]);
-                    gbMineField.Controls.Add(FL[i][j]);
-                    gbMineField.Location = new Point(5, 30 + 30);
-                    gbMineField.Size = new Size(MS.FieldWidth * FBSize + 20, MS.FieldHeight * FBSize + 20);
-
-                    lMineIco.Location = new Point(5, 30);
-                    lMines.Location = new Point(40, 30);
-
-                    lTime.Location = new Point(MS.FieldWidth * FBSize + 20 + 5 - 40, 30);
-                    lTimeIco.Location = new Point(MS.FieldWidth * FBSize + 20 + 5 - 40 - 5 - 30, 30);
-
-                    butNewGame.Location = new Point((int)((MS.FieldWidth * FBSize + 20 + 10) - 30) / 2, 30);
-
-                    Size = new Size(MS.FieldWidth * FBSize + 20 + 25, MS.FieldHeight * FBSize + 20 + 30 + 30 + 45);
+                    gbMineField.Controls.Add(FL[i][j]);                    
                 }
             }
+
+            Size = new Size(MS.FieldWidth * FBSize + 20 + 25, MS.FieldHeight * FBSize + 20 + 30 + 30 + 45);
+
+            gbMineField.Location = new Point(5, 30 + 30);
+            gbMineField.Size = new Size(MS.FieldWidth * FBSize + 20, MS.FieldHeight * FBSize + 20);
+
+            lMineIco.Location = new Point(5, 30);
+            lMines.Location = new Point(40, 30);
+
+            lTime.Location = new Point(MS.FieldWidth * FBSize + 20 + 5 - 40, 30);
+            lTimeIco.Location = new Point(MS.FieldWidth * FBSize + 20 + 5 - 40 - 5 - 30, 30);
+
+            butNewGame.Location = new Point(((MS.FieldWidth * FBSize + 20 + 10) - 30) / 2, 30);            
 
             lMines.Text = MS.NumMines.ToString();
         }
@@ -144,7 +207,7 @@ namespace MineSweeper
             {
                 for (int j = 0; j < ME.Height; j++)
                 {
-                    if (ME[i, j].state)
+                    if (ME[i, j].state && FB[i][j].Visible != false)
                     {
                         FB[i][j].Visible = false;
                         if (ME[i, j].cell == -1)
@@ -153,7 +216,33 @@ namespace MineSweeper
                         }
                         else if (ME[i, j].cell != 0)
                         {
-                            FL[i][j].ForeColor = Color.FromArgb(255 / 7 * (ME[i, j].cell - 1), 0, 255 - 255 / 7 * (ME[i, j].cell - 1));
+                            switch(ME[i,j].cell)
+                            {
+                                case 1:
+                                    FL[i][j].ForeColor = Color.Blue;
+                                    break;
+                                case 2:
+                                    FL[i][j].ForeColor = Color.Green;
+                                    break;
+                                case 3:
+                                    FL[i][j].ForeColor = Color.Red;
+                                    break;
+                                case 4:
+                                    FL[i][j].ForeColor = Color.DarkBlue;
+                                    break;
+                                case 5:
+                                    FL[i][j].ForeColor = Color.DarkRed;
+                                    break;
+                                case 6:
+                                    FL[i][j].ForeColor = Color.CornflowerBlue;
+                                    break;
+                                case 7:
+                                    FL[i][j].ForeColor = Color.Black;
+                                    break;
+                                case 8:
+                                    FL[i][j].ForeColor = Color.SlateGray;
+                                    break;
+                            }
                             FL[i][j].Text = ME[i, j].cell.ToString();
                         }
                         FL[i][j].Visible = true;
@@ -208,9 +297,9 @@ namespace MineSweeper
         /// <returns>True if indices were successfully found</returns>
         private bool GetCellIndex(Label lab, out int column, out int row)
         {
-            for (int i = 0; i < FB.Length; i++)
+            for (int i = 0; i < FL.Length; i++)
             {
-                for (int j = 0; j < FB[i].Length; j++)
+                for (int j = 0; j < FL[i].Length; j++)
                 {
                     if (lab.Equals(FL[i][j]))
                     {
@@ -364,12 +453,13 @@ namespace MineSweeper
                         butNewGame.ImageIndex = 3;
                         for(int k = 0; k < GS.NumMinesBombed; k++)
                             FL[GS.BombedMines[k].Column][GS.BombedMines[k].Row].BackColor = Color.Red;
-                        MessageBox.Show("Сапер ошибся", "БАБАХ!!!", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                         break;
                     case MinesEngine.GameState.Win:
                         tTime.Stop();
                         butNewGame.ImageIndex = 4;
                         MessageBox.Show("Сапер справился... на этот раз", "УФФФ...", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        break;
+                    case MinesEngine.GameState.Stopped:
                         break;
                 }
             }
@@ -387,12 +477,13 @@ namespace MineSweeper
                         butNewGame.ImageIndex = 3;
                         for (int k = 0; k < GS.NumMinesBombed; k++)
                             FL[GS.BombedMines[k].Column][GS.BombedMines[k].Row].BackColor = Color.Red;
-                        MessageBox.Show("Сапер ошибся", "БАБАХ!!!", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                         break;
                     case MinesEngine.GameState.Win:
                         tTime.Stop();
                         butNewGame.ImageIndex = 4;
                         MessageBox.Show("Сапер справился... на этот раз", "УФФФ...", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        break;
+                    case MinesEngine.GameState.Stopped:
                         break;
                 }
             }

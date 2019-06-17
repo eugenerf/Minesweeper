@@ -12,7 +12,8 @@ namespace MineSweeper
             Loose,
             Win,
             InProgress,
-            Stopped
+            Stopped,
+            NewGame
         }
 
         /// <summary>
@@ -53,7 +54,7 @@ namespace MineSweeper
         }
 
         /// <summary>
-        /// Information about the bombed mine
+        /// Information about the state of the current game
         /// </summary>
         public struct CurrentGameStateInfo
         {
@@ -71,9 +72,12 @@ namespace MineSweeper
             /// Bombed mines coordinates
             /// </summary>
             public CellCoordinates[] BombedMines;
-
-
         }
+
+        /// <summary>
+        /// Information about the state of the current game
+        /// </summary>
+        public CurrentGameStateInfo CurrentGameState;
 
         /// <summary>
         /// The minefield (-1 - has mine; 0 - empty; >0 - number of mines in the nearest cells)
@@ -158,15 +162,16 @@ namespace MineSweeper
             NumFlags = 0;
             Width = width;
             Height = height;
+            CurrentGameState = new CurrentGameStateInfo { State = GameState.NewGame, BombedMines = null, NumMinesBombed = 0 };
 
-            field = new sbyte[width][];
-            markers = new byte[width][];
-            state = new bool[width][];
+            Array.Resize(ref field, width);
+            Array.Resize(ref markers, width);
+            Array.Resize(ref state, width);
             for(int i = 0; i < width; i++)
             {
-                field[i] = new sbyte[height];
-                markers[i] = new byte[height];
-                state[i] = new bool[height];
+                Array.Resize(ref field[i], height);
+                Array.Resize(ref markers[i], height);
+                Array.Resize(ref state[i], height);
             }
 
             GenerateField();
@@ -182,15 +187,41 @@ namespace MineSweeper
             NumFlags = 0;
             Width = MS.FieldWidth;
             Height = MS.FieldHeight;
+            CurrentGameState = new CurrentGameStateInfo { State = GameState.NewGame, BombedMines = null, NumMinesBombed = 0 };
 
-            field = new sbyte[Width][];
-            markers = new byte[Width][];
-            state = new bool[Width][];
+            Array.Resize(ref field, Width);
+            Array.Resize(ref markers, Width);
+            Array.Resize(ref state, Width);
             for (int i = 0; i < Width; i++)
             {
-                field[i] = new sbyte[Height];
-                markers[i] = new byte[Height];
-                state[i] = new bool[Height];
+                Array.Resize(ref field[i], Height);
+                Array.Resize(ref markers[i], Height);
+                Array.Resize(ref state[i], Height);
+            }
+
+            GenerateField();
+        }
+
+        /// <summary>
+        /// Starts the new game
+        /// </summary>
+        /// <param name="MS">Minesweeper settings class</param>
+        public void NewGame(MinesSettings MS)
+        {
+            NumMines = MS.NumMines;
+            NumFlags = 0;
+            Width = MS.FieldWidth;
+            Height = MS.FieldHeight;
+            CurrentGameState = new CurrentGameStateInfo { State = GameState.NewGame, BombedMines = null, NumMinesBombed = 0 };
+
+            Array.Resize(ref field, Width);
+            Array.Resize(ref markers, Width);
+            Array.Resize(ref state, Width);
+            for (int i = 0; i < Width; i++)
+            {
+                Array.Resize(ref field[i], Height);
+                Array.Resize(ref markers[i], Height);
+                Array.Resize(ref state[i], Height);
             }
 
             GenerateField();
@@ -311,30 +342,35 @@ namespace MineSweeper
         /// <returns>Enumeration representing the current game state</returns>
         public CurrentGameStateInfo OpenCell(int i, int j)
         {
-            CurrentGameStateInfo res = new CurrentGameStateInfo
-            {
-                State = GameState.InProgress,
-                BombedMines = null,
-                NumMinesBombed = 0
-            };
+            if (CurrentGameState.State == GameState.Stopped) return CurrentGameState;
 
-            if (markers[i][j] == 1) res.State = GameState.InProgress;    //cell is marked with flag - not to open
+            if (CurrentGameState.State == GameState.Win || CurrentGameState.State == GameState.Loose)
+            {
+                CurrentGameState.State = GameState.Stopped;
+                return CurrentGameState;
+            }
+
+            if (markers[i][j] == 1) //cell is marked with flag - not to open
+            {
+                CurrentGameState.State = GameState.InProgress;
+                return CurrentGameState;
+            }
             if (field[i][j] == -1)  //BOOM!!!
             {
                 OpenField();
-                res.State = GameState.Loose;
-                res.NumMinesBombed++;
-                res.BombedMines = new CellCoordinates[1];
-                res.BombedMines[0] = new CellCoordinates { Column = i, Row = j };
-                return res;
+                CurrentGameState.State = GameState.Loose;
+                CurrentGameState.NumMinesBombed++;
+                CurrentGameState.BombedMines = new CellCoordinates[1];
+                CurrentGameState.BombedMines[0] = new CellCoordinates { Column = i, Row = j };
+                return CurrentGameState;
             }
             AutoOpenCells(i, j);    //auto open current cell and all the empty cells or cells with numbers
             if (AllOpened())        //when all cells (except mined) are opened
             {
                 OpenField();                //open the whole field
-                res.State = GameState.Win;   //and say that user WON the game
+                CurrentGameState.State = GameState.Win;   //and say that user WON the game
             }
-            return res;    //game is still in progress
+            return CurrentGameState;    //game is still in progress
         }
 
         /// <summary>
@@ -345,14 +381,16 @@ namespace MineSweeper
         /// <returns>Enumeration representing the current game state</returns>
         public CurrentGameStateInfo OpenMany(int i, int j)
         {
+            if (CurrentGameState.State == GameState.Stopped) return CurrentGameState;
+
             bool AllCorrect = true,     //true when there are no markers on safe cells (with no mines)
                 NoUnMarkedMines = true;  //true when there are no unmarked mines
-            CurrentGameStateInfo res = new CurrentGameStateInfo
+
+            if (CurrentGameState.State == GameState.Win || CurrentGameState.State == GameState.Loose)
             {
-                State = GameState.InProgress,
-                BombedMines = null,
-                NumMinesBombed = 0
-            };
+                CurrentGameState.State = GameState.Stopped;
+                return CurrentGameState;
+            }
 
             for (int dI = -1; dI <= 1; dI++)
             {
@@ -364,9 +402,9 @@ namespace MineSweeper
                     if (field[i + dI][j + dJ] == -1 && markers[i + dI][j + dJ] != 1)    //mine not marked
                     {
                         NoUnMarkedMines = false;
-                        if (res.NumMinesBombed == 0) res.BombedMines = new CellCoordinates[1];
-                        else Array.Resize(ref res.BombedMines, (int)(res.NumMinesBombed + 1));
-                        res.BombedMines[res.NumMinesBombed++] = new CellCoordinates { Column = i + dI, Row = j + dJ };
+                        Array.Resize(ref CurrentGameState.BombedMines, (int)(CurrentGameState.NumMinesBombed + 1));
+                        CurrentGameState.BombedMines[CurrentGameState.NumMinesBombed++] = 
+                            new CellCoordinates { Column = i + dI, Row = j + dJ };
                     }
                     if (markers[i + dI][j + dJ] == 1 && field[i + dI][j + dJ] != -1) AllCorrect = false;        //marked but no mine
                 }
@@ -376,12 +414,12 @@ namespace MineSweeper
                                                  //BOOM!!!
             {
                 OpenField();
-                res.State = GameState.Loose;
-                return res;
+                CurrentGameState.State = GameState.Loose;
+                return CurrentGameState;
             }
 
-            res.NumMinesBombed = 0;
-            res.BombedMines = null;
+            CurrentGameState.NumMinesBombed = 0;
+            CurrentGameState.BombedMines = null;
 
             if (AllCorrect && NoUnMarkedMines)  //no errors in mine marking and all mines are marked
                                                 //open cells
@@ -401,9 +439,9 @@ namespace MineSweeper
             if (AllOpened())            //when all cells (except mined) are opened
             {
                 OpenField();                //open the whole field
-                res.State = GameState.Win;   //and say that user WON the game
+                CurrentGameState.State = GameState.Win;   //and say that user WON the game
             }
-            return res;    //game is still in progress
+            return CurrentGameState;    //game is still in progress
         }
 
         /// <summary>
