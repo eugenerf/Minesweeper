@@ -3,15 +3,15 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Soap;
-using System.Globalization;
 
 namespace MineSweeper
 {
     public partial class FormMineSweeper : Form
     {
-        const int FBSize = 30;  //size of the buttons on the field
+        const int FBSize = 30;          //size of the buttons on the field
 
         public MinesSettings MS;        //minesweeper settings
+        public MinesStatistics MStats;  //minesweeper statistics
         MinesEngine ME;                 //minesweeper engine
         Button[][] FB;                  //buttons array for the minefield
         Label[][] FL;                   //labels array for the minefield
@@ -40,7 +40,19 @@ namespace MineSweeper
             {
                 MS = new MinesSettings(MinesSettings.Preset.Newbie);
             }
-            
+
+            try
+            {
+                FileStream fs = new FileStream("minestats.soap", FileMode.Open);
+                SoapFormatter formatter = new SoapFormatter();
+                MStats = (MinesStatistics)formatter.Deserialize(fs);
+                fs = null;
+            }
+            catch (FileNotFoundException)
+            {
+                MStats = new MinesStatistics();
+            }
+
             InitialiseField();
         }
 
@@ -411,7 +423,7 @@ namespace MineSweeper
 
             MouseEventArgs curButton = new MouseEventArgs(e.Button, e.Clicks, i, j, e.Delta);
 
-            if (!GameStart) //game not started yet
+            if (!GameStart)                                                         //game not started yet
             {
                 if (SameButton(LBDown, curButton) || SameButton(curButton, RBDown)) //up on the same button as was down
                 {
@@ -421,7 +433,7 @@ namespace MineSweeper
                 }
             }
 
-            if (SameButton(LBDown,RBDown))   //left+right button upped
+            if (SameButton(LBDown,RBDown))                                          //left+right button upped
             {
                 for (int dI = -1; dI <= 1; dI++)
                 {
@@ -443,6 +455,7 @@ namespace MineSweeper
                     case MinesEngine.GameState.Loose:
                         tTime.Stop();
                         butNewGame.ImageIndex = 3;
+                        MStats.CalcStats(ME, MS, GameSeconds);
                         for(int k = 0; k < GS.NumMinesBombed; k++)
                             FL[GS.BombedMines[k].Column][GS.BombedMines[k].Row].BackColor = Color.Red;
                         for (int k = 0; k < GS.NumWrongFlags; k++)
@@ -455,13 +468,13 @@ namespace MineSweeper
                     case MinesEngine.GameState.Win:
                         tTime.Stop();
                         butNewGame.ImageIndex = 4;
-                        MessageBox.Show("Сапер справился... на этот раз", "УФФФ...", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MStats.CalcStats(ME, MS, GameSeconds, this);
                         break;
                     case MinesEngine.GameState.Stopped:
                         break;
                 }
             }
-            else if (SameButton(LBDown,curButton))        //same left button upped as was down
+            else if (SameButton(LBDown,curButton))                                  //same left button upped as was down
             {
                 MinesEngine.CurrentGameStateInfo GS = ME.OpenCell(i, j);
                 RedrawOpened();
@@ -473,19 +486,20 @@ namespace MineSweeper
                     case MinesEngine.GameState.Loose:
                         tTime.Stop();
                         butNewGame.ImageIndex = 3;
+                        MStats.CalcStats(ME, MS, GameSeconds);
                         for (int k = 0; k < GS.NumMinesBombed; k++)
                             FL[GS.BombedMines[k].Column][GS.BombedMines[k].Row].BackColor = Color.Red;
                         break;
                     case MinesEngine.GameState.Win:
                         tTime.Stop();
                         butNewGame.ImageIndex = 4;
-                        MessageBox.Show("Сапер справился... на этот раз", "УФФФ...", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MStats.CalcStats(ME, MS, GameSeconds, this);
                         break;
                     case MinesEngine.GameState.Stopped:
                         break;
                 }
             }
-            else if (SameButton(curButton,RBDown))        //same right button upped as was down
+            else if (SameButton(curButton,RBDown))                                  //same right button upped as was down
             {                
                 ME.ChangeMarker(i, j);
                 if (ME[i, j].marker > 0) FB[i][j].ImageIndex = ME[i, j].marker;
@@ -494,6 +508,11 @@ namespace MineSweeper
             }
             LBDown = null;
             RBDown = null;
+        }
+
+        public string AskForUserName()
+        {
+            return "";
         }
     }
 }

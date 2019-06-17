@@ -2,6 +2,9 @@
 
 namespace MineSweeper
 {
+    /// <summary>
+    /// Minesweeper game settings
+    /// </summary>
     [Serializable]
     public class MinesSettings
     {

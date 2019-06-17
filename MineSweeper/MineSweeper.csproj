@@ -88,6 +88,7 @@
     </Compile>
     <Compile Include="MinesEngine.cs" />
     <Compile Include="MinesSettings.cs" />
+    <Compile Include="MinesStatistics.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form1.en.resx">

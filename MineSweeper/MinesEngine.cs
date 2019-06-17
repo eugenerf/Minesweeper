@@ -2,7 +2,10 @@
 
 namespace MineSweeper
 {
-    class MinesEngine
+    /// <summary>
+    /// Minesweeper game engine
+    /// </summary>
+    public class MinesEngine
     {
         /// <summary>
         /// Possible states of the current game
@@ -325,7 +328,7 @@ namespace MineSweeper
             if (markers[i][j] == 1) return;     //gets to the cell marked with flag
             if (field[i][j] == -1) return;      //gets to the mine
 
-            if (field[i][j] > 0)    //when we got to the number
+            if (field[i][j] > 0)        //when we got to the number
             {
                 state[i][j] = true;     //we'll open it
                 return;                 //and return
@@ -360,12 +363,12 @@ namespace MineSweeper
                 return CurrentGameState;
             }
 
-            if (markers[i][j] == 1) //cell is marked with flag - not to open
+            if (markers[i][j] == 1)         //cell is marked with flag - not to open
             {
                 CurrentGameState.State = GameState.InProgress;
                 return CurrentGameState;
             }
-            if (field[i][j] == -1)  //BOOM!!!
+            if (field[i][j] == -1)          //BOOM!!!
             {
                 OpenField();
                 CurrentGameState.State = GameState.Loose;
@@ -374,13 +377,13 @@ namespace MineSweeper
                 CurrentGameState.BombedMines[0] = new CellCoordinates { Column = i, Row = j };
                 return CurrentGameState;
             }
-            AutoOpenCells(i, j);    //auto open current cell and all the empty cells or cells with numbers
-            if (AllOpened())        //when all cells (except mined) are opened
+            AutoOpenCells(i, j);            //auto open current cell and all the empty cells or cells with numbers
+            if (AllOpened())                                //when all cells (except mined) are opened
             {
-                OpenField();                //open the whole field
-                CurrentGameState.State = GameState.Win;   //and say that user WON the game
+                OpenField();                                //open the whole field
+                CurrentGameState.State = GameState.Win;     //and say that user WON the game
             }
-            return CurrentGameState;    //game is still in progress
+            return CurrentGameState;        //game is still in progress
         }
 
         /// <summary>
@@ -399,8 +402,8 @@ namespace MineSweeper
                 return CurrentGameState;
             }
 
-            bool AllCorrect = true,     //true when all mines are marked correctly (no wrong flags)
-                NoUnMarkedMines = true;  //true when there are no unmarked mines
+            bool AllCorrect = true,         //true when all mines are marked correctly (no wrong flags)
+                NoUnMarkedMines = true;     //true when there are no unmarked mines
 
             for (int dI = -1; dI <= 1; dI++)
             {
@@ -426,8 +429,8 @@ namespace MineSweeper
                 }
             }
 
-            if (!AllCorrect && !NoUnMarkedMines) //there are errors in mine marking and there are unmarked mines
-                                                 //BOOM!!!
+            if (!AllCorrect && !NoUnMarkedMines)    //there are errors in mine marking and there are unmarked mines
+                                                    //BOOM!!!
             {
                 OpenField();
                 CurrentGameState.State = GameState.Loose;
@@ -439,8 +442,8 @@ namespace MineSweeper
             CurrentGameState.BombedMines = null;
             CurrentGameState.WrongFlags = null;
 
-            if (AllCorrect && NoUnMarkedMines)  //no errors in mine marking and all mines are marked
-                                                //open cells
+            if (AllCorrect && NoUnMarkedMines)      //no errors in mine marking and all mines are marked
+                                                    //open cells
             {
                 for (int dI = -1; dI <= 1; dI++)
                 {
@@ -454,12 +457,12 @@ namespace MineSweeper
                 }
             }
 
-            if (AllOpened())            //when all cells (except mined) are opened
+            if (AllOpened())                                //when all cells (except mined) are opened
             {
-                OpenField();                //open the whole field
-                CurrentGameState.State = GameState.Win;   //and say that user WON the game
+                OpenField();                                //open the whole field
+                CurrentGameState.State = GameState.Win;     //and say that user WON the game
             }
-            return CurrentGameState;    //game is still in progress
+            return CurrentGameState;                        //game is still in progress
         }
 
         /// <summary>
@@ -469,7 +472,7 @@ namespace MineSweeper
         {
             for (int i = 0; i < Width; i++)
             {
-                Array.Clear(markers[i], 0, Height);     //clear all markers
+                Array.Clear(markers[i], 0, Height);                     //clear all markers
                 for (int j = 0; j < Height; j++) state[i][j] = true;    //open each cell in the field
             }
         }
