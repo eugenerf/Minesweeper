@@ -4,6 +4,8 @@ using System.Windows.Forms;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Soap;
 using System.Runtime.Serialization;
+using System.Collections.Generic;
+using System.Threading;
 
 namespace MineSweeper
 {
@@ -39,7 +41,7 @@ namespace MineSweeper
                 fs.Dispose();
                 fs = null;
             }
-            catch(FileNotFoundException)
+            catch (FileNotFoundException)
             {
                 MS = new MinesSettings(MinesSettings.Preset.Newbie);
             }
@@ -87,11 +89,11 @@ namespace MineSweeper
             gbMineField.Controls.Clear();
             butNewGame.ImageIndex = 2;
 
-            for(int i = 0; i < oldWidth && i < MS.FieldWidth; i++)
+            for (int i = 0; i < oldWidth && i < MS.FieldWidth; i++)
             {
                 Array.Resize(ref FB[i], MS.FieldHeight);
                 Array.Resize(ref FL[i], MS.FieldHeight);
-                for(int j = 0; j < oldHeight && j < MS.FieldHeight; j++)
+                for (int j = 0; j < oldHeight && j < MS.FieldHeight; j++)
                 {
                     FB[i][j].BackColor = SystemColors.ButtonFace;
                     FB[i][j].ImageIndex = -1;
@@ -105,16 +107,16 @@ namespace MineSweeper
                     gbMineField.Controls.Add(FB[i][j]);
                     gbMineField.Controls.Add(FL[i][j]);
                 }
-                for(int j = oldHeight; j < MS.FieldHeight; j++)
+                for (int j = oldHeight; j < MS.FieldHeight; j++)
                 {
                     FB[i][j] = new Button();
                     FB[i][j].Anchor = AnchorStyles.Top | AnchorStyles.Left;
-                    FB[i][j].AutoSize = false;                    
+                    FB[i][j].AutoSize = false;
                     FB[i][j].Enabled = true;
                     FB[i][j].Location = new Point(FBSize * i + 10, FBSize * j + 10);
                     FB[i][j].Size = new Size(FBSize, FBSize);
-                    FB[i][j].TabStop = false;                    
-                    FB[i][j].ImageList = ilIconsField;                    
+                    FB[i][j].TabStop = false;
+                    FB[i][j].ImageList = ilIconsField;
                     FB[i][j].MouseDown += Cell_Down;
                     FB[i][j].MouseUp += Cell_Up;
                     FB[i][j].BackColor = SystemColors.ButtonFace;
@@ -123,19 +125,19 @@ namespace MineSweeper
 
                     FL[i][j] = new Label();
                     FL[i][j].Anchor = AnchorStyles.Top | AnchorStyles.Left;
-                    FL[i][j].AutoSize = false;                    
+                    FL[i][j].AutoSize = false;
                     FL[i][j].BorderStyle = BorderStyle.FixedSingle;
                     FL[i][j].Enabled = true;
                     FL[i][j].Font = new Font("Candara", 14, FontStyle.Bold);
                     FL[i][j].ImageAlign = ContentAlignment.MiddleCenter;
                     FL[i][j].Location = new Point(FBSize * i + 10, FBSize * j + 10);
                     FL[i][j].Size = new Size(FBSize, FBSize);
-                    FL[i][j].TextAlign = ContentAlignment.MiddleCenter;                    
-                    FL[i][j].ImageList = ilIconsField;                    
+                    FL[i][j].TextAlign = ContentAlignment.MiddleCenter;
+                    FL[i][j].ImageList = ilIconsField;
                     FL[i][j].MouseDown += Cell_Down;
                     FL[i][j].MouseUp += Cell_Up;
                     FL[i][j].BackColor = SystemColors.Control;
-                    FL[i][j].ImageIndex = -1;                    
+                    FL[i][j].ImageIndex = -1;
                     FL[i][j].Text = "";
                     FL[i][j].Visible = false;
 
@@ -183,7 +185,7 @@ namespace MineSweeper
                     FL[i][j].Visible = false;
 
                     gbMineField.Controls.Add(FB[i][j]);
-                    gbMineField.Controls.Add(FL[i][j]);                    
+                    gbMineField.Controls.Add(FL[i][j]);
                 }
             }
 
@@ -198,9 +200,14 @@ namespace MineSweeper
             lTime.Location = new Point(MS.FieldWidth * FBSize + 20 + 5 - 40, 30);
             lTimeIco.Location = new Point(MS.FieldWidth * FBSize + 20 + 5 - 40 - 5 - 30, 30);
 
-            butNewGame.Location = new Point(((MS.FieldWidth * FBSize + 20 + 10) - 30) / 2, 30);            
+            butNewGame.Location = new Point(((MS.FieldWidth * FBSize + 20 + 10) - 30) / 2, 30);
 
             lMines.Text = MS.NumMines.ToString();
+
+            pbHeartBig.Visible = false;
+            pbHeartBigger.Visible = false;
+            gbMineField.Controls.Add(pbHeartBig);
+            gbMineField.Controls.Add(pbHeartBigger);
         }
 
         /// <summary>
@@ -232,7 +239,7 @@ namespace MineSweeper
                         }
                         else if (ME[i, j].cell != 0)
                         {
-                            switch(ME[i,j].cell)
+                            switch (ME[i, j].cell)
                             {
                                 case 1:
                                     FL[i][j].ForeColor = Color.Blue;
@@ -290,7 +297,7 @@ namespace MineSweeper
             for (int i = 0; i < FB.Length; i++)
             {
                 for (int j = 0; j < FB[i].Length; j++)
-                {                    
+                {
                     if (but.Equals(FB[i][j]))
                     {
                         column = i;
@@ -353,7 +360,7 @@ namespace MineSweeper
             if (e.Button == MouseButtons.Right)
                 RBDown = new MouseEventArgs(MouseButtons.Right, 1, i, j, 0);
 
-            if (SameButton(LBDown,RBDown))
+            if (SameButton(LBDown, RBDown))
             {
                 for (int dI = -1; dI <= 1; dI++)
                 {
@@ -375,7 +382,7 @@ namespace MineSweeper
         /// <returns>True if button is the same</returns>
         private bool SameButton(MouseEventArgs left, MouseEventArgs right)
         {
-            if (left != null && 
+            if (left != null &&
                 right != null &&
                 left?.X == right?.X &&
                 left?.Y == right?.Y)
@@ -389,7 +396,7 @@ namespace MineSweeper
             formAbout = new FormAbout(this);
             Enabled = false;
 
-            formAbout.Location = new Point(Location.X + Width / 2 - formAbout.Size.Width / 2, 
+            formAbout.Location = new Point(Location.X + Width / 2 - formAbout.Size.Width / 2,
                                             Location.Y + Height / 2 - formAbout.Size.Height / 2);
 
             formAbout.ShowDialog();
@@ -445,7 +452,7 @@ namespace MineSweeper
                 }
             }
 
-            if (SameButton(LBDown,RBDown))                                          //left+right button upped
+            if (SameButton(LBDown, RBDown))                                          //left+right button upped
             {
                 for (int dI = -1; dI <= 1; dI++)
                 {
@@ -467,7 +474,7 @@ namespace MineSweeper
                     case MinesEngine.GameState.Loose:
                         tTime.Stop();
                         butNewGame.ImageIndex = 3;
-                        MStats.CalcStats(ME, MS, GameSeconds);                        
+                        MStats.CalcStats(ME, MS, GameSeconds);
                         for (int k = 0; k < GS.NumMinesBombed; k++)
                             FL[GS.BombedMines[k].Column][GS.BombedMines[k].Row].BackColor = Color.Red;
                         for (int k = 0; k < GS.NumWrongFlags; k++)
@@ -486,7 +493,7 @@ namespace MineSweeper
                         break;
                 }
             }
-            else if (SameButton(LBDown,curButton))                                  //same left button upped as was down
+            else if (SameButton(LBDown, curButton))                                  //same left button upped as was down
             {
                 MinesEngine.CurrentGameStateInfo GS = ME.OpenCell(i, j);
                 RedrawOpened();
@@ -511,7 +518,7 @@ namespace MineSweeper
                         break;
                 }
             }
-            else if (SameButton(curButton,RBDown))                                  //same right button upped as was down
+            else if (SameButton(curButton, RBDown))                                  //same right button upped as was down
             {
                 if (sender.GetType().ToString().IndexOf("Button") != -1)
                 {
@@ -522,7 +529,7 @@ namespace MineSweeper
                 }
             }
             LBDown = null;
-            RBDown = null;            
+            RBDown = null;
         }
 
         private void FormMineSweeper_FormClosing(object sender, FormClosingEventArgs e)
@@ -546,7 +553,7 @@ namespace MineSweeper
             formAskName = new FormAskName(this);
             Enabled = false;
 
-            formAskName.Location=new Point(Location.X + Width / 2 - formAskName.Width / 2,
+            formAskName.Location = new Point(Location.X + Width / 2 - formAskName.Width / 2,
                                             Location.Y + Height / 2 - formAskName.Height / 2);
             formAskName.ShowDialog();
 
@@ -555,6 +562,64 @@ namespace MineSweeper
             MessageBox.Show(res);
 
             return formAskName.PlayerName;
+        }
+
+        /// <summary>
+        /// Easter egg for Zaza (draws the beating heart on the field and then hides it)
+        /// </summary>
+        private void DrawHeart()
+        {
+            bool[][] fb = null;
+            bool[][] fl = null;
+
+            Array.Resize(ref fb, FB.Length);
+            Array.Resize(ref fl, FL.Length);
+            for (int i = 0; i < FB.Length; i++)
+            {
+                Array.Resize(ref fb[i], FB[i].Length);
+                Array.Resize(ref fl[i], FL[i].Length);
+                for (int j = 0; j < FB[i].Length; j++)
+                {
+                    fb[i][j] = FB[i][j].Visible;
+                    fl[i][j] = FL[i][j].Visible;
+
+                    FB[i][j].Visible = false;
+                    FL[i][j].Visible = false;
+                }
+            }
+
+            pbHeartBigger.Visible = false;
+            pbHeartBig.Visible = true;
+            gbMineField.Refresh();
+
+            for (int i = 0; i < 3; i++)
+            {
+                Thread.Sleep(500);
+
+                pbHeartBig.Visible = false;
+                pbHeartBigger.Visible = true;
+                gbMineField.Refresh();
+
+                Thread.Sleep(700);
+
+                pbHeartBigger.Visible = false;
+                pbHeartBig.Visible = true;
+                gbMineField.Refresh();
+            }
+
+            Thread.Sleep(2000);
+
+            pbHeartBig.Visible = false;
+            pbHeartBigger.Visible = false;
+
+            for(int i = 0; i < FB.Length; i++)
+            {
+                for(int j = 0; j < FB[i].Length; j++)
+                {
+                    FB[i][j].Visible = fb[i][j];
+                    FL[i][j].Visible = fl[i][j];
+                }
+            }
         }
     }
 }

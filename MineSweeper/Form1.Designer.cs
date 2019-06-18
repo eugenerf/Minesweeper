@@ -39,6 +39,7 @@
             this.tsmiExit = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiAbout = new System.Windows.Forms.ToolStripMenuItem();
             this.gbMineField = new System.Windows.Forms.GroupBox();
+            this.pbHeartBig = new System.Windows.Forms.PictureBox();
             this.butNewGame = new System.Windows.Forms.Button();
             this.ilIconsHeader = new System.Windows.Forms.ImageList(this.components);
             this.lMines = new System.Windows.Forms.Label();
@@ -47,7 +48,11 @@
             this.lMineIco = new System.Windows.Forms.Label();
             this.lTimeIco = new System.Windows.Forms.Label();
             this.ilIconsField = new System.Windows.Forms.ImageList(this.components);
+            this.pbHeartBigger = new System.Windows.Forms.PictureBox();
             this.msMenu.SuspendLayout();
+            this.gbMineField.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbHeartBig)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbHeartBigger)).BeginInit();
             this.SuspendLayout();
             // 
             // msMenu
@@ -111,8 +116,16 @@
             // gbMineField
             // 
             resources.ApplyResources(this.gbMineField, "gbMineField");
+            this.gbMineField.Controls.Add(this.pbHeartBigger);
+            this.gbMineField.Controls.Add(this.pbHeartBig);
             this.gbMineField.Name = "gbMineField";
             this.gbMineField.TabStop = false;
+            // 
+            // pbHeartBig
+            // 
+            resources.ApplyResources(this.pbHeartBig, "pbHeartBig");
+            this.pbHeartBig.Name = "pbHeartBig";
+            this.pbHeartBig.TabStop = false;
             // 
             // butNewGame
             // 
@@ -175,6 +188,12 @@
             this.ilIconsField.Images.SetKeyName(2, "question.png");
             this.ilIconsField.Images.SetKeyName(3, "heart.png");
             // 
+            // pbHeartBigger
+            // 
+            resources.ApplyResources(this.pbHeartBigger, "pbHeartBigger");
+            this.pbHeartBigger.Name = "pbHeartBigger";
+            this.pbHeartBigger.TabStop = false;
+            // 
             // FormMineSweeper
             // 
             resources.ApplyResources(this, "$this");
@@ -195,6 +214,9 @@
             this.Load += new System.EventHandler(this.FormMineSweeper_Load);
             this.msMenu.ResumeLayout(false);
             this.msMenu.PerformLayout();
+            this.gbMineField.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pbHeartBig)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbHeartBigger)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -219,6 +241,8 @@
         private System.Windows.Forms.Label lMineIco;
         private System.Windows.Forms.Label lTimeIco;
         private System.Windows.Forms.ImageList ilIconsField;
+        private System.Windows.Forms.PictureBox pbHeartBig;
+        private System.Windows.Forms.PictureBox pbHeartBigger;
     }
 }
 

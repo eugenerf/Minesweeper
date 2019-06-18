@@ -63,7 +63,6 @@
             // 
             // gbParameters
             // 
-            resources.ApplyResources(this.gbParameters, "gbParameters");
             this.gbParameters.Controls.Add(this.nudMines);
             this.gbParameters.Controls.Add(this.label9);
             this.gbParameters.Controls.Add(this.nudWidth);
@@ -80,6 +79,7 @@
             this.gbParameters.Controls.Add(this.rbProfessional);
             this.gbParameters.Controls.Add(this.rbAmateur);
             this.gbParameters.Controls.Add(this.rbNewbie);
+            resources.ApplyResources(this.gbParameters, "gbParameters");
             this.gbParameters.Name = "gbParameters";
             this.gbParameters.TabStop = false;
             // 
@@ -103,7 +103,6 @@
             0,
             0,
             0});
-            this.nudMines.ValueChanged += new System.EventHandler(this.nudMines_ValueChanged);
             // 
             // label9
             // 
@@ -206,21 +205,18 @@
             resources.ApplyResources(this.rbProfessional, "rbProfessional");
             this.rbProfessional.Name = "rbProfessional";
             this.rbProfessional.UseVisualStyleBackColor = true;
-            this.rbProfessional.CheckedChanged += new System.EventHandler(this.rbProfessional_CheckedChanged);
             // 
             // rbAmateur
             // 
             resources.ApplyResources(this.rbAmateur, "rbAmateur");
             this.rbAmateur.Name = "rbAmateur";
             this.rbAmateur.UseVisualStyleBackColor = true;
-            this.rbAmateur.CheckedChanged += new System.EventHandler(this.rbAmateur_CheckedChanged);
             // 
             // rbNewbie
             // 
             resources.ApplyResources(this.rbNewbie, "rbNewbie");
             this.rbNewbie.Name = "rbNewbie";
             this.rbNewbie.UseVisualStyleBackColor = true;
-            this.rbNewbie.CheckedChanged += new System.EventHandler(this.rbNewbie_CheckedChanged);
             // 
             // FormSettings
             // 

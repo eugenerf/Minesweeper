@@ -45,6 +45,27 @@ namespace MineSweeper
         /// <param name="preset">Preset name (Custom here equals to Newbie)</param>
         public MinesSettings (Preset preset)
         {
+            ChangeSettings(preset);
+        }
+
+        /// <summary>
+        /// Construct by numeric parameters
+        /// </summary>
+        /// <param name="width">Field Width (min: 9, max: 30)</param>
+        /// <param name="height">Field Height (min: 9, max: 24)</param>
+        /// <param name="mines">Number of mines on the field (min: 1, max: 668, not more than the number of fields)</param>
+        public MinesSettings(int width, int height, uint mines)
+        {
+            ChangeSettings(width, height, mines);
+        }
+
+        /// <summary>
+        /// Changes current settings by preset
+        /// </summary>
+        /// <param name="preset">Preset name (Custom here equals to Newbie)</param>
+        public void ChangeSettings(Preset preset)
+        {
+            CurrentPreset = preset;
             switch (preset)
             {
                 case Preset.Newbie:
@@ -67,12 +88,12 @@ namespace MineSweeper
         }
 
         /// <summary>
-        /// Construct by numeric parameters
+        /// Changes current settings by numeric parameters
         /// </summary>
         /// <param name="width">Field Width (min: 9, max: 30)</param>
         /// <param name="height">Field Height (min: 9, max: 24)</param>
         /// <param name="mines">Number of mines on the field (min: 1, max: 668, not more than the number of fields)</param>
-        public MinesSettings(int width, int height, uint mines)
+        public void ChangeSettings(int width, int height, uint mines)
         {
             if (width < 9 || width > 30)
                 throw new ArgumentOutOfRangeException("width", "Width must be between 9 and 30");

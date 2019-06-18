@@ -41,6 +41,32 @@ namespace MineSweeper
 
         private void butClose_Click(object sender, EventArgs e)
         {
+            if (rbNewbie.Checked)
+            {
+                if (formParent.MS == null) formParent.MS = new MinesSettings(MinesSettings.Preset.Newbie);
+                else formParent.MS.ChangeSettings(MinesSettings.Preset.Newbie);
+            }
+            else if (rbAmateur.Checked)
+            {
+                if (formParent.MS == null) formParent.MS = new MinesSettings(MinesSettings.Preset.Amateur);
+                else formParent.MS.ChangeSettings(MinesSettings.Preset.Amateur);
+            }
+            else if (rbProfessional.Checked)
+            {
+                if (formParent.MS == null) formParent.MS = new MinesSettings(MinesSettings.Preset.Professional);
+                else formParent.MS.ChangeSettings(MinesSettings.Preset.Professional);
+            }
+            else if (rbCustom.Checked)
+            {
+                if (formParent.MS == null) formParent.MS = new MinesSettings((int)nudWidth.Value, 
+                                                                            (int)nudHeight.Value, 
+                                                                            (uint)nudMines.Value);
+                else formParent.MS.ChangeSettings((int)nudWidth.Value, 
+                                                    (int)nudHeight.Value, 
+                                                    (uint)nudMines.Value);
+            }
+            else formParent.MS = null;
+
             Close();
         }
 
@@ -67,35 +93,10 @@ namespace MineSweeper
             nudMines.Maximum = (nudHeight.Value * nudWidth.Value > 668) ? 668 : nudHeight.Value * nudWidth.Value;
         }
 
-        private void rbNewbie_CheckedChanged(object sender, EventArgs e)
-        {
-            if (rbNewbie.Checked)
-            {
-                formParent.MS = new MinesSettings(MinesSettings.Preset.Newbie);
-            }
-        }
-
-        private void rbAmateur_CheckedChanged(object sender, EventArgs e)
-        {
-            if(rbAmateur.Checked)
-            {
-                formParent.MS = new MinesSettings(MinesSettings.Preset.Amateur);
-            }
-        }
-
-        private void rbProfessional_CheckedChanged(object sender, EventArgs e)
-        {
-            if (rbProfessional.Checked)
-            {
-                formParent.MS = new MinesSettings(MinesSettings.Preset.Professional);
-            }
-        }
-
         private void rbCustom_CheckedChanged(object sender, EventArgs e)
         {
             if (rbCustom.Checked)
             {
-                formParent.MS = new MinesSettings((int)nudWidth.Value, (int)nudHeight.Value, (uint)nudMines.Value);
                 nudWidth.Enabled = true;
                 nudHeight.Enabled = true;
                 nudMines.Enabled = true;
@@ -111,18 +112,11 @@ namespace MineSweeper
         private void nudHeight_ValueChanged(object sender, EventArgs e)
         {
             nudMines.Maximum = (nudHeight.Value * nudWidth.Value > 668) ? 668 : nudHeight.Value * nudWidth.Value;
-            formParent.MS = new MinesSettings((int)nudWidth.Value, (int)nudHeight.Value, (uint)nudMines.Value);
         }
 
         private void nudWidth_ValueChanged(object sender, EventArgs e)
         {
             nudMines.Maximum = (nudHeight.Value * nudWidth.Value > 668) ? 668 : nudHeight.Value * nudWidth.Value;
-            formParent.MS = new MinesSettings((int)nudWidth.Value, (int)nudHeight.Value, (uint)nudMines.Value);
-        }
-
-        private void nudMines_ValueChanged(object sender, EventArgs e)
-        {
-            formParent.MS = new MinesSettings((int)nudWidth.Value, (int)nudHeight.Value, (uint)nudMines.Value);
         }
     }
 }
