@@ -173,6 +173,7 @@
             this.ilIconsField.Images.SetKeyName(0, "mine_big.png");
             this.ilIconsField.Images.SetKeyName(1, "flag.png");
             this.ilIconsField.Images.SetKeyName(2, "question.png");
+            this.ilIconsField.Images.SetKeyName(3, "heart.png");
             // 
             // FormMineSweeper
             // 
