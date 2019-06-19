@@ -230,7 +230,7 @@ namespace MineSweeper
             //first of all we'll check whether we have to add to StatsBy3BV
             int topLength = (StatsBy3BV == null) ? 0 : StatsBy3BV.Length;
             bool HaveToAdd = false;
-            string playerName = "";
+            string playerName = null;
 
             if (topLength >= 10)
             {
@@ -276,7 +276,7 @@ namespace MineSweeper
             {
                 Array.Resize(ref StatsByPreset[index].Top, ++topLength);
                 StatsByPreset[index].Top[topLength - 1].GameTime = gameTime;
-                StatsByPreset[index].Top[topLength - 1].Name = (playerName == "") ? fms.AskForUserName() : playerName;
+                StatsByPreset[index].Top[topLength - 1].Name = (playerName == null) ? fms.AskForUserName() : playerName;
                 StatsByPreset[index].Top[topLength - 1].WinTime = now;
                 StatsByPreset[index].Top[topLength - 1].Level3BV = level3BV;
                 switch (index)

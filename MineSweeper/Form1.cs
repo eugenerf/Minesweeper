@@ -558,6 +558,13 @@ namespace MineSweeper
                                             Location.Y + Height / 2 - formAskName.Height / 2);
             formAskName.ShowDialog();
 
+            if (formAskName.PlayerName.ToLower() == "zaza") //second easter egg for Zaza
+            {
+                Random rnd = new Random();
+                int rndMax = (int)Math.Floor(300 / (decimal)ME.NumMines);
+                if (rnd.Next(rndMax) == 0) DrawHeart();
+            }
+
             return formAskName.PlayerName;
         }
 
@@ -615,7 +622,7 @@ namespace MineSweeper
                 gbMineField.Refresh();
             }
 
-            Thread.Sleep(2000);
+            Thread.Sleep(1000);
 
             pbHeartBig.Visible = false;
             pbHeartBigger.Visible = false;

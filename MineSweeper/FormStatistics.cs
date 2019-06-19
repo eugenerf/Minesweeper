@@ -1,12 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
-using System.Globalization;
 
 namespace MineSweeper
 {
@@ -70,6 +63,7 @@ namespace MineSweeper
             {
                 foreach (MinesStatistics.WinnerInfo wi in formParent.MStats.StatsByPreset[index].Top)
                 {
+                    //first easter egg for Zaza
                     string name =
                         (wi.Name.ToLower() == "zaza") ?
                         char.ConvertFromUtf32(0x1f498) + wi.Name + char.ConvertFromUtf32(0x1f498) :
@@ -110,6 +104,7 @@ namespace MineSweeper
             {
                 foreach (MinesStatistics.WinnerInfo wi in formParent.MStats.StatsBy3BV)
                 {
+                    //first easter egg for Zaza
                     string name =
                         (wi.Name.ToLower() == "zaza") ?
                         char.ConvertFromUtf32(0x1f498) + wi.Name + char.ConvertFromUtf32(0x1f498) :
