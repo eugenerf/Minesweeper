@@ -93,6 +93,12 @@
     <Compile Include="FormSettings.Designer.cs">
       <DependentUpon>FormSettings.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormStatistics.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormStatistics.Designer.cs">
+      <DependentUpon>FormStatistics.cs</DependentUpon>
+    </Compile>
     <Compile Include="MinesEngine.cs" />
     <Compile Include="MinesSettings.cs" />
     <Compile Include="MinesStatistics.cs" />
@@ -133,6 +139,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormSettings.ru.resx">
       <DependentUpon>FormSettings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormStatistics.en.resx">
+      <DependentUpon>FormStatistics.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormStatistics.resx">
+      <DependentUpon>FormStatistics.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormStatistics.ru.resx">
+      <DependentUpon>FormStatistics.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

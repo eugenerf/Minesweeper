@@ -128,12 +128,17 @@ namespace MineSweeper
         public int Height { get; private set; }
 
         /// <summary>
+        /// 3BV difficulty level of the current minefield
+        /// </summary>
+        public uint Level3BV { get; private set; }
+
+        /// <summary>
         /// External access to the already opened cells in the minefield
         /// </summary>
         /// <param name="i">Column of the cell</param>
         /// <param name="j">Row of the cell</param>
         /// <returns>CellInfo struct containing information about the specified cell</returns>
-        public CellInfo this[int i,int j]
+        public CellInfo this[int i, int j]
         {
             get
             {
@@ -166,7 +171,7 @@ namespace MineSweeper
                 throw new ArgumentOutOfRangeException("height", "Height must be between 9 and 24");
             if (numMines > width * height)
                 throw new ArgumentOutOfRangeException(
-                    "numMines", 
+                    "numMines",
                     "Number of mines cannot exceed number of cells in the minefield");
             if (numMines < 1 || numMines > 668)
                 throw new ArgumentOutOfRangeException("numMines", "Number of mines must be between 1 and 668");
@@ -175,12 +180,13 @@ namespace MineSweeper
             NumFlags = 0;
             Width = width;
             Height = height;
+            Level3BV = 0;
             CurrentGameState = new CurrentGameStateInfo { State = GameState.NewGame, BombedMines = null, NumMinesBombed = 0 };
 
             Array.Resize(ref field, width);
             Array.Resize(ref markers, width);
             Array.Resize(ref state, width);
-            for(int i = 0; i < width; i++)
+            for (int i = 0; i < width; i++)
             {
                 Array.Resize(ref field[i], height);
                 Array.Resize(ref markers[i], height);
@@ -200,6 +206,7 @@ namespace MineSweeper
             NumFlags = 0;
             Width = MS.FieldWidth;
             Height = MS.FieldHeight;
+            Level3BV = 0;
             CurrentGameState = new CurrentGameStateInfo { State = GameState.NewGame, BombedMines = null, NumMinesBombed = 0 };
 
             Array.Resize(ref field, Width);
@@ -268,22 +275,25 @@ namespace MineSweeper
             }
 
             //filling up cells of the minefield with the information about the surrounding mines
-            for(int i = 0; i < Width; i++)
+            for (int i = 0; i < Width; i++)
             {
                 for (int j = 0; j < Height; j++)
                 {
                     if (field[i][j] == -1) continue;
-                    for(int dI = -1; dI <= 1; dI++)
+                    for (int dI = -1; dI <= 1; dI++)
                     {
+                        if (i + dI < 0 || i + dI >= Width) continue;
                         for (int dJ = -1; dJ <= 1; dJ++)
                         {
-                            if (i + dI < 0 || i + dI >= Width) continue;
                             if (j + dJ < 0 || j + dJ >= Height) continue;
+                            if (dI == 0 && dJ == 0) continue;       //current cell
                             if (field[i + dI][j + dJ] == -1) field[i][j]++;
                         }
                     }
                 }
             }
+
+            Calculate3BVLevel();
         }
 
         /// <summary>
@@ -416,7 +426,7 @@ namespace MineSweeper
                     {
                         NoUnMarkedMines = false;
                         Array.Resize(ref CurrentGameState.BombedMines, (int)(CurrentGameState.NumMinesBombed + 1));
-                        CurrentGameState.BombedMines[CurrentGameState.NumMinesBombed++] = 
+                        CurrentGameState.BombedMines[CurrentGameState.NumMinesBombed++] =
                             new CellCoordinates { Column = i + dI, Row = j + dJ };
                     }
                     if (markers[i + dI][j + dJ] == 1 && field[i + dI][j + dJ] != -1)    //marked but no mine
@@ -475,6 +485,53 @@ namespace MineSweeper
                 Array.Clear(markers[i], 0, Height);                     //clear all markers
                 for (int j = 0; j < Height; j++) state[i][j] = true;    //open each cell in the field
             }
+        }
+
+        /// <summary>
+        /// Calculates 3BV difficulty level for current minefield
+        /// </summary>
+        private void Calculate3BVLevel()
+        {
+            Level3BV = 0;
+
+            //we will simply open the whole field and count the minimal number of "clicks" we needed for it
+            for (int i = 0; i < Width; i++)
+            {
+                for (int j = 0; j < Height; j++)
+                {
+                    if (field[i][j] == -1)  //it is mine
+                    {
+                        state[i][j] = true;         //we'll just open this cell
+                    }
+                    if (field[i][j] == 0)   //empty cell
+                    {
+                        if (!state[i][j])           //and it is not opened (this opening is not counted yet)
+                        {
+                            Level3BV++;             //count it
+                            AutoOpenCells(i, j);    //and open the whole opening
+                        }
+                    }
+                    if (field[i][j] > 0)    //cell with number
+                    {
+                        //we'll look around this cell and if we won't find empty cells we'll count this one
+                        bool NoEmptyAround = true;
+                        for(int dI = -1; dI <= 1; dI++)
+                        {
+                            if (i + dI < 0 || i + dI >= Width) continue;
+                            for(int dJ = -1; dJ <= 1; dJ++)
+                            {
+                                if (j + dJ < 0 || j + dJ >= Height) continue;
+                                if (field[i + dI][j + dJ] == 0) NoEmptyAround = false;
+                            }
+                        }
+                        if (NoEmptyAround) Level3BV++;  //no empty cells - count this one
+                        state[i][j] = true;             //open the current cell
+                    }
+                }
+            }
+
+            //and now we will close the field
+            for (int i = 0; i < Width; i++) Array.Clear(state[i], 0, Height);
         }
     }
 }

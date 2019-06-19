@@ -14,7 +14,7 @@ namespace MineSweeper
         public enum Preset
         {
             Newbie,
-            Amateur,
+            Advanced,
             Professional,
             Custom
         }
@@ -74,7 +74,7 @@ namespace MineSweeper
                     FieldHeight = 9;
                     NumMines = 10;
                     break;
-                case Preset.Amateur:
+                case Preset.Advanced:
                     FieldWidth = 16;
                     FieldHeight = 16;
                     NumMines = 40;
@@ -108,7 +108,7 @@ namespace MineSweeper
 
             CurrentPreset = Preset.Custom;
             if (width == 9 && height == 9 && mines == 10) CurrentPreset = Preset.Newbie;
-            if (width == 16 && height == 16 && mines == 40) CurrentPreset = Preset.Amateur;
+            if (width == 16 && height == 16 && mines == 40) CurrentPreset = Preset.Advanced;
             if (width == 30 && height == 16 && mines == 99) CurrentPreset = Preset.Professional;
 
             FieldWidth = width;

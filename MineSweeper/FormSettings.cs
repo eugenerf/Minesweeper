@@ -48,8 +48,8 @@ namespace MineSweeper
             }
             else if (rbAmateur.Checked)
             {
-                if (formParent.MS == null) formParent.MS = new MinesSettings(MinesSettings.Preset.Amateur);
-                else formParent.MS.ChangeSettings(MinesSettings.Preset.Amateur);
+                if (formParent.MS == null) formParent.MS = new MinesSettings(MinesSettings.Preset.Advanced);
+                else formParent.MS.ChangeSettings(MinesSettings.Preset.Advanced);
             }
             else if (rbProfessional.Checked)
             {
@@ -77,7 +77,7 @@ namespace MineSweeper
                 case MinesSettings.Preset.Newbie:
                     rbNewbie.Checked = true;
                     break;
-                case MinesSettings.Preset.Amateur:
+                case MinesSettings.Preset.Advanced:
                     rbAmateur.Checked = true;
                     break;
                 case MinesSettings.Preset.Professional:

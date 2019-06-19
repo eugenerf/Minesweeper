@@ -40,11 +40,11 @@ namespace MineSweeper
         private void FormAskName_Load(object sender, EventArgs e)
         {
             cbName.Items.Clear();
-            foreach(MinesStatistics.PresetStatsInfo psi in parentForm.MStats.Stats)
+            foreach(MinesStatistics.PresetStatsInfo psi in parentForm.MStats.StatsByPreset)
             {
-                if (psi.TopFive != null)
+                if (psi.Top != null)
                 {
-                    foreach (MinesStatistics.WinnerInfo wi in psi.TopFive)
+                    foreach (MinesStatistics.WinnerInfo wi in psi.Top)
                     {
                         if (wi.Name != null && wi.Name != "")
                             if (!cbName.Items.Contains(wi.Name))

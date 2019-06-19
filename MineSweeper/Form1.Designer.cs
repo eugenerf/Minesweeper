@@ -34,11 +34,13 @@
             this.tsmiGame = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiNewGame = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.tsmiStats = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiParameters = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.tsmiExit = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiAbout = new System.Windows.Forms.ToolStripMenuItem();
             this.gbMineField = new System.Windows.Forms.GroupBox();
+            this.pbHeartBigger = new System.Windows.Forms.PictureBox();
             this.pbHeartBig = new System.Windows.Forms.PictureBox();
             this.butNewGame = new System.Windows.Forms.Button();
             this.ilIconsHeader = new System.Windows.Forms.ImageList(this.components);
@@ -48,69 +50,76 @@
             this.lMineIco = new System.Windows.Forms.Label();
             this.lTimeIco = new System.Windows.Forms.Label();
             this.ilIconsField = new System.Windows.Forms.ImageList(this.components);
-            this.pbHeartBigger = new System.Windows.Forms.PictureBox();
             this.msMenu.SuspendLayout();
             this.gbMineField.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pbHeartBig)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbHeartBigger)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbHeartBig)).BeginInit();
             this.SuspendLayout();
             // 
             // msMenu
             // 
+            resources.ApplyResources(this.msMenu, "msMenu");
             this.msMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsmiGame,
             this.tsmiAbout});
-            resources.ApplyResources(this.msMenu, "msMenu");
             this.msMenu.Name = "msMenu";
             // 
             // tsmiGame
             // 
+            resources.ApplyResources(this.tsmiGame, "tsmiGame");
             this.tsmiGame.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.tsmiGame.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsmiNewGame,
             this.toolStripSeparator1,
+            this.tsmiStats,
             this.tsmiParameters,
             this.toolStripSeparator2,
             this.tsmiExit});
             this.tsmiGame.Name = "tsmiGame";
-            resources.ApplyResources(this.tsmiGame, "tsmiGame");
             // 
             // tsmiNewGame
             // 
+            resources.ApplyResources(this.tsmiNewGame, "tsmiNewGame");
             this.tsmiNewGame.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.tsmiNewGame.Name = "tsmiNewGame";
-            resources.ApplyResources(this.tsmiNewGame, "tsmiNewGame");
             this.tsmiNewGame.Click += new System.EventHandler(this.tsmiNewGame_Click);
             // 
             // toolStripSeparator1
             // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
             resources.ApplyResources(this.toolStripSeparator1, "toolStripSeparator1");
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            // 
+            // tsmiStats
+            // 
+            resources.ApplyResources(this.tsmiStats, "tsmiStats");
+            this.tsmiStats.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.tsmiStats.Name = "tsmiStats";
+            this.tsmiStats.Click += new System.EventHandler(this.tsmiStats_Click);
             // 
             // tsmiParameters
             // 
+            resources.ApplyResources(this.tsmiParameters, "tsmiParameters");
             this.tsmiParameters.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.tsmiParameters.Name = "tsmiParameters";
-            resources.ApplyResources(this.tsmiParameters, "tsmiParameters");
             this.tsmiParameters.Click += new System.EventHandler(this.tsmiParameters_Click);
             // 
             // toolStripSeparator2
             // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
             resources.ApplyResources(this.toolStripSeparator2, "toolStripSeparator2");
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
             // 
             // tsmiExit
             // 
+            resources.ApplyResources(this.tsmiExit, "tsmiExit");
             this.tsmiExit.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.tsmiExit.Name = "tsmiExit";
-            resources.ApplyResources(this.tsmiExit, "tsmiExit");
             this.tsmiExit.Click += new System.EventHandler(this.tsmiExit_Click);
             // 
             // tsmiAbout
             // 
+            resources.ApplyResources(this.tsmiAbout, "tsmiAbout");
             this.tsmiAbout.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.tsmiAbout.Name = "tsmiAbout";
-            resources.ApplyResources(this.tsmiAbout, "tsmiAbout");
             this.tsmiAbout.Click += new System.EventHandler(this.tsmiAbout_Click);
             // 
             // gbMineField
@@ -120,6 +129,12 @@
             this.gbMineField.Controls.Add(this.pbHeartBig);
             this.gbMineField.Name = "gbMineField";
             this.gbMineField.TabStop = false;
+            // 
+            // pbHeartBigger
+            // 
+            resources.ApplyResources(this.pbHeartBigger, "pbHeartBigger");
+            this.pbHeartBigger.Name = "pbHeartBigger";
+            this.pbHeartBigger.TabStop = false;
             // 
             // pbHeartBig
             // 
@@ -188,12 +203,6 @@
             this.ilIconsField.Images.SetKeyName(2, "question.png");
             this.ilIconsField.Images.SetKeyName(3, "heart.png");
             // 
-            // pbHeartBigger
-            // 
-            resources.ApplyResources(this.pbHeartBigger, "pbHeartBigger");
-            this.pbHeartBigger.Name = "pbHeartBigger";
-            this.pbHeartBigger.TabStop = false;
-            // 
             // FormMineSweeper
             // 
             resources.ApplyResources(this, "$this");
@@ -215,8 +224,8 @@
             this.msMenu.ResumeLayout(false);
             this.msMenu.PerformLayout();
             this.gbMineField.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pbHeartBig)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbHeartBigger)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbHeartBig)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -243,6 +252,7 @@
         private System.Windows.Forms.ImageList ilIconsField;
         private System.Windows.Forms.PictureBox pbHeartBig;
         private System.Windows.Forms.PictureBox pbHeartBigger;
+        private System.Windows.Forms.ToolStripMenuItem tsmiStats;
     }
 }
 

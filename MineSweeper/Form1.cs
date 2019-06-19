@@ -25,6 +25,7 @@ namespace MineSweeper
         FormAbout formAbout = null;
         FormSettings formSettings = null;
         FormAskName formAskName = null;
+        FormStatistics formStats = null;
 
         public FormMineSweeper()
         {
@@ -557,11 +558,18 @@ namespace MineSweeper
                                             Location.Y + Height / 2 - formAskName.Height / 2);
             formAskName.ShowDialog();
 
-            string res = formAskName.PlayerName;
-            if (res.ToLower() == "zaza") res = char.ConvertFromUtf32(0x1f498) + res + char.ConvertFromUtf32(0x1f498);
-            MessageBox.Show(res);
-
             return formAskName.PlayerName;
+        }
+
+        private void tsmiStats_Click(object sender, EventArgs e)
+        {
+            formStats = new FormStatistics(this);
+            Enabled = false;
+
+            formStats.Location = new Point(Location.X + Width / 2 - formStats.Size.Width / 2,
+                                            Location.Y + Height / 2 - formStats.Size.Height / 2);
+
+            formStats.ShowDialog();
         }
 
         /// <summary>
