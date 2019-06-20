@@ -4,7 +4,6 @@ using System.Windows.Forms;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Soap;
 using System.Runtime.Serialization;
-using System.Collections.Generic;
 using System.Threading;
 
 namespace MineSweeper
@@ -44,11 +43,11 @@ namespace MineSweeper
             }
             catch (FileNotFoundException)
             {
-                MS = new MinesSettings(MinesSettings.Preset.Newbie);
+                MS = new MinesSettings(MinesSettings.Preset.Newbie, true);
             }
             catch (SerializationException)
             {
-                MS = new MinesSettings(MinesSettings.Preset.Newbie);
+                MS = new MinesSettings(MinesSettings.Preset.Newbie, true);
             }
 
             try
@@ -282,7 +281,7 @@ namespace MineSweeper
         /// <param name="e"></param>
         private void butNewGame_Click(object sender, EventArgs e)
         {
-            if (MS == null) MS = new MinesSettings(MinesSettings.Preset.Newbie);
+            if (MS == null) MS = new MinesSettings(MinesSettings.Preset.Newbie, true);
             InitialiseField();
         }
 

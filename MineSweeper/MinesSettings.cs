@@ -40,12 +40,17 @@ namespace MineSweeper
         public uint NumMines;
 
         /// <summary>
+        /// Use question marks if true
+        /// </summary>
+        public bool UseQuestionMarks;
+
+        /// <summary>
         /// Construct by preset
         /// </summary>
         /// <param name="preset">Preset name (Custom here equals to Newbie)</param>
-        public MinesSettings (Preset preset)
+        public MinesSettings (Preset preset, bool useQuestionMarks)
         {
-            ChangeSettings(preset);
+            ChangeSettings(preset, useQuestionMarks);
         }
 
         /// <summary>
@@ -54,18 +59,19 @@ namespace MineSweeper
         /// <param name="width">Field Width (min: 9, max: 30)</param>
         /// <param name="height">Field Height (min: 9, max: 24)</param>
         /// <param name="mines">Number of mines on the field (min: 1, max: 668, not more than the number of fields)</param>
-        public MinesSettings(int width, int height, uint mines)
+        public MinesSettings(int width, int height, uint mines, bool useQuestionMarks)
         {
-            ChangeSettings(width, height, mines);
+            ChangeSettings(width, height, mines, useQuestionMarks);
         }
 
         /// <summary>
         /// Changes current settings by preset
         /// </summary>
         /// <param name="preset">Preset name (Custom here equals to Newbie)</param>
-        public void ChangeSettings(Preset preset)
+        public void ChangeSettings(Preset preset, bool useQuestionMarks)
         {
             CurrentPreset = preset;
+            UseQuestionMarks = useQuestionMarks;
             switch (preset)
             {
                 case Preset.Newbie:
@@ -93,7 +99,7 @@ namespace MineSweeper
         /// <param name="width">Field Width (min: 9, max: 30)</param>
         /// <param name="height">Field Height (min: 9, max: 24)</param>
         /// <param name="mines">Number of mines on the field (min: 1, max: 668, not more than the number of fields)</param>
-        public void ChangeSettings(int width, int height, uint mines)
+        public void ChangeSettings(int width, int height, uint mines, bool useQuestionMarks)
         {
             if (width < 9 || width > 30)
                 throw new ArgumentOutOfRangeException("width", "Width must be between 9 and 30");
@@ -114,6 +120,7 @@ namespace MineSweeper
             FieldWidth = width;
             FieldHeight = height;
             NumMines = mines;
+            UseQuestionMarks = useQuestionMarks;
         }
     }
 }

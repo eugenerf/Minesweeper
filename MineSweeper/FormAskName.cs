@@ -1,10 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 namespace MineSweeper
@@ -40,7 +34,7 @@ namespace MineSweeper
         private void FormAskName_Load(object sender, EventArgs e)
         {
             cbName.Items.Clear();
-            foreach(MinesStatistics.PresetStatsInfo psi in parentForm.MStats.StatsByPreset)
+            foreach (MinesStatistics.PresetStatsInfo psi in parentForm.MStats.StatsByPreset)
             {
                 if (psi.Top != null)
                 {
@@ -52,6 +46,16 @@ namespace MineSweeper
                     }
                 }
             }
+            if (parentForm.MStats.StatsBy3BV != null)
+            {
+                foreach (MinesStatistics.WinnerInfo wi in parentForm.MStats.StatsBy3BV)
+                {
+                    if (wi.Name != null && wi.Name != "")
+                        if (!cbName.Items.Contains(wi.Name))
+                            cbName.Items.Add(wi.Name);
+                }
+            }
+
         }
 
         private void cbName_SelectedIndexChanged(object sender, EventArgs e)

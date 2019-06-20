@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace MineSweeper
 {
@@ -191,7 +189,10 @@ namespace MineSweeper
                 case MinesSettings.Preset.Newbie: index = 0; break;
                 case MinesSettings.Preset.Advanced: index = 1; break;
                 case MinesSettings.Preset.Professional: index = 2; break;
-                case MinesSettings.Preset.Custom: AddToTop(3, curTime, gameTime, level3BV, fms); return;
+                case MinesSettings.Preset.Custom:
+                    if(me.CurrentGameState.State== MinesEngine.GameState.Win)
+                        AddToTop(3, curTime, gameTime, level3BV, fms);
+                    return;
                 default: return;
             }
 

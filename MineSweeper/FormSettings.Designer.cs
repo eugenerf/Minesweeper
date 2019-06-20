@@ -47,6 +47,7 @@
             this.rbProfessional = new System.Windows.Forms.RadioButton();
             this.rbAmateur = new System.Windows.Forms.RadioButton();
             this.rbNewbie = new System.Windows.Forms.RadioButton();
+            this.cbUseQuestionMarks = new System.Windows.Forms.CheckBox();
             this.gbParameters.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudMines)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudWidth)).BeginInit();
@@ -63,6 +64,7 @@
             // 
             // gbParameters
             // 
+            resources.ApplyResources(this.gbParameters, "gbParameters");
             this.gbParameters.Controls.Add(this.nudMines);
             this.gbParameters.Controls.Add(this.label9);
             this.gbParameters.Controls.Add(this.nudWidth);
@@ -79,7 +81,6 @@
             this.gbParameters.Controls.Add(this.rbProfessional);
             this.gbParameters.Controls.Add(this.rbAmateur);
             this.gbParameters.Controls.Add(this.rbNewbie);
-            resources.ApplyResources(this.gbParameters, "gbParameters");
             this.gbParameters.Name = "gbParameters";
             this.gbParameters.TabStop = false;
             // 
@@ -218,10 +219,18 @@
             this.rbNewbie.Name = "rbNewbie";
             this.rbNewbie.UseVisualStyleBackColor = true;
             // 
+            // cbUseQuestionMarks
+            // 
+            resources.ApplyResources(this.cbUseQuestionMarks, "cbUseQuestionMarks");
+            this.cbUseQuestionMarks.Name = "cbUseQuestionMarks";
+            this.cbUseQuestionMarks.TabStop = false;
+            this.cbUseQuestionMarks.UseVisualStyleBackColor = true;
+            // 
             // FormSettings
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.cbUseQuestionMarks);
             this.Controls.Add(this.gbParameters);
             this.Controls.Add(this.butClose);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
@@ -238,6 +247,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.nudWidth)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudHeight)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -261,5 +271,6 @@
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.NumericUpDown nudWidth;
         private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.CheckBox cbUseQuestionMarks;
     }
 }

@@ -108,6 +108,11 @@ namespace MineSweeper
         private bool[][] state;
 
         /// <summary>
+        /// Use question marks is true
+        /// </summary>
+        private bool UseQuestionMarks;
+
+        /// <summary>
         /// Number of mines on the minefield
         /// </summary>
         public uint NumMines { get; private set; }
@@ -158,45 +163,6 @@ namespace MineSweeper
         }
 
         /// <summary>
-        /// Minesweeper engine constructor (using numeric parameters)
-        /// </summary>
-        /// <param name="width">Width of the minefield</param>
-        /// <param name="height">Height of the minefield</param>
-        /// <param name="numMines">Number of mines on the field</param>
-        public MinesEngine(int width, int height, uint numMines)
-        {
-            if (width < 9 || width > 30)
-                throw new ArgumentOutOfRangeException("width", "Width must be between 9 and 30");
-            if (height < 9 || height > 24)
-                throw new ArgumentOutOfRangeException("height", "Height must be between 9 and 24");
-            if (numMines > width * height)
-                throw new ArgumentOutOfRangeException(
-                    "numMines",
-                    "Number of mines cannot exceed number of cells in the minefield");
-            if (numMines < 1 || numMines > 668)
-                throw new ArgumentOutOfRangeException("numMines", "Number of mines must be between 1 and 668");
-
-            NumMines = numMines;
-            NumFlags = 0;
-            Width = width;
-            Height = height;
-            Level3BV = 0;
-            CurrentGameState = new CurrentGameStateInfo { State = GameState.NewGame, BombedMines = null, NumMinesBombed = 0 };
-
-            Array.Resize(ref field, width);
-            Array.Resize(ref markers, width);
-            Array.Resize(ref state, width);
-            for (int i = 0; i < width; i++)
-            {
-                Array.Resize(ref field[i], height);
-                Array.Resize(ref markers[i], height);
-                Array.Resize(ref state[i], height);
-            }
-
-            GenerateField();
-        }
-
-        /// <summary>
         /// Minesweeper engine constructor (using Settings class)
         /// </summary>
         /// <param name="MS">Minesweeper settings class</param>
@@ -206,6 +172,7 @@ namespace MineSweeper
             NumFlags = 0;
             Width = MS.FieldWidth;
             Height = MS.FieldHeight;
+            UseQuestionMarks = MS.UseQuestionMarks;
             Level3BV = 0;
             CurrentGameState = new CurrentGameStateInfo { State = GameState.NewGame, BombedMines = null, NumMinesBombed = 0 };
 
@@ -232,6 +199,7 @@ namespace MineSweeper
             NumFlags = 0;
             Width = MS.FieldWidth;
             Height = MS.FieldHeight;
+            UseQuestionMarks = MS.UseQuestionMarks;
             CurrentGameState = new CurrentGameStateInfo { State = GameState.NewGame, BombedMines = null, NumMinesBombed = 0 };
 
             Array.Resize(ref field, Width);
@@ -318,7 +286,10 @@ namespace MineSweeper
         public byte ChangeMarker(int i, int j)
         {
             if (markers[i][j] == 1) NumFlags--;
-            markers[i][j] = (markers[i][j] == 2) ? (byte)0 : (byte)(markers[i][j] + 1);
+            if(UseQuestionMarks)
+                markers[i][j] = (markers[i][j] == 2) ? (byte)0 : (byte)(markers[i][j] + 1);
+            else
+                markers[i][j] = (markers[i][j] == 1) ? (byte)0 : (byte)(markers[i][j] + 1);
             if (markers[i][j] == 1) NumFlags++;
             return markers[i][j];
         }
