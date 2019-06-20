@@ -48,7 +48,7 @@ namespace MineSweeper
         /// <summary>
         /// Show statistics by preset
         /// </summary>
-        /// <param name="index">Preset index</param>
+        /// <param name="index">Preset  index</param>
         private void ShowStats(int index)
         {
             if (index < 0 || index > 2) return;
