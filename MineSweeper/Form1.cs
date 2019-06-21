@@ -95,11 +95,11 @@ namespace MineSweeper
                 Array.Resize(ref FL[i], MS.FieldHeight);
                 for (int j = 0; j < oldHeight && j < MS.FieldHeight; j++)
                 {
-                    FB[i][j].BackColor = SystemColors.ButtonFace;
+                    FB[i][j].BackColor = Color.DodgerBlue;
                     FB[i][j].ImageIndex = -1;
                     FB[i][j].Visible = true;
 
-                    FL[i][j].BackColor = SystemColors.Control;
+                    FL[i][j].BackColor = Color.PowderBlue;
                     FL[i][j].ImageIndex = -1;
                     FL[i][j].Text = "";
                     FL[i][j].Visible = false;
@@ -119,7 +119,8 @@ namespace MineSweeper
                     FB[i][j].ImageList = ilIconsField;
                     FB[i][j].MouseDown += Cell_Down;
                     FB[i][j].MouseUp += Cell_Up;
-                    FB[i][j].BackColor = SystemColors.ButtonFace;
+                    FB[i][j].FlatStyle = FlatStyle.Flat;
+                    FB[i][j].BackColor = Color.DodgerBlue;
                     FB[i][j].ImageIndex = -1;
                     FB[i][j].Visible = true;
 
@@ -136,7 +137,7 @@ namespace MineSweeper
                     FL[i][j].ImageList = ilIconsField;
                     FL[i][j].MouseDown += Cell_Down;
                     FL[i][j].MouseUp += Cell_Up;
-                    FL[i][j].BackColor = SystemColors.Control;
+                    FL[i][j].BackColor = Color.PowderBlue;
                     FL[i][j].ImageIndex = -1;
                     FL[i][j].Text = "";
                     FL[i][j].Visible = false;
@@ -162,7 +163,8 @@ namespace MineSweeper
                     FB[i][j].ImageList = ilIconsField;
                     FB[i][j].MouseDown += Cell_Down;
                     FB[i][j].MouseUp += Cell_Up;
-                    FB[i][j].BackColor = SystemColors.ButtonFace;
+                    FB[i][j].FlatStyle = FlatStyle.Flat;
+                    FB[i][j].BackColor = Color.DodgerBlue;
                     FB[i][j].ImageIndex = -1;
                     FB[i][j].Visible = true;
 
@@ -179,7 +181,7 @@ namespace MineSweeper
                     FL[i][j].ImageList = ilIconsField;
                     FL[i][j].MouseDown += Cell_Down;
                     FL[i][j].MouseUp += Cell_Up;
-                    FL[i][j].BackColor = SystemColors.Control;
+                    FL[i][j].BackColor = Color.PowderBlue;
                     FL[i][j].ImageIndex = -1;
                     FL[i][j].Text = "";
                     FL[i][j].Visible = false;
@@ -203,6 +205,7 @@ namespace MineSweeper
             butNewGame.Location = new Point(((MS.FieldWidth * FBSize + 20 + 10) - 30) / 2, 30);
 
             lMines.Text = MS.NumMines.ToString();
+            lTime.Text = "";
 
             pbHeartBig.Visible = false;
             pbHeartBigger.Visible = false;
@@ -368,7 +371,7 @@ namespace MineSweeper
                     {
                         if (i + dI < 0 || i + dI >= ME.Width) continue;
                         if (j + dJ < 0 || j + dJ >= ME.Height) continue;
-                        FB[i + dI][j + dJ].BackColor = SystemColors.ControlLight;
+                        FB[i + dI][j + dJ].BackColor = Color.PowderBlue;
                     }
                 }
             }
@@ -460,7 +463,7 @@ namespace MineSweeper
                     {
                         if (i + dI < 0 || i + dI >= ME.Width) continue;
                         if (j + dJ < 0 || j + dJ >= ME.Height) continue;
-                        FB[i + dI][j + dJ].BackColor = SystemColors.ButtonFace;
+                        FB[i + dI][j + dJ].BackColor = Color.DodgerBlue;
                     }
                 }
 
