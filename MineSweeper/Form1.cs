@@ -43,11 +43,11 @@ namespace MineSweeper
             }
             catch (FileNotFoundException)
             {
-                MS = new MinesSettings(MinesSettings.Preset.Newbie, true);
+                MS = new MinesSettings(MinesSettings.Preset.Newbie, true, true);
             }
             catch (SerializationException)
             {
-                MS = new MinesSettings(MinesSettings.Preset.Newbie, true);
+                MS = new MinesSettings(MinesSettings.Preset.Newbie, true, true);
             }
 
             try
@@ -284,7 +284,7 @@ namespace MineSweeper
         /// <param name="e"></param>
         private void butNewGame_Click(object sender, EventArgs e)
         {
-            if (MS == null) MS = new MinesSettings(MinesSettings.Preset.Newbie, true);
+            if (MS == null) MS = new MinesSettings(MinesSettings.Preset.Newbie, true, true);
             InitialiseField();
         }
 

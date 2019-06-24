@@ -45,12 +45,25 @@ namespace MineSweeper
         public bool UseQuestionMarks;
 
         /// <summary>
+        /// Use standard double-button click if true
+        /// (like in MS Minesweeper:
+        ///     double-click region must cover at leat alredy opened cell, 
+        ///     number of flags and questions must be equal to the number of mines,
+        ///     if flags and questions are placed correctly, then open and OK,
+        ///     if there are mistakes in flags and questions placing, BOOM!);
+        /// (alternative^ Safe DoubleClick:
+        ///     double-click opens region always if it is safe (no unmarked mines),
+        ///     but if there are mistakes in mines marking (some flags or questions are not on mines), region opens and BOOM!)
+        /// </summary>
+        public bool UseStdDoubleClick;
+
+        /// <summary>
         /// Construct by preset
         /// </summary>
         /// <param name="preset">Preset name (Custom here equals to Newbie)</param>
-        public MinesSettings (Preset preset, bool useQuestionMarks)
+        public MinesSettings (Preset preset, bool useQuestionMarks, bool useStdDoubleClick)
         {
-            ChangeSettings(preset, useQuestionMarks);
+            ChangeSettings(preset, useQuestionMarks, useStdDoubleClick);
         }
 
         /// <summary>
@@ -59,19 +72,20 @@ namespace MineSweeper
         /// <param name="width">Field Width (min: 9, max: 30)</param>
         /// <param name="height">Field Height (min: 9, max: 24)</param>
         /// <param name="mines">Number of mines on the field (min: 1, max: 668, not more than the number of fields)</param>
-        public MinesSettings(int width, int height, uint mines, bool useQuestionMarks)
+        public MinesSettings(int width, int height, uint mines, bool useQuestionMarks, bool useStdDoubleClick)
         {
-            ChangeSettings(width, height, mines, useQuestionMarks);
+            ChangeSettings(width, height, mines, useQuestionMarks, useStdDoubleClick);
         }
 
         /// <summary>
         /// Changes current settings by preset
         /// </summary>
         /// <param name="preset">Preset name (Custom here equals to Newbie)</param>
-        public void ChangeSettings(Preset preset, bool useQuestionMarks)
+        public void ChangeSettings(Preset preset, bool useQuestionMarks, bool useStdDoubleClick)
         {
             CurrentPreset = preset;
             UseQuestionMarks = useQuestionMarks;
+            UseStdDoubleClick = useStdDoubleClick;
             switch (preset)
             {
                 case Preset.Newbie:
@@ -99,7 +113,7 @@ namespace MineSweeper
         /// <param name="width">Field Width (min: 9, max: 30)</param>
         /// <param name="height">Field Height (min: 9, max: 24)</param>
         /// <param name="mines">Number of mines on the field (min: 1, max: 668, not more than the number of fields)</param>
-        public void ChangeSettings(int width, int height, uint mines, bool useQuestionMarks)
+        public void ChangeSettings(int width, int height, uint mines, bool useQuestionMarks, bool useStdDoubleClick)
         {
             if (width < 9 || width > 30)
                 throw new ArgumentOutOfRangeException("width", "Width must be between 9 and 30");
@@ -121,6 +135,7 @@ namespace MineSweeper
             FieldHeight = height;
             NumMines = mines;
             UseQuestionMarks = useQuestionMarks;
+            UseStdDoubleClick = useStdDoubleClick;
         }
     }
 }

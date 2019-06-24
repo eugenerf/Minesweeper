@@ -155,8 +155,8 @@
   <data name="label6.Text" xml:space="preserve">
     <value>Поле: 16 х 30 ячеек</value>
   </data>
-  <data name="nudHeight.Location" type="System.Drawing.Point, System.Drawing">
-    <value>202, 27</value>
+  <data name="&gt;&gt;label1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="label9.Location" type="System.Drawing.Point, System.Drawing">
     <value>159, 81</value>
@@ -168,9 +168,6 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="label4.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="rbProfessional.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
   <data name="&gt;&gt;label3.Parent" xml:space="preserve">
@@ -197,14 +194,17 @@
   <data name="gbParameters.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
   </data>
+  <data name="cbUseStdDBClick.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Параметры</value>
   </data>
+  <data name="&gt;&gt;cbUseStdDBClick.Name" xml:space="preserve">
+    <value>cbUseStdDBClick</value>
+  </data>
   <data name="nudWidth.TabIndex" type="System.Int32, mscorlib">
     <value>13</value>
-  </data>
-  <data name="&gt;&gt;nudWidth.Name" xml:space="preserve">
-    <value>nudWidth</value>
   </data>
   <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
     <value>11</value>
@@ -2431,14 +2431,14 @@
   <data name="&gt;&gt;nudHeight.ZOrder" xml:space="preserve">
     <value>4</value>
   </data>
-  <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
-    <value>10</value>
+  <data name="label5.Size" type="System.Drawing.Size, System.Drawing">
+    <value>46, 13</value>
   </data>
   <data name="rbAmateur.Text" xml:space="preserve">
     <value>Любитель</value>
   </data>
-  <data name="label7.Text" xml:space="preserve">
-    <value>Высота:</value>
+  <data name="&gt;&gt;nudWidth.Type" xml:space="preserve">
+    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="label3.Text" xml:space="preserve">
     <value>Мин: 40</value>
@@ -2455,8 +2455,8 @@
   <data name="label2.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="label3.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
+  <data name="&gt;&gt;nudWidth.Name" xml:space="preserve">
+    <value>nudWidth</value>
   </data>
   <data name="label6.Size" type="System.Drawing.Size, System.Drawing">
     <value>106, 13</value>
@@ -2474,13 +2474,17 @@
     <value>rbCustom</value>
   </data>
   <data name="&gt;&gt;butClose.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>3</value>
   </data>
-  <data name="label8.Size" type="System.Drawing.Size, System.Drawing">
-    <value>49, 13</value>
+  <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
+    <value>10</value>
   </data>
   <data name="&gt;&gt;nudMines.Name" xml:space="preserve">
     <value>nudMines</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="cbUseStdDBClick.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
   </data>
   <data name="&gt;&gt;nudHeight.Parent" xml:space="preserve">
     <value>gbParameters</value>
@@ -2503,9 +2507,6 @@
   <data name="label7.Size" type="System.Drawing.Size, System.Drawing">
     <value>48, 13</value>
   </data>
-  <data name="&gt;&gt;nudWidth.Type" xml:space="preserve">
-    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="gbParameters.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
   </data>
@@ -2524,11 +2525,14 @@
   <data name="&gt;&gt;nudWidth.Parent" xml:space="preserve">
     <value>gbParameters</value>
   </data>
+  <data name="label8.Size" type="System.Drawing.Size, System.Drawing">
+    <value>49, 13</value>
+  </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>FormSettings</value>
   </data>
   <data name="&gt;&gt;cbUseQuestionMarks.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>1</value>
   </data>
   <data name="&gt;&gt;label4.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -2539,6 +2543,9 @@
   <data name="&gt;&gt;rbProfessional.Parent" xml:space="preserve">
     <value>gbParameters</value>
   </data>
+  <data name="label3.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
   <data name="&gt;&gt;nudMines.Parent" xml:space="preserve">
     <value>gbParameters</value>
   </data>
@@ -2546,7 +2553,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;gbParameters.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="&gt;&gt;label4.ZOrder" xml:space="preserve">
     <value>9</value>
@@ -2562,6 +2569,9 @@
   </data>
   <data name="nudMines.Location" type="System.Drawing.Point, System.Drawing">
     <value>202, 79</value>
+  </data>
+  <data name="&gt;&gt;cbUseStdDBClick.Parent" xml:space="preserve">
+    <value>$this</value>
   </data>
   <data name="nudWidth.Size" type="System.Drawing.Size, System.Drawing">
     <value>40, 20</value>
@@ -2584,7 +2594,6 @@
   <data name="rbProfessional.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
   </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="$this.StartPosition" type="System.Windows.Forms.FormStartPosition, System.Windows.Forms">
     <value>Manual</value>
   </data>
@@ -2606,6 +2615,9 @@
   <data name="&gt;&gt;label9.Name" xml:space="preserve">
     <value>label9</value>
   </data>
+  <data name="&gt;&gt;label4.Parent" xml:space="preserve">
+    <value>gbParameters</value>
+  </data>
   <data name="&gt;&gt;nudHeight.Name" xml:space="preserve">
     <value>nudHeight</value>
   </data>
@@ -2614,6 +2626,9 @@
   </data>
   <data name="&gt;&gt;label8.Parent" xml:space="preserve">
     <value>gbParameters</value>
+  </data>
+  <data name="cbUseStdDBClick.Text" xml:space="preserve">
+    <value>UseStdDBClick</value>
   </data>
   <data name="&gt;&gt;butClose.Parent" xml:space="preserve">
     <value>$this</value>
@@ -2639,8 +2654,8 @@
   <data name="&gt;&gt;rbCustom.ZOrder" xml:space="preserve">
     <value>12</value>
   </data>
-  <data name="&gt;&gt;rbAmateur.ZOrder" xml:space="preserve">
-    <value>14</value>
+  <data name="label7.Text" xml:space="preserve">
+    <value>Высота:</value>
   </data>
   <data name="label9.Text" xml:space="preserve">
     <value>Мины:</value>
@@ -2654,9 +2669,6 @@
   <data name="label1.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
   </data>
-  <data name="label5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>46, 13</value>
-  </data>
   <data name="nudMines.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
@@ -2665,6 +2677,9 @@
   </data>
   <data name="label2.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
+  </data>
+  <data name="&gt;&gt;cbUseStdDBClick.ZOrder" xml:space="preserve">
+    <value>0</value>
   </data>
   <data name="label6.TabIndex" type="System.Int32, mscorlib">
     <value>8</value>
@@ -2678,11 +2693,17 @@
   <data name="label6.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
+  <data name="nudHeight.Location" type="System.Drawing.Point, System.Drawing">
+    <value>202, 27</value>
+  </data>
   <data name="&gt;&gt;label6.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;nudWidth.ZOrder" xml:space="preserve">
     <value>2</value>
+  </data>
+  <data name="cbUseStdDBClick.Size" type="System.Drawing.Size, System.Drawing">
+    <value>99, 17</value>
   </data>
   <data name="&gt;&gt;label7.Parent" xml:space="preserve">
     <value>gbParameters</value>
@@ -2736,7 +2757,7 @@
     <value>76, 17</value>
   </data>
   <data name="butClose.Location" type="System.Drawing.Point, System.Drawing">
-    <value>167, 176</value>
+    <value>167, 196</value>
   </data>
   <data name="&gt;&gt;rbNewbie.Name" xml:space="preserve">
     <value>rbNewbie</value>
@@ -2768,11 +2789,17 @@
   <data name="&gt;&gt;label3.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="&gt;&gt;cbUseStdDBClick.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="label9.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>MiddleRight</value>
   </data>
   <data name="rbCustom.Text" xml:space="preserve">
     <value>Особый</value>
+  </data>
+  <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>106, 13</value>
   </data>
   <data name="&gt;&gt;rbProfessional.Type" xml:space="preserve">
     <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -2781,7 +2808,7 @@
     <value>23, 42</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>252, 208</value>
+    <value>252, 238</value>
   </data>
   <data name="cbUseQuestionMarks.Text" xml:space="preserve">
     <value>UseQuestions</value>
@@ -2798,6 +2825,9 @@
   <data name="rbProfessional.Location" type="System.Drawing.Point, System.Drawing">
     <value>6, 117</value>
   </data>
+  <data name="cbUseStdDBClick.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
   <data name="&gt;&gt;label3.ZOrder" xml:space="preserve">
     <value>8</value>
   </data>
@@ -2810,11 +2840,14 @@
   <data name="nudHeight.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
-  <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>106, 13</value>
+  <data name="&gt;&gt;rbAmateur.ZOrder" xml:space="preserve">
+    <value>14</value>
   </data>
-  <data name="&gt;&gt;label4.Parent" xml:space="preserve">
-    <value>gbParameters</value>
+  <data name="cbUseStdDBClick.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 202</value>
+  </data>
+  <data name="rbProfessional.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
   </data>
   <data name="&gt;&gt;label9.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -2830,9 +2863,6 @@
   </data>
   <data name="nudHeight.Size" type="System.Drawing.Size, System.Drawing">
     <value>40, 20</value>
-  </data>
-  <data name="&gt;&gt;label1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;rbNewbie.Type" xml:space="preserve">
     <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>

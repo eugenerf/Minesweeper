@@ -44,31 +44,36 @@ namespace MineSweeper
             if (rbNewbie.Checked)
             {
                 if (formParent.MS == null) formParent.MS = new MinesSettings(MinesSettings.Preset.Newbie, 
-                                                                            cbUseQuestionMarks.Checked);
-                else formParent.MS.ChangeSettings(MinesSettings.Preset.Newbie, cbUseQuestionMarks.Checked);
+                                                                            cbUseQuestionMarks.Checked,
+                                                                            cbUseStdDBClick.Checked);
+                else formParent.MS.ChangeSettings(MinesSettings.Preset.Newbie, cbUseQuestionMarks.Checked, cbUseStdDBClick.Checked);
             }
             else if (rbAmateur.Checked)
             {
                 if (formParent.MS == null) formParent.MS = new MinesSettings(MinesSettings.Preset.Advanced, 
-                                                                            cbUseQuestionMarks.Checked);
-                else formParent.MS.ChangeSettings(MinesSettings.Preset.Advanced, cbUseQuestionMarks.Checked);
+                                                                            cbUseQuestionMarks.Checked,
+                                                                            cbUseStdDBClick.Checked);
+                else formParent.MS.ChangeSettings(MinesSettings.Preset.Advanced, cbUseQuestionMarks.Checked, cbUseStdDBClick.Checked);
             }
             else if (rbProfessional.Checked)
             {
                 if (formParent.MS == null) formParent.MS = new MinesSettings(MinesSettings.Preset.Professional, 
-                                                                            cbUseQuestionMarks.Checked);
-                else formParent.MS.ChangeSettings(MinesSettings.Preset.Professional, cbUseQuestionMarks.Checked);
+                                                                            cbUseQuestionMarks.Checked,
+                                                                            cbUseStdDBClick.Checked);
+                else formParent.MS.ChangeSettings(MinesSettings.Preset.Professional, cbUseQuestionMarks.Checked, cbUseStdDBClick.Checked);
             }
             else if (rbCustom.Checked)
             {
                 if (formParent.MS == null) formParent.MS = new MinesSettings((int)nudWidth.Value, 
                                                                             (int)nudHeight.Value, 
                                                                             (uint)nudMines.Value, 
-                                                                            cbUseQuestionMarks.Checked);
+                                                                            cbUseQuestionMarks.Checked,
+                                                                            cbUseStdDBClick.Checked);
                 else formParent.MS.ChangeSettings((int)nudWidth.Value, 
                                                     (int)nudHeight.Value, 
                                                     (uint)nudMines.Value, 
-                                                    cbUseQuestionMarks.Checked);
+                                                    cbUseQuestionMarks.Checked,
+                                                    cbUseStdDBClick.Checked);
             }
             else formParent.MS = null;
 
@@ -97,6 +102,7 @@ namespace MineSweeper
             nudMines.Value = formParent.MS.NumMines;
             nudMines.Maximum = (nudHeight.Value * nudWidth.Value > 668) ? 668 : nudHeight.Value * nudWidth.Value;
             cbUseQuestionMarks.Checked = formParent.MS.UseQuestionMarks;
+            cbUseStdDBClick.Checked = formParent.MS.UseStdDoubleClick;
         }
 
         private void rbCustom_CheckedChanged(object sender, EventArgs e)

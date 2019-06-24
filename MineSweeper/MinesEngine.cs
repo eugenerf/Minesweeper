@@ -113,6 +113,11 @@ namespace MineSweeper
         private bool UseQuestionMarks;
 
         /// <summary>
+        /// Use standard double-click if true
+        /// </summary>
+        private bool UseStdDBClick;
+
+        /// <summary>
         /// Number of mines on the minefield
         /// </summary>
         public uint NumMines { get; private set; }
@@ -173,6 +178,7 @@ namespace MineSweeper
             Width = MS.FieldWidth;
             Height = MS.FieldHeight;
             UseQuestionMarks = MS.UseQuestionMarks;
+            UseStdDBClick = MS.UseStdDoubleClick;
             Level3BV = 0;
             CurrentGameState = new CurrentGameStateInfo { State = GameState.NewGame, BombedMines = null, NumMinesBombed = 0 };
 
@@ -200,6 +206,7 @@ namespace MineSweeper
             Width = MS.FieldWidth;
             Height = MS.FieldHeight;
             UseQuestionMarks = MS.UseQuestionMarks;
+            UseStdDBClick = MS.UseStdDoubleClick;
             CurrentGameState = new CurrentGameStateInfo { State = GameState.NewGame, BombedMines = null, NumMinesBombed = 0 };
 
             Array.Resize(ref field, Width);
@@ -383,54 +390,88 @@ namespace MineSweeper
                 return CurrentGameState;
             }
 
-            bool AllCorrect = true,         //true when all mines are marked correctly (no wrong flags)
+            bool HasOpened = false,         //true when double click region covers at least one already opened cell
+                AllCorrect = true,          //true when all mines are marked correctly (no wrong flags)
                 NoUnMarkedMines = true;     //true when there are no unmarked mines
+            int numFlags = 0,               //number of flags in double click region
+                numMines = 0;               //number of mines in double click region
 
             for (int dI = -1; dI <= 1; dI++)
             {
+                if (i + dI < 0 || i + dI >= Width) continue;
                 for (int dJ = -1; dJ <= 1; dJ++)
                 {
-                    if (i + dI < 0 || i + dI >= Width) continue;
                     if (j + dJ < 0 || j + dJ >= Height) continue;
 
-                    if (field[i + dI][j + dJ] == -1 && markers[i + dI][j + dJ] != 1)    //mine not marked
+                    if (state[i + dI][j + dJ]) HasOpened = true;        //found at least one already opened cell
+                    else                                                                                //on non opened cell
                     {
-                        NoUnMarkedMines = false;
-                        Array.Resize(ref CurrentGameState.BombedMines, (int)(CurrentGameState.NumMinesBombed + 1));
-                        CurrentGameState.BombedMines[CurrentGameState.NumMinesBombed++] =
-                            new CellCoordinates { Column = i + dI, Row = j + dJ };
-                    }
-                    if (markers[i + dI][j + dJ] == 1 && field[i + dI][j + dJ] != -1)    //marked but no mine
-                    {
-                        AllCorrect = false;
-                        Array.Resize(ref CurrentGameState.WrongFlags, (int)(CurrentGameState.NumWrongFlags + 1));
-                        CurrentGameState.WrongFlags[CurrentGameState.NumWrongFlags++] =
-                            new CellCoordinates { Column = i + dI, Row = j + dJ };
+                        if (markers[i + dI][j + dJ] == 1 || markers[i + dI][j + dJ] == 2)              //found flag or question
+                        {
+                            numFlags++;                         //counted this flag
+                            if (field[i + dI][j + dJ] != -1)    //not mine - wrong mark
+                            {
+                                AllCorrect = false;
+                                Array.Resize(ref CurrentGameState.WrongFlags, (int)(CurrentGameState.NumWrongFlags + 1));
+                                CurrentGameState.WrongFlags[CurrentGameState.NumWrongFlags++] =
+                                    new CellCoordinates { Column = i + dI, Row = j + dJ };
+                            }
+                        }
+                        else                                                                            //cell has no mark
+                        {
+                            if (field[i + dI][j + dJ] == -1)    //cell has mine - unmarked mine
+                            {
+                                NoUnMarkedMines = false;
+                                Array.Resize(ref CurrentGameState.BombedMines, (int)(CurrentGameState.NumMinesBombed + 1));
+                                CurrentGameState.BombedMines[CurrentGameState.NumMinesBombed++] =
+                                    new CellCoordinates { Column = i + dI, Row = j + dJ };
+                            }
+                        }
+                        if (field[i + dI][j + dJ] == -1) numMines++;                                    //found mine
                     }
                 }
             }
 
-            if (!AllCorrect && !NoUnMarkedMines)    //there are errors in mine marking and there are unmarked mines
-                                                    //BOOM!!!
+            bool OpenBOOM = false,  //open region with BOOM
+                OpenOK = false;     //open region with OK
+
+            if (UseStdDBClick)      //using standard double click
+            {
+                if (HasOpened && numFlags == numMines)  //has at least one already opened cell and numbers of flags and mines are equal
+                {
+                    //we will open this region
+                    OpenOK = AllCorrect;    //if all correct we will open region with OK
+                    OpenBOOM = !OpenOK;     //if we will not open region with OK, we'll open it with BOOM                    
+                }
+            }
+            else                    //using safe double click
+            {
+                if(NoUnMarkedMines) //all mines are marked
+                    OpenOK = AllCorrect;     //if there are no errors, we will open region with OK
+                else                //not all mines are marked
+                    OpenBOOM = !AllCorrect; //if there are errors, we will open region with BOOM
+            }
+
+            if (OpenBOOM)   //open with BOOM
             {
                 OpenField();
                 CurrentGameState.State = GameState.Loose;
                 return CurrentGameState;
             }
 
+            //if we're here, there was no BOOM
             CurrentGameState.NumMinesBombed = 0;
             CurrentGameState.NumWrongFlags = 0;
             CurrentGameState.BombedMines = null;
             CurrentGameState.WrongFlags = null;
 
-            if (AllCorrect && NoUnMarkedMines)      //no errors in mine marking and all mines are marked
-                                                    //open cells
+            if (OpenOK)     //open with OK
             {
                 for (int dI = -1; dI <= 1; dI++)
                 {
+                    if (i + dI < 0 || i + dI >= Width) continue;
                     for (int dJ = -1; dJ <= 1; dJ++)
                     {
-                        if (i + dI < 0 || i + dI >= Width) continue;
                         if (j + dJ < 0 || j + dJ >= Height) continue;
 
                         AutoOpenCells(i + dI, j + dJ);

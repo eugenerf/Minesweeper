@@ -208,6 +208,12 @@
   <data name="cbUseQuestionMarks.Text" xml:space="preserve">
     <value>Use question (?) marks</value>
   </data>
+  <data name="cbUseStdDBClick.Size" type="System.Drawing.Size, System.Drawing">
+    <value>149, 17</value>
+  </data>
+  <data name="cbUseStdDBClick.Text" xml:space="preserve">
+    <value>Use standard double click</value>
+  </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         AAABAAYAAAAAAAEAIAD8fQAAZgAAABAQAAABACAAaAQAAGJ+AAAwMAAAAQAgAKglAADKggAAICAAAAEA
