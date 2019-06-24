@@ -230,15 +230,39 @@
   <metadata name="cGameTime.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
+  <data name="cGameTime.HeaderText" xml:space="preserve">
+    <value>GameTime</value>
+  </data>
+  <data name="cGameTime.Width" type="System.Int32, mscorlib">
+    <value>83</value>
+  </data>
   <metadata name="cName.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
+  <data name="cName.HeaderText" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="cName.Width" type="System.Int32, mscorlib">
+    <value>41</value>
+  </data>
   <metadata name="cWinTime.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
+  <data name="cWinTime.HeaderText" xml:space="preserve">
+    <value>WinTime</value>
+  </data>
+  <data name="cWinTime.Width" type="System.Int32, mscorlib">
+    <value>55</value>
+  </data>
   <metadata name="cLevel3BV.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
+  <data name="cLevel3BV.HeaderText" xml:space="preserve">
+    <value>Level3BV</value>
+  </data>
+  <data name="cLevel3BV.Width" type="System.Int32, mscorlib">
+    <value>59</value>
+  </data>
   <data name="dgvTop5.Location" type="System.Drawing.Point, System.Drawing">
     <value>3, 132</value>
   </data>
@@ -259,78 +283,6 @@
   </data>
   <data name="&gt;&gt;dgvTop5.ZOrder" xml:space="preserve">
     <value>4</value>
-  </data>
-  <metadata name="cGameTime.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <data name="cGameTime.HeaderText" xml:space="preserve">
-    <value>GameTime</value>
-  </data>
-  <data name="cGameTime.Width" type="System.Int32, mscorlib">
-    <value>83</value>
-  </data>
-  <metadata name="cName.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <data name="cName.HeaderText" xml:space="preserve">
-    <value>Name</value>
-  </data>
-  <data name="cName.Width" type="System.Int32, mscorlib">
-    <value>60</value>
-  </data>
-  <metadata name="cWinTime.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <data name="cWinTime.HeaderText" xml:space="preserve">
-    <value>WinTime</value>
-  </data>
-  <data name="cWinTime.Width" type="System.Int32, mscorlib">
-    <value>74</value>
-  </data>
-  <metadata name="cLevel3BV.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <data name="cLevel3BV.HeaderText" xml:space="preserve">
-    <value>Level3BV</value>
-  </data>
-  <data name="cLevel3BV.Width" type="System.Int32, mscorlib">
-    <value>78</value>
-  </data>
-  <metadata name="dataGridViewTextBoxColumn4.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="dataGridViewTextBoxColumn1.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="dataGridViewTextBoxColumn2.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="dataGridViewTextBoxColumn3.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="cPreset.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <data name="dgvTop10.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 132</value>
-  </data>
-  <data name="dgvTop10.Size" type="System.Drawing.Size, System.Drawing">
-    <value>493, 155</value>
-  </data>
-  <data name="dgvTop10.TabIndex" type="System.Int32, mscorlib">
-    <value>10</value>
-  </data>
-  <data name="&gt;&gt;dgvTop10.Name" xml:space="preserve">
-    <value>dgvTop10</value>
-  </data>
-  <data name="&gt;&gt;dgvTop10.Type" xml:space="preserve">
-    <value>System.Windows.Forms.DataGridView, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;dgvTop10.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;dgvTop10.ZOrder" xml:space="preserve">
-    <value>3</value>
   </data>
   <metadata name="dataGridViewTextBoxColumn4.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
@@ -357,7 +309,7 @@
     <value>Name</value>
   </data>
   <data name="dataGridViewTextBoxColumn2.Width" type="System.Int32, mscorlib">
-    <value>60</value>
+    <value>41</value>
   </data>
   <metadata name="dataGridViewTextBoxColumn3.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
@@ -366,7 +318,7 @@
     <value>WinTime</value>
   </data>
   <data name="dataGridViewTextBoxColumn3.Width" type="System.Int32, mscorlib">
-    <value>74</value>
+    <value>55</value>
   </data>
   <metadata name="cPreset.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
@@ -375,247 +327,28 @@
     <value>Preset</value>
   </data>
   <data name="cPreset.Width" type="System.Int32, mscorlib">
-    <value>62</value>
+    <value>43</value>
   </data>
-  <data name="&gt;&gt;lMaxLooseStreak.Name" xml:space="preserve">
-    <value>lMaxLooseStreak</value>
+  <data name="dgvTop10.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 132</value>
   </data>
-  <data name="&gt;&gt;lMaxLooseStreak.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="dgvTop10.Size" type="System.Drawing.Size, System.Drawing">
+    <value>493, 155</value>
   </data>
-  <data name="&gt;&gt;lMaxLooseStreak.Parent" xml:space="preserve">
-    <value>gbPresetStats</value>
-  </data>
-  <data name="&gt;&gt;lMaxLooseStreak.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;label11.Name" xml:space="preserve">
-    <value>label11</value>
-  </data>
-  <data name="&gt;&gt;label11.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label11.Parent" xml:space="preserve">
-    <value>gbPresetStats</value>
-  </data>
-  <data name="&gt;&gt;label11.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;lMaxWinStreak.Name" xml:space="preserve">
-    <value>lMaxWinStreak</value>
-  </data>
-  <data name="&gt;&gt;lMaxWinStreak.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lMaxWinStreak.Parent" xml:space="preserve">
-    <value>gbPresetStats</value>
-  </data>
-  <data name="&gt;&gt;lMaxWinStreak.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="&gt;&gt;label13.Name" xml:space="preserve">
-    <value>label13</value>
-  </data>
-  <data name="&gt;&gt;label13.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label13.Parent" xml:space="preserve">
-    <value>gbPresetStats</value>
-  </data>
-  <data name="&gt;&gt;label13.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="&gt;&gt;lLooseStreak.Name" xml:space="preserve">
-    <value>lLooseStreak</value>
-  </data>
-  <data name="&gt;&gt;lLooseStreak.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lLooseStreak.Parent" xml:space="preserve">
-    <value>gbPresetStats</value>
-  </data>
-  <data name="&gt;&gt;lLooseStreak.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
-  <data name="&gt;&gt;label7.Name" xml:space="preserve">
-    <value>label7</value>
-  </data>
-  <data name="&gt;&gt;label7.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label7.Parent" xml:space="preserve">
-    <value>gbPresetStats</value>
-  </data>
-  <data name="&gt;&gt;label7.ZOrder" xml:space="preserve">
-    <value>5</value>
-  </data>
-  <data name="&gt;&gt;lWinStreak.Name" xml:space="preserve">
-    <value>lWinStreak</value>
-  </data>
-  <data name="&gt;&gt;lWinStreak.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lWinStreak.Parent" xml:space="preserve">
-    <value>gbPresetStats</value>
-  </data>
-  <data name="&gt;&gt;lWinStreak.ZOrder" xml:space="preserve">
-    <value>6</value>
-  </data>
-  <data name="&gt;&gt;label9.Name" xml:space="preserve">
-    <value>label9</value>
-  </data>
-  <data name="&gt;&gt;label9.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label9.Parent" xml:space="preserve">
-    <value>gbPresetStats</value>
-  </data>
-  <data name="&gt;&gt;label9.ZOrder" xml:space="preserve">
-    <value>7</value>
-  </data>
-  <data name="&gt;&gt;lMinGameTime.Name" xml:space="preserve">
-    <value>lMinGameTime</value>
-  </data>
-  <data name="&gt;&gt;lMinGameTime.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lMinGameTime.Parent" xml:space="preserve">
-    <value>gbPresetStats</value>
-  </data>
-  <data name="&gt;&gt;lMinGameTime.ZOrder" xml:space="preserve">
-    <value>8</value>
-  </data>
-  <data name="&gt;&gt;label6.Name" xml:space="preserve">
-    <value>label6</value>
-  </data>
-  <data name="&gt;&gt;label6.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label6.Parent" xml:space="preserve">
-    <value>gbPresetStats</value>
-  </data>
-  <data name="&gt;&gt;label6.ZOrder" xml:space="preserve">
-    <value>9</value>
-  </data>
-  <data name="&gt;&gt;lMaxGameTime.Name" xml:space="preserve">
-    <value>lMaxGameTime</value>
-  </data>
-  <data name="&gt;&gt;lMaxGameTime.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lMaxGameTime.Parent" xml:space="preserve">
-    <value>gbPresetStats</value>
-  </data>
-  <data name="&gt;&gt;lMaxGameTime.ZOrder" xml:space="preserve">
+  <data name="dgvTop10.TabIndex" type="System.Int32, mscorlib">
     <value>10</value>
   </data>
-  <data name="&gt;&gt;label5.Name" xml:space="preserve">
-    <value>label5</value>
+  <data name="&gt;&gt;dgvTop10.Name" xml:space="preserve">
+    <value>dgvTop10</value>
   </data>
-  <data name="&gt;&gt;label5.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;dgvTop10.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridView, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;label5.Parent" xml:space="preserve">
-    <value>gbPresetStats</value>
-  </data>
-  <data name="&gt;&gt;label5.ZOrder" xml:space="preserve">
-    <value>11</value>
-  </data>
-  <data name="&gt;&gt;lWinPercent.Name" xml:space="preserve">
-    <value>lWinPercent</value>
-  </data>
-  <data name="&gt;&gt;lWinPercent.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lWinPercent.Parent" xml:space="preserve">
-    <value>gbPresetStats</value>
-  </data>
-  <data name="&gt;&gt;lWinPercent.ZOrder" xml:space="preserve">
-    <value>12</value>
-  </data>
-  <data name="&gt;&gt;label4.Name" xml:space="preserve">
-    <value>label4</value>
-  </data>
-  <data name="&gt;&gt;label4.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label4.Parent" xml:space="preserve">
-    <value>gbPresetStats</value>
-  </data>
-  <data name="&gt;&gt;label4.ZOrder" xml:space="preserve">
-    <value>13</value>
-  </data>
-  <data name="&gt;&gt;lWinGames.Name" xml:space="preserve">
-    <value>lWinGames</value>
-  </data>
-  <data name="&gt;&gt;lWinGames.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lWinGames.Parent" xml:space="preserve">
-    <value>gbPresetStats</value>
-  </data>
-  <data name="&gt;&gt;lWinGames.ZOrder" xml:space="preserve">
-    <value>14</value>
-  </data>
-  <data name="&gt;&gt;label3.Name" xml:space="preserve">
-    <value>label3</value>
-  </data>
-  <data name="&gt;&gt;label3.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label3.Parent" xml:space="preserve">
-    <value>gbPresetStats</value>
-  </data>
-  <data name="&gt;&gt;label3.ZOrder" xml:space="preserve">
-    <value>15</value>
-  </data>
-  <data name="&gt;&gt;lTotalGames.Name" xml:space="preserve">
-    <value>lTotalGames</value>
-  </data>
-  <data name="&gt;&gt;lTotalGames.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;lTotalGames.Parent" xml:space="preserve">
-    <value>gbPresetStats</value>
-  </data>
-  <data name="&gt;&gt;lTotalGames.ZOrder" xml:space="preserve">
-    <value>16</value>
-  </data>
-  <data name="&gt;&gt;label1.Name" xml:space="preserve">
-    <value>label1</value>
-  </data>
-  <data name="&gt;&gt;label1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label1.Parent" xml:space="preserve">
-    <value>gbPresetStats</value>
-  </data>
-  <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
-    <value>17</value>
-  </data>
-  <data name="gbPresetStats.Location" type="System.Drawing.Point, System.Drawing">
-    <value>98, 8</value>
-  </data>
-  <data name="gbPresetStats.Size" type="System.Drawing.Size, System.Drawing">
-    <value>398, 118</value>
-  </data>
-  <data name="gbPresetStats.TabIndex" type="System.Int32, mscorlib">
-    <value>14</value>
-  </data>
-  <data name="gbPresetStats.Text" xml:space="preserve">
-    <value>Preset statistics</value>
-  </data>
-  <data name="&gt;&gt;gbPresetStats.Name" xml:space="preserve">
-    <value>gbPresetStats</value>
-  </data>
-  <data name="&gt;&gt;gbPresetStats.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;gbPresetStats.Parent" xml:space="preserve">
+  <data name="&gt;&gt;dgvTop10.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;gbPresetStats.ZOrder" xml:space="preserve">
-    <value>2</value>
+  <data name="&gt;&gt;dgvTop10.ZOrder" xml:space="preserve">
+    <value>3</value>
   </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="lMaxLooseStreak.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
@@ -1157,6 +890,30 @@
   </data>
   <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
     <value>17</value>
+  </data>
+  <data name="gbPresetStats.Location" type="System.Drawing.Point, System.Drawing">
+    <value>98, 8</value>
+  </data>
+  <data name="gbPresetStats.Size" type="System.Drawing.Size, System.Drawing">
+    <value>398, 118</value>
+  </data>
+  <data name="gbPresetStats.TabIndex" type="System.Int32, mscorlib">
+    <value>14</value>
+  </data>
+  <data name="gbPresetStats.Text" xml:space="preserve">
+    <value>Preset statistics</value>
+  </data>
+  <data name="&gt;&gt;gbPresetStats.Name" xml:space="preserve">
+    <value>gbPresetStats</value>
+  </data>
+  <data name="&gt;&gt;gbPresetStats.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;gbPresetStats.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;gbPresetStats.ZOrder" xml:space="preserve">
+    <value>2</value>
   </data>
   <data name="butClearStats.Location" type="System.Drawing.Point, System.Drawing">
     <value>295, 294</value>
@@ -3428,30 +3185,6 @@
   <data name="$this.Text" xml:space="preserve">
     <value>Statistics</value>
   </data>
-  <data name="&gt;&gt;cGameTime.Name" xml:space="preserve">
-    <value>cGameTime</value>
-  </data>
-  <data name="&gt;&gt;cGameTime.Type" xml:space="preserve">
-    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;cName.Name" xml:space="preserve">
-    <value>cName</value>
-  </data>
-  <data name="&gt;&gt;cName.Type" xml:space="preserve">
-    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;cWinTime.Name" xml:space="preserve">
-    <value>cWinTime</value>
-  </data>
-  <data name="&gt;&gt;cWinTime.Type" xml:space="preserve">
-    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;cLevel3BV.Name" xml:space="preserve">
-    <value>cLevel3BV</value>
-  </data>
-  <data name="&gt;&gt;cLevel3BV.Type" xml:space="preserve">
-    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="&gt;&gt;dataGridViewTextBoxColumn4.Name" xml:space="preserve">
     <value>dataGridViewTextBoxColumn4</value>
   </data>
@@ -3480,6 +3213,30 @@
     <value>cPreset</value>
   </data>
   <data name="&gt;&gt;cPreset.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;cGameTime.Name" xml:space="preserve">
+    <value>cGameTime</value>
+  </data>
+  <data name="&gt;&gt;cGameTime.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;cName.Name" xml:space="preserve">
+    <value>cName</value>
+  </data>
+  <data name="&gt;&gt;cName.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;cWinTime.Name" xml:space="preserve">
+    <value>cWinTime</value>
+  </data>
+  <data name="&gt;&gt;cWinTime.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;cLevel3BV.Name" xml:space="preserve">
+    <value>cLevel3BV</value>
+  </data>
+  <data name="&gt;&gt;cLevel3BV.Type" xml:space="preserve">
     <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
