@@ -51,7 +51,7 @@ namespace MineSweeper
             public int CompareByLevel3BV(WinnerInfo wi1, WinnerInfo wi2)
             {
                 if (wi1.Level3BV == wi2.Level3BV) return CompareByGameTime(wi1, wi2);
-                return (int)wi1.Level3BV - (int)wi2.Level3BV;
+                return (int)wi2.Level3BV - (int)wi1.Level3BV;
             }
 
             /// <summary>

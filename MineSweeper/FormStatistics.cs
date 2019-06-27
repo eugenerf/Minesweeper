@@ -120,7 +120,6 @@ namespace MineSweeper
 
                     dgvTop10.Rows.Add(row);
                 }
-                dgvTop10.Sort(dgvTop10.Columns[0], System.ComponentModel.ListSortDirection.Descending);
             }
             lTotalGames.Text = "";
             lWinGames.Text = "";
