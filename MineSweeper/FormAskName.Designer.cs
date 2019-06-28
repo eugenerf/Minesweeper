@@ -65,6 +65,7 @@
             // 
             // butCancel
             // 
+            this.butCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             resources.ApplyResources(this.butCancel, "butCancel");
             this.butCancel.Name = "butCancel";
             this.butCancel.TabStop = false;
@@ -81,8 +82,10 @@
             // 
             // FormAskName
             // 
+            this.AcceptButton = this.butOK;
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.butCancel;
             this.Controls.Add(this.butOK);
             this.Controls.Add(this.butCancel);
             this.Controls.Add(this.cbName);

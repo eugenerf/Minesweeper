@@ -220,6 +220,8 @@
             this.MainMenuStrip = this.msMenu;
             this.MaximizeBox = false;
             this.Name = "FormMineSweeper";
+            this.Activated += new System.EventHandler(this.FormMineSweeper_Activated);
+            this.Deactivate += new System.EventHandler(this.FormMineSweeper_Deactivate);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormMineSweeper_FormClosing);
             this.Load += new System.EventHandler(this.FormMineSweeper_Load);
             this.msMenu.ResumeLayout(false);

@@ -580,6 +580,16 @@ namespace MineSweeper
             formStats.ShowDialog();
         }
 
+        private void FormMineSweeper_Deactivate(object sender, EventArgs e)
+        {
+            if (WindowState == FormWindowState.Minimized) tTime.Stop();
+        }
+
+        private void FormMineSweeper_Activated(object sender, EventArgs e)
+        {
+            if (GameStart) tTime.Start();
+        }
+
         /// <summary>
         /// Easter egg for Zaza (draws the beating heart on the field and then hides it)
         /// </summary>
