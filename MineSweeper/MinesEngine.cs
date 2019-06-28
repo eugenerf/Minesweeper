@@ -8,6 +8,16 @@ namespace MineSweeper
     public class MinesEngine
     {
         /// <summary>
+        /// Unique instance of the MineSweeper class
+        /// </summary>
+        private static MinesEngine Instance;
+
+        /// <summary>
+        /// Lock in case of use multythreading
+        /// </summary>
+        private static object multyThreadLock = new Object();
+
+        /// <summary>
         /// Possible states of the current game
         /// </summary>
         public enum GameState
@@ -170,7 +180,7 @@ namespace MineSweeper
         /// Minesweeper engine constructor (using Settings class)
         /// </summary>
         /// <param name="MS">Minesweeper settings class</param>
-        public MinesEngine(MinesSettings MS)
+        private MinesEngine(MinesSettings MS)
         {
             NumMines = MS.NumMines;
             NumFlags = 0;
@@ -191,6 +201,24 @@ namespace MineSweeper
             }
 
             GenerateField();
+        }
+
+        /// <summary>
+        /// Gets unique instance of the MinesEngine with specified settings
+        /// </summary>
+        /// <param name="MS">Settings for the engine</param>
+        /// <returns>Unique instance of the MinesEngine class</returns>
+        public static MinesEngine getEngine(MinesSettings MS)
+        {
+            if (Instance == null)
+            {
+                lock (multyThreadLock)
+                {
+                    if (Instance == null) Instance = new MinesEngine(MS);
+                }
+            }
+            else Instance.NewGame(MS);
+            return Instance;
         }
 
         /// <summary>

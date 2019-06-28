@@ -84,8 +84,7 @@ namespace MineSweeper
 
             int oldWidth = (FB == null) ? 0 : FB.Length;
             int oldHeight = (oldWidth == 0) ? 0 : ((FB[0] == null) ? 0 : FB[0].Length);
-            if (ME == null) ME = new MinesEngine(MS);
-            else ME.NewGame(MS);
+            ME = MinesEngine.getEngine(MS);
             Array.Resize(ref FB, MS.FieldWidth);
             Array.Resize(ref FL, MS.FieldWidth);
 
