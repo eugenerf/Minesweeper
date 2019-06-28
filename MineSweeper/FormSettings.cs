@@ -30,10 +30,8 @@ namespace MineSweeper
                 fs.Flush();
                 fs = null;
             }
-            catch(UnauthorizedAccessException)
-            {
-
-            }
+            catch (UnauthorizedAccessException) { }
+            catch (IOException) { }
 
             formParent.Enabled = true;
             formParent.InitialiseField();

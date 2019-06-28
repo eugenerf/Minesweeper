@@ -25,6 +25,9 @@ namespace MineSweeper
         FormSettings formSettings = null;
         FormAskName formAskName = null;
         FormStatistics formStats = null;
+#if DEBUG
+        Form formDebug = null;
+#endif
 
         public FormMineSweeper()
         {
@@ -75,6 +78,10 @@ namespace MineSweeper
         /// </summary>
         public void InitialiseField()
         {
+#if DEBUG
+            if (formDebug != null) formDebug.Hide();
+#endif
+
             int oldWidth = (FB == null) ? 0 : FB.Length;
             int oldHeight = (oldWidth == 0) ? 0 : ((FB[0] == null) ? 0 : FB[0].Length);
             if (ME == null) ME = new MinesEngine(MS);
@@ -211,6 +218,10 @@ namespace MineSweeper
             pbHeartBigger.Visible = false;
             gbMineField.Controls.Add(pbHeartBig);
             gbMineField.Controls.Add(pbHeartBigger);
+
+#if DEBUG
+            DebugMineField();
+#endif
         }
 
         /// <summary>
@@ -647,5 +658,111 @@ namespace MineSweeper
                 }
             }
         }
+
+#if DEBUG
+        private void DebugMineField()
+        {
+            if (formDebug == null) formDebug = new Form();
+            
+            formDebug.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            formDebug.BackColor = SystemColors.Control;
+            formDebug.FormBorderStyle = FormBorderStyle.FixedSingle;
+            formDebug.MaximizeBox = false;
+            formDebug.MinimizeBox = true;
+            formDebug.ShowIcon = false;
+            formDebug.ShowInTaskbar = false;
+            formDebug.Size = new Size(Width, Height);
+            formDebug.StartPosition = FormStartPosition.CenterScreen;
+            formDebug.Text = "Minesweeper DEBUG";
+            formDebug.FormClosing += (object s, FormClosingEventArgs e) => formDebug = null;
+            formDebug.Controls.Clear();
+
+            GroupBox gbField = new GroupBox();
+            gbField.Anchor = AnchorStyles.None;
+            gbField.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            gbField.BackColor = SystemColors.Control;
+            gbField.Location = new Point(gbMineField.Location.X, gbMineField.Location.Y);
+            gbField.Size = new Size(gbMineField.Size.Width, gbMineField.Size.Height);
+
+            Label[][] labels = null;
+            Array.Resize(ref labels, FL.Length);
+            for(int i = 0; i < FL.Length; i++)
+            {
+                Array.Resize(ref labels[i], FL[i].Length);
+
+                for (int j = 0; j < labels[i].Length; j++)
+                {
+                    labels[i][j] = new Label();
+                    labels[i][j].Anchor = AnchorStyles.Top | AnchorStyles.Left;
+                    labels[i][j].AutoSize = false;
+                    labels[i][j].BorderStyle = BorderStyle.FixedSingle;
+                    labels[i][j].Enabled = true;
+                    labels[i][j].Font = new Font("Candara", 14, FontStyle.Bold);
+                    labels[i][j].ImageAlign = ContentAlignment.MiddleCenter;
+                    labels[i][j].Location = new Point(FBSize * i + 10, FBSize * j + 10);
+                    labels[i][j].Size = new Size(FBSize, FBSize);
+                    labels[i][j].TextAlign = ContentAlignment.MiddleCenter;
+                    labels[i][j].ImageList = ilIconsField;
+                    labels[i][j].MouseDown += Cell_Down;
+                    labels[i][j].MouseUp += Cell_Up;
+                    labels[i][j].BackColor = Color.PowderBlue;
+                    labels[i][j].ImageIndex = -1;
+                    labels[i][j].Text = "";
+                    labels[i][j].Visible = true;
+
+                    if (ME[i, j].cell == -1)
+                    {
+                        labels[i][j].ImageIndex = 0;
+                    }
+                    else if (ME[i, j].cell != 0)
+                    {
+                        switch (ME[i, j].cell)
+                        {
+                            case 1:
+                                labels[i][j].ForeColor = Color.Blue;
+                                break;
+                            case 2:
+                                labels[i][j].ForeColor = Color.Green;
+                                break;
+                            case 3:
+                                labels[i][j].ForeColor = Color.Red;
+                                break;
+                            case 4:
+                                labels[i][j].ForeColor = Color.DarkBlue;
+                                break;
+                            case 5:
+                                labels[i][j].ForeColor = Color.DarkRed;
+                                break;
+                            case 6:
+                                labels[i][j].ForeColor = Color.CornflowerBlue;
+                                break;
+                            case 7:
+                                labels[i][j].ForeColor = Color.Black;
+                                break;
+                            case 8:
+                                labels[i][j].ForeColor = Color.SlateGray;
+                                break;
+                        }
+                        labels[i][j].Text = ME[i, j].cell.ToString();
+                    }
+                }
+                gbField.Controls.AddRange(labels[i]);
+            }
+
+            formDebug.Controls.Add(gbField);
+
+            formDebug.Show();
+        }
+
+        private void FormDebug_FormClosing1(object sender, FormClosingEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void FormDebug_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+#endif
     }
 }

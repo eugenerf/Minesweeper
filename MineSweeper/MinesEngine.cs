@@ -148,8 +148,12 @@ namespace MineSweeper
             get
             {
                 CellInfo res = new CellInfo();
+#if DEBUG
+                res.cell = field[i][j];
+#else
                 if (state[i][j]) res.cell = field[i][j];
                 else res.cell = -2;
+#endif
                 res.marker = markers[i][j];
                 res.state = state[i][j];
                 return res;
