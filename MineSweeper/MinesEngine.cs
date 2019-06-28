@@ -415,71 +415,24 @@ namespace MineSweeper
                 return CurrentGameState;
             }
 
-            bool HasOpened = false,         //true when double click region covers at least one already opened cell
-                AllCorrect = true;          //true when all mines are marked correctly (no wrong flags)
-            int numFlags = 0,               //number of flags in double click region
-                numMines = 0;               //number of mines in double click region
+            if (!state[i][j]) return CurrentGameState;  //if not opened cell was clicked do nothing
 
-            for (int dI = -1; dI <= 1; dI++)
+            int numFlagsAround = field[i][j]; //number of flags required in the surrounding cells
+            //going through the surrounding cells
+            for (int di = -1; di <= 1; di++)
             {
-                if (i + dI < 0 || i + dI >= Width) continue;
-                for (int dJ = -1; dJ <= 1; dJ++)
+                if (i + di < 0 || i + di >= Width) continue;    //out of the field's borders
+                for (int dj = -1; dj <= 1; dj++)
                 {
-                    if (j + dJ < 0 || j + dJ >= Height) continue;
-
-                    if (state[i + dI][j + dJ]) HasOpened = true;        //found at least one already opened cell
-                    else                                                                                //on non opened cell
-                    {
-                        if (markers[i + dI][j + dJ] == 1 || markers[i + dI][j + dJ] == 2)              //found flag or question
-                        {
-                            numFlags++;                         //counted this flag
-                            if (field[i + dI][j + dJ] != -1)    //not mine - wrong mark
-                            {
-                                AllCorrect = false;
-                                Array.Resize(ref CurrentGameState.WrongFlags, (int)(CurrentGameState.NumWrongFlags + 1));
-                                CurrentGameState.WrongFlags[CurrentGameState.NumWrongFlags++] =
-                                    new CellCoordinates { Column = i + dI, Row = j + dJ };
-                            }
-                        }
-                        else                                                                            //cell has no mark
-                        {
-                            if (field[i + dI][j + dJ] == -1)    //cell has mine - unmarked mine
-                            {
-                                Array.Resize(ref CurrentGameState.BombedMines, (int)(CurrentGameState.NumMinesBombed + 1));
-                                CurrentGameState.BombedMines[CurrentGameState.NumMinesBombed++] =
-                                    new CellCoordinates { Column = i + dI, Row = j + dJ };
-                            }
-                        }
-                        if (field[i + dI][j + dJ] == -1) numMines++;                                    //found mine
-                    }
+                    if (di == 0 && dj == 0) continue;   //we'll skip current cell
+                    if (j + dj < 0 || j + dj >= Height) continue;    //out of the field's borders
+                    if (markers[i + di][j + dj] == 1) numFlagsAround--;  //found flag or question - decrease number of required flags
                 }
             }
 
-            bool OpenBOOM = false,  //open region with BOOM
-                OpenOK = false;     //open region with OK
-
-            if (HasOpened && numFlags == numMines)  //has at least one already opened cell and numbers of flags and mines are equal
+            if (numFlagsAround == 0)    //number of flags around equals to the number in current cell
             {
-                //we will open this region
-                OpenOK = AllCorrect;    //if all correct we will open region with OK
-                OpenBOOM = !OpenOK;     //if we will not open region with OK, we'll open it with BOOM                    
-            }
-
-            if (OpenBOOM)   //open with BOOM
-            {
-                OpenField();
-                CurrentGameState.State = GameState.Loose;
-                return CurrentGameState;
-            }
-
-            //if we're here, there was no BOOM
-            CurrentGameState.NumMinesBombed = 0;
-            CurrentGameState.NumWrongFlags = 0;
-            CurrentGameState.BombedMines = null;
-            CurrentGameState.WrongFlags = null;
-
-            if (OpenOK)     //open with OK
-            {
+                //we'll open all cells in the region
                 for (int dI = -1; dI <= 1; dI++)
                 {
                     if (i + dI < 0 || i + dI >= Width) continue;
@@ -487,17 +440,20 @@ namespace MineSweeper
                     {
                         if (j + dJ < 0 || j + dJ >= Height) continue;
 
-                        AutoOpenCells(i + dI, j + dJ);
+                        CurrentGameState = OpenCell(i + dI, j + dJ);
+                        if (CurrentGameState.State == GameState.Loose ||
+                            CurrentGameState.State == GameState.Win)
+
+                            break;
                     }
+                    if (CurrentGameState.State == GameState.Loose ||
+                            CurrentGameState.State == GameState.Win)
+
+                        break;
                 }
             }
 
-            if (AllOpened())                                //when all cells (except mined) are opened
-            {
-                OpenField();                                //open the whole field
-                CurrentGameState.State = GameState.Win;     //and say that user WON the game
-            }
-            return CurrentGameState;                        //game is still in progress
+            return CurrentGameState;
         }
 
         /// <summary>

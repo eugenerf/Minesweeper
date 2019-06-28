@@ -143,6 +143,7 @@ namespace MineSweeper
                     FL[i][j].ImageList = ilIconsField;
                     FL[i][j].MouseDown += Cell_Down;
                     FL[i][j].MouseUp += Cell_Up;
+                    FL[i][j].DoubleClick += MineFieldLabel_DoubleClick;
                     FL[i][j].BackColor = Color.PowderBlue;
                     FL[i][j].ImageIndex = -1;
                     FL[i][j].Text = "";
@@ -187,6 +188,7 @@ namespace MineSweeper
                     FL[i][j].ImageList = ilIconsField;
                     FL[i][j].MouseDown += Cell_Down;
                     FL[i][j].MouseUp += Cell_Up;
+                    FL[i][j].DoubleClick += MineFieldLabel_DoubleClick;
                     FL[i][j].BackColor = Color.PowderBlue;
                     FL[i][j].ImageIndex = -1;
                     FL[i][j].Text = "";
@@ -655,6 +657,55 @@ namespace MineSweeper
                     FB[i][j].Visible = fb[i][j];
                     FL[i][j].Visible = fl[i][j];
                 }
+            }
+        }
+
+        private void MineFieldLabel_DoubleClick(object sender, EventArgs e)
+        {
+            int i = 0, j = 0;
+            if (sender.GetType().ToString().IndexOf("Label") != -1)
+            {
+                if (!GetCellIndex((Label)sender, out i, out j)) return;
+            }
+            else return;
+
+            for (int dI = -1; dI <= 1; dI++)
+            {
+                for (int dJ = -1; dJ <= 1; dJ++)
+                {
+                    if (i + dI < 0 || i + dI >= ME.Width) continue;
+                    if (j + dJ < 0 || j + dJ >= ME.Height) continue;
+                    FB[i + dI][j + dJ].BackColor = Color.DodgerBlue;
+                }
+            }
+
+            MinesEngine.CurrentGameStateInfo GS = ME.OpenMany(i, j);
+            RedrawOpened();
+
+            switch (GS.State)
+            {
+                case MinesEngine.GameState.InProgress:
+                    break;
+                case MinesEngine.GameState.Loose:
+                    tTime.Stop();
+                    butNewGame.ImageIndex = 3;
+                    MStats.CalcStats(ME, MS, GameSeconds);
+                    for (int k = 0; k < GS.NumMinesBombed; k++)
+                        FL[GS.BombedMines[k].Column][GS.BombedMines[k].Row].BackColor = Color.Red;
+                    for (int k = 0; k < GS.NumWrongFlags; k++)
+                    {
+                        FL[GS.WrongFlags[k].Column][GS.WrongFlags[k].Row].BackColor = Color.Red;
+                        FL[GS.WrongFlags[k].Column][GS.WrongFlags[k].Row].Text = "";
+                        FL[GS.WrongFlags[k].Column][GS.WrongFlags[k].Row].ImageIndex = 1;
+                    }
+                    break;
+                case MinesEngine.GameState.Win:
+                    tTime.Stop();
+                    butNewGame.ImageIndex = 4;
+                    MStats.CalcStats(ME, MS, GameSeconds, this);
+                    break;
+                case MinesEngine.GameState.Stopped:
+                    break;
             }
         }
 
