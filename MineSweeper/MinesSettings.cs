@@ -9,6 +9,16 @@ namespace MineSweeper
     public class MinesSettings
     {
         /// <summary>
+        /// Lock in case of using multythreading
+        /// </summary>
+        private static object multyThreadLock = new Object();
+
+        /// <summary>
+        /// Unique instance of MinesSettings class
+        /// </summary>
+        private static MinesSettings Instance;
+
+        /// <summary>
         /// Settings presets enumeration
         /// </summary>
         public enum Preset
@@ -45,25 +55,20 @@ namespace MineSweeper
         public bool UseQuestionMarks;
 
         /// <summary>
-        /// Use standard double-button click if true
-        /// (like in MS Minesweeper:
-        ///     double-click region must cover at leat alredy opened cell, 
-        ///     number of flags and questions must be equal to the number of mines,
-        ///     if flags and questions are placed correctly, then open and OK,
-        ///     if there are mistakes in flags and questions placing, BOOM!);
-        /// (alternative^ Safe DoubleClick:
-        ///     double-click opens region always if it is safe (no unmarked mines),
-        ///     but if there are mistakes in mines marking (some flags or questions are not on mines), region opens and BOOM!)
+        /// Empty ctor (creates the default game settings)
         /// </summary>
-        public bool UseStdDoubleClick;
+        private MinesSettings()
+        {
+            ChangeSettings(Preset.Newbie, true);
+        }
 
         /// <summary>
         /// Construct by preset
         /// </summary>
         /// <param name="preset">Preset name (Custom here equals to Newbie)</param>
-        public MinesSettings (Preset preset, bool useQuestionMarks, bool useStdDoubleClick)
+        private MinesSettings (Preset preset, bool useQuestionMarks)
         {
-            ChangeSettings(preset, useQuestionMarks, useStdDoubleClick);
+            ChangeSettings(preset, useQuestionMarks);
         }
 
         /// <summary>
@@ -72,20 +77,79 @@ namespace MineSweeper
         /// <param name="width">Field Width (min: 9, max: 30)</param>
         /// <param name="height">Field Height (min: 9, max: 24)</param>
         /// <param name="mines">Number of mines on the field (min: 1, max: 668, not more than the number of fields)</param>
-        public MinesSettings(int width, int height, uint mines, bool useQuestionMarks, bool useStdDoubleClick)
+        private MinesSettings(int width, int height, uint mines, bool useQuestionMarks)
         {
-            ChangeSettings(width, height, mines, useQuestionMarks, useStdDoubleClick);
+            ChangeSettings(width, height, mines, useQuestionMarks);
+        }
+
+        /// <summary>
+        /// Set default settings
+        /// </summary>
+        /// <returns>Unique instance of MineSettings class</returns>
+        public static MinesSettings setSettings()
+        {
+            if (Instance == null)
+            {
+                lock (multyThreadLock)
+                {
+                    if (Instance == null) Instance = new MinesSettings();
+                }
+            }
+            else
+            {
+                Instance.ChangeSettings(Preset.Newbie, true);
+            }
+            return Instance;
+        }
+
+        /// <summary>
+        /// Set default settings by preset
+        /// </summary>
+        /// <returns>Unique instance of MineSettings class</returns>
+        public static MinesSettings setSettings(Preset preset, bool useQuestionMarks)
+        {
+            if (Instance == null)
+            {
+                lock (multyThreadLock)
+                {
+                    if (Instance == null) Instance = new MinesSettings(preset, useQuestionMarks);
+                }
+            }
+            else
+            {
+                Instance.ChangeSettings(preset, useQuestionMarks);
+            }
+            return Instance;
+        }
+
+        /// <summary>
+        /// Set default settings by numeric parameters
+        /// </summary>
+        /// <returns>Unique instance of MineSettings class</returns>
+        public static MinesSettings setSettings(int width, int height, uint mines, bool useQuestionMarks)
+        {
+            if (Instance == null)
+            {
+                lock (multyThreadLock)
+                {
+                    if (Instance == null) Instance = new MinesSettings(width, height, mines, useQuestionMarks);
+                }
+            }
+            else
+            {
+                Instance.ChangeSettings(width, height, mines, useQuestionMarks);
+            }
+            return Instance;
         }
 
         /// <summary>
         /// Changes current settings by preset
         /// </summary>
         /// <param name="preset">Preset name (Custom here equals to Newbie)</param>
-        public void ChangeSettings(Preset preset, bool useQuestionMarks, bool useStdDoubleClick)
+        private void ChangeSettings(Preset preset, bool useQuestionMarks)
         {
             CurrentPreset = preset;
             UseQuestionMarks = useQuestionMarks;
-            UseStdDoubleClick = useStdDoubleClick;
             switch (preset)
             {
                 case Preset.Newbie:
@@ -106,25 +170,25 @@ namespace MineSweeper
                     break;
             }
         }
-
+        
         /// <summary>
         /// Changes current settings by numeric parameters
         /// </summary>
         /// <param name="width">Field Width (min: 9, max: 30)</param>
         /// <param name="height">Field Height (min: 9, max: 24)</param>
         /// <param name="mines">Number of mines on the field (min: 1, max: 668, not more than the number of fields)</param>
-        public void ChangeSettings(int width, int height, uint mines, bool useQuestionMarks, bool useStdDoubleClick)
+        private void ChangeSettings(int width, int height, uint mines, bool useQuestionMarks)
         {
             if (width < 9 || width > 30)
                 throw new ArgumentOutOfRangeException("width", "Width must be between 9 and 30");
             if (height < 9 || height > 24)
                 throw new ArgumentOutOfRangeException("height", "Height must be between 9 and 24");
-            if (mines > width * height)
+            if (mines > (width - 1) * (height - 1))
                 throw new ArgumentOutOfRangeException(
                     "numMines",
-                    "Number of mines cannot exceed number of cells in the minefield");
-            if (mines < 1 || mines > 668)
-                throw new ArgumentOutOfRangeException("numMines", "Number of mines must be between 1 and 668");
+                    "Too many mines for the current field dimensions");
+            if (mines < 1)
+                throw new ArgumentOutOfRangeException("numMines", "Number of mines must be more than 1");
 
             CurrentPreset = Preset.Custom;
             if (width == 9 && height == 9 && mines == 10) CurrentPreset = Preset.Newbie;
@@ -135,7 +199,19 @@ namespace MineSweeper
             FieldHeight = height;
             NumMines = mines;
             UseQuestionMarks = useQuestionMarks;
-            UseStdDoubleClick = useStdDoubleClick;
+        }
+
+        /// <summary>
+        /// Get the maximum number of mines for the specified field dimensions
+        /// </summary>
+        /// <param name="width">Width of the field</param>
+        /// <param name="height">Height of the field</param>
+        /// <returns></returns>
+        public static uint GetMaxMines(int width, int height)
+        {
+            if (width < 9 || width > 30) return 0;
+            if (height < 9 || height > 24) return 0;
+            return (uint)((width - 1) * (height - 1));
         }
     }
 }

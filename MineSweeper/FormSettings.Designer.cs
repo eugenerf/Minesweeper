@@ -48,7 +48,6 @@
             this.rbAmateur = new System.Windows.Forms.RadioButton();
             this.rbNewbie = new System.Windows.Forms.RadioButton();
             this.cbUseQuestionMarks = new System.Windows.Forms.CheckBox();
-            this.cbUseStdDBClick = new System.Windows.Forms.CheckBox();
             this.gbParameters.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudMines)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudWidth)).BeginInit();
@@ -227,18 +226,10 @@
             this.cbUseQuestionMarks.TabStop = false;
             this.cbUseQuestionMarks.UseVisualStyleBackColor = true;
             // 
-            // cbUseStdDBClick
-            // 
-            resources.ApplyResources(this.cbUseStdDBClick, "cbUseStdDBClick");
-            this.cbUseStdDBClick.Name = "cbUseStdDBClick";
-            this.cbUseStdDBClick.TabStop = false;
-            this.cbUseStdDBClick.UseVisualStyleBackColor = true;
-            // 
             // FormSettings
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.cbUseStdDBClick);
             this.Controls.Add(this.cbUseQuestionMarks);
             this.Controls.Add(this.gbParameters);
             this.Controls.Add(this.butClose);
@@ -281,6 +272,5 @@
         private System.Windows.Forms.NumericUpDown nudWidth;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.CheckBox cbUseQuestionMarks;
-        private System.Windows.Forms.CheckBox cbUseStdDBClick;
     }
 }

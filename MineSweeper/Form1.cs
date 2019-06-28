@@ -43,11 +43,11 @@ namespace MineSweeper
             }
             catch (FileNotFoundException)
             {
-                MS = new MinesSettings(MinesSettings.Preset.Newbie, true, true);
+                MS = MinesSettings.setSettings();
             }
             catch (SerializationException)
             {
-                MS = new MinesSettings(MinesSettings.Preset.Newbie, true, true);
+                MS = MinesSettings.setSettings();
             }
 
             try
@@ -60,11 +60,11 @@ namespace MineSweeper
             }
             catch (FileNotFoundException)
             {
-                MStats = new MinesStatistics();
+                MStats = MinesStatistics.getInstance();
             }
             catch (SerializationException)
             {
-                MStats = new MinesStatistics();
+                MStats = MinesStatistics.getInstance();
             }
 
             InitialiseField();
@@ -284,7 +284,6 @@ namespace MineSweeper
         /// <param name="e"></param>
         private void butNewGame_Click(object sender, EventArgs e)
         {
-            if (MS == null) MS = new MinesSettings(MinesSettings.Preset.Newbie, true, true);
             InitialiseField();
         }
 
@@ -407,7 +406,7 @@ namespace MineSweeper
 
         private void tsmiNewGame_Click(object sender, EventArgs e)
         {
-            butNewGame_Click(sender, e);
+            InitialiseField();
         }
 
         private void tsmiExit_Click(object sender, EventArgs e)

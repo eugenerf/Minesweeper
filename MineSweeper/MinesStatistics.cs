@@ -144,6 +144,16 @@ namespace MineSweeper
         }
 
         /// <summary>
+        /// Unique instance of MinesStatistics class
+        /// </summary>
+        private static MinesStatistics Instance;
+
+        /// <summary>
+        /// Lock in case of using multythreading
+        /// </summary>
+        private static object multyThreadLock = new Object();
+
+        /// <summary>
         /// Game statistics grouped  by preset
         /// </summary>
         public PresetStatsInfo[] StatsByPreset;
@@ -153,7 +163,7 @@ namespace MineSweeper
         /// </summary>
         public WinnerInfo[] StatsBy3BV;
 
-        public MinesStatistics()
+        private MinesStatistics()
         {
             StatsByPreset = new PresetStatsInfo[3];
             StatsBy3BV = null;
@@ -163,6 +173,22 @@ namespace MineSweeper
             StatsByPreset[0].Preset = MinesSettings.Preset.Newbie;
             StatsByPreset[1].Preset = MinesSettings.Preset.Advanced;
             StatsByPreset[2].Preset = MinesSettings.Preset.Professional;
+        }
+
+        /// <summary>
+        /// Get unique instance of the MinesStatistics class
+        /// </summary>
+        /// <returns>Unique instance of MinesStatistics</returns>
+        public static MinesStatistics getInstance()
+        {
+            if (Instance == null)
+            {
+                lock (multyThreadLock)
+                {
+                    if (Instance == null) Instance = new MineSweeper.MinesStatistics();
+                }
+            }
+            return Instance;
         }
 
         /// <summary>

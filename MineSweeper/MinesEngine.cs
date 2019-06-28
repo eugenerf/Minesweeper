@@ -113,11 +113,6 @@ namespace MineSweeper
         private bool UseQuestionMarks;
 
         /// <summary>
-        /// Use standard double-click if true
-        /// </summary>
-        private bool UseStdDBClick;
-
-        /// <summary>
         /// Number of mines on the minefield
         /// </summary>
         public uint NumMines { get; private set; }
@@ -178,7 +173,6 @@ namespace MineSweeper
             Width = MS.FieldWidth;
             Height = MS.FieldHeight;
             UseQuestionMarks = MS.UseQuestionMarks;
-            UseStdDBClick = MS.UseStdDoubleClick;
             Level3BV = 0;
             CurrentGameState = new CurrentGameStateInfo { State = GameState.NewGame, BombedMines = null, NumMinesBombed = 0 };
 
@@ -206,7 +200,6 @@ namespace MineSweeper
             Width = MS.FieldWidth;
             Height = MS.FieldHeight;
             UseQuestionMarks = MS.UseQuestionMarks;
-            UseStdDBClick = MS.UseStdDoubleClick;
             CurrentGameState = new CurrentGameStateInfo { State = GameState.NewGame, BombedMines = null, NumMinesBombed = 0 };
 
             Array.Resize(ref field, Width);
@@ -391,8 +384,7 @@ namespace MineSweeper
             }
 
             bool HasOpened = false,         //true when double click region covers at least one already opened cell
-                AllCorrect = true,          //true when all mines are marked correctly (no wrong flags)
-                NoUnMarkedMines = true;     //true when there are no unmarked mines
+                AllCorrect = true;          //true when all mines are marked correctly (no wrong flags)
             int numFlags = 0,               //number of flags in double click region
                 numMines = 0;               //number of mines in double click region
 
@@ -421,7 +413,6 @@ namespace MineSweeper
                         {
                             if (field[i + dI][j + dJ] == -1)    //cell has mine - unmarked mine
                             {
-                                NoUnMarkedMines = false;
                                 Array.Resize(ref CurrentGameState.BombedMines, (int)(CurrentGameState.NumMinesBombed + 1));
                                 CurrentGameState.BombedMines[CurrentGameState.NumMinesBombed++] =
                                     new CellCoordinates { Column = i + dI, Row = j + dJ };
@@ -435,21 +426,11 @@ namespace MineSweeper
             bool OpenBOOM = false,  //open region with BOOM
                 OpenOK = false;     //open region with OK
 
-            if (UseStdDBClick)      //using standard double click
+            if (HasOpened && numFlags == numMines)  //has at least one already opened cell and numbers of flags and mines are equal
             {
-                if (HasOpened && numFlags == numMines)  //has at least one already opened cell and numbers of flags and mines are equal
-                {
-                    //we will open this region
-                    OpenOK = AllCorrect;    //if all correct we will open region with OK
-                    OpenBOOM = !OpenOK;     //if we will not open region with OK, we'll open it with BOOM                    
-                }
-            }
-            else                    //using safe double click
-            {
-                if(NoUnMarkedMines) //all mines are marked
-                    OpenOK = AllCorrect;     //if there are no errors, we will open region with OK
-                else                //not all mines are marked
-                    OpenBOOM = !AllCorrect; //if there are errors, we will open region with BOOM
+                //we will open this region
+                OpenOK = AllCorrect;    //if all correct we will open region with OK
+                OpenBOOM = !OpenOK;     //if we will not open region with OK, we'll open it with BOOM                    
             }
 
             if (OpenBOOM)   //open with BOOM
