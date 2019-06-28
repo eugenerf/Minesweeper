@@ -280,16 +280,7 @@ namespace MineSweeper
                 for (int j = 0; j < Height; j++)
                 {
                     if (field[i][j] == -1) continue;
-                    for (int dI = -1; dI <= 1; dI++)
-                    {
-                        if (i + dI < 0 || i + dI >= Width) continue;
-                        for (int dJ = -1; dJ <= 1; dJ++)
-                        {
-                            if (j + dJ < 0 || j + dJ >= Height) continue;
-                            if (dI == 0 && dJ == 0) continue;       //current cell
-                            if (field[i + dI][j + dJ] == -1) field[i][j]++;
-                        }
-                    }
+                    field[i][j] = CountMines(i, j);
                 }
             }
 
@@ -361,6 +352,64 @@ namespace MineSweeper
         }
 
         /// <summary>
+        /// Get location of the empty cell (with no mine and with the least number (0 if there is any zero-cell))
+        /// </summary>
+        /// <param name="i">Found column number</param>
+        /// <param name="j">Found row number</param>
+        /// <returns>True if empty cell was found</returns>
+        private bool GetEmptyCell(out int i, out int j)
+        {
+            int minNumber = 9;  //minimal cell-number found (except mines)
+            i = -1;
+            j = -1;
+
+            for (int x = 0; x < Width; x++)
+            {
+                for (int y = 0; y < Height; y++)
+                {
+                    if (field[x][y] == -1) continue;    //skip mines
+                    if (field[x][y] == 0)   //found a zero-cell
+                    {
+                        i = x;
+                        j = y;
+                        return true;
+                    }
+                    if (field[x][y] > 0 && field[x][y] < minNumber)
+                    {
+                        i = x;
+                        j = y;
+                        minNumber = field[x][y];
+                    }
+                }
+            }
+
+            if (minNumber == 9) return false;
+            else return true;
+        }
+
+        /// <summary>
+        /// Count number of mines around for specified cell
+        /// </summary>
+        /// <param name="i">Column of the specified cell</param>
+        /// <param name="j">Row of the specified cell</param>
+        /// <returns>Number of mines around the specified cell</returns>
+        private sbyte CountMines(int i,int j)
+        {
+            sbyte num = 0;
+            for (int dI = -1; dI <= 1; dI++)
+            {
+                if (i + dI < 0 || i + dI >= Width) continue;
+                for (int dJ = -1; dJ <= 1; dJ++)
+                {
+                    if (j + dJ < 0 || j + dJ >= Height) continue;
+                    if (dI == 0 && dJ == 0) continue;       //current cell
+                    if (field[i + dI][j + dJ] == -1) num++;
+                }
+            }
+            return num;
+        }
+
+        /// <summary>
         /// Open the specified cell
         /// </summary>
         /// <param name="i">Column of the specified cell</param>
@@ -374,6 +423,39 @@ namespace MineSweeper
             {
                 CurrentGameState.State = GameState.Stopped;
                 return CurrentGameState;
+            }
+
+            if(CurrentGameState.State== GameState.NewGame)  //new game - open the first cell
+            {
+                CurrentGameState.State = GameState.InProgress;  //and now game is in progress
+                //we'll make the field interactive. It means that first click will never BOOM
+                if (field[i][j] == -1)  //mine found
+                {
+                    //let's find the new cell for this mine
+                    int newI = 0, newJ = 0; //new mine location
+                    if (GetEmptyCell(out newI, out newJ))   //new location found
+                    {
+                        //let's move mine to the new location                        
+                        field[i][j] = 0;        //remove mine
+                        field[newI][newJ] = -1; //set mine
+                        for (int dI = -1; dI <= 1; dI++)
+                        {
+                            for (int dJ = -1; dJ <= 1; dJ++)
+                            {
+                                //recount mine-numbers
+                                if (i + dI >= 0 && i + dI < Width)
+                                    if (j + dJ >= 0 && j + dJ < Height)
+                                        if (field[i + dI][j + dJ] != -1)
+                                            field[i + dI][j + dJ] = CountMines(i + dI, j + dJ);
+
+                                if (newI + dI >= 0 && newI + dI < Width)
+                                    if (newJ + dJ >= 0 && newJ + dJ < Height)
+                                        if (field[newI + dI][newJ + dJ] != -1)
+                                            field[newI + dI][newJ + dJ] = CountMines(newI + dI, newJ + dJ);
+                            }
+                        }
+                    }
+                }
             }
 
             if (markers[i][j] == 1)         //cell is marked with flag - not to open
