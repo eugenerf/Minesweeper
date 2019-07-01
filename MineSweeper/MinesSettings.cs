@@ -19,6 +19,26 @@ namespace MineSweeper
         private static MinesSettings Instance;
 
         /// <summary>
+        /// Minimal field width
+        /// </summary>
+        public const int MinWidth = 9;
+
+        /// <summary>
+        /// Maximal field width
+        /// </summary>
+        public const int MaxWidth = 30;
+
+        /// <summary>
+        /// Minimal field height
+        /// </summary>
+        public const int MinHeight = 9;
+
+        /// <summary>
+        /// Maximal field height
+        /// </summary>
+        public const int MaxHeight = 24;
+
+        /// <summary>
         /// Settings presets enumeration
         /// </summary>
         public enum Preset
@@ -179,11 +199,11 @@ namespace MineSweeper
         /// <param name="mines">Number of mines on the field (min: 1, max: 668, not more than the number of fields)</param>
         private void ChangeSettings(int width, int height, uint mines, bool useQuestionMarks)
         {
-            if (width < 9 || width > 30)
-                throw new ArgumentOutOfRangeException("width", "Width must be between 9 and 30");
-            if (height < 9 || height > 24)
-                throw new ArgumentOutOfRangeException("height", "Height must be between 9 and 24");
-            if (mines > (width - 1) * (height - 1))
+            if (width < MinWidth || width > MaxWidth)
+                throw new ArgumentOutOfRangeException("width", "Width must be between " + MinWidth + " and " + MaxWidth);
+            if (height < MinHeight || height > MaxHeight)
+                throw new ArgumentOutOfRangeException("height", "Height must be between " + MinHeight + " and " + MaxHeight);
+            if (mines > GetMaxMines(width, height))
                 throw new ArgumentOutOfRangeException(
                     "numMines",
                     "Too many mines for the current field dimensions");
@@ -209,8 +229,8 @@ namespace MineSweeper
         /// <returns></returns>
         public static uint GetMaxMines(int width, int height)
         {
-            if (width < 9 || width > 30) return 0;
-            if (height < 9 || height > 24) return 0;
+            if (width < MinWidth || width > MaxWidth) return 0;
+            if (height < MinHeight || height > MaxHeight) return 0;
             return (uint)((width - 1) * (height - 1));
         }
     }

@@ -164,17 +164,17 @@
             // 
             // lMines
             // 
-            resources.ApplyResources(this.lMines, "lMines");
             this.lMines.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.lMines.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            resources.ApplyResources(this.lMines, "lMines");
             this.lMines.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.lMines.Name = "lMines";
             // 
             // lTime
             // 
-            resources.ApplyResources(this.lTime, "lTime");
             this.lTime.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.lTime.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            resources.ApplyResources(this.lTime, "lTime");
             this.lTime.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.lTime.Name = "lTime";
             // 

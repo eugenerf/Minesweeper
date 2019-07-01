@@ -425,7 +425,7 @@ namespace MineSweeper
                 return CurrentGameState;
             }
 
-            if(CurrentGameState.State== GameState.NewGame)  //new game - open the first cell
+            if (CurrentGameState.State == GameState.NewGame)  //new game - open the first cell
             {
                 CurrentGameState.State = GameState.InProgress;  //and now game is in progress
                 //we'll make the field interactive. It means that first click will never BOOM
@@ -468,8 +468,8 @@ namespace MineSweeper
                 OpenField();
                 CurrentGameState.State = GameState.Loose;
                 CurrentGameState.NumMinesBombed++;
-                CurrentGameState.BombedMines = new CellCoordinates[1];
-                CurrentGameState.BombedMines[0] = new CellCoordinates { Column = i, Row = j };
+                Array.Resize(ref CurrentGameState.BombedMines, (int)CurrentGameState.NumMinesBombed);
+                CurrentGameState.BombedMines[CurrentGameState.NumMinesBombed - 1] = new CellCoordinates { Column = i, Row = j };
                 return CurrentGameState;
             }
             AutoOpenCells(i, j);            //auto open current cell and all the empty cells or cells with numbers
@@ -522,16 +522,34 @@ namespace MineSweeper
                     {
                         if (j + dJ < 0 || j + dJ >= Height) continue;
 
-                        CurrentGameState = OpenCell(i + dI, j + dJ);
-                        if (CurrentGameState.State == GameState.Loose ||
-                            CurrentGameState.State == GameState.Win)
-
-                            break;
+                        if (markers[i + dI][j + dJ] == 1)         //cell is marked with flag - not to open
+                        {
+                            if (field[i + dI][j + dJ] != -1)
+                            {
+                                CurrentGameState.NumWrongFlags++;
+                                Array.Resize(ref CurrentGameState.WrongFlags, (int)CurrentGameState.NumWrongFlags);
+                                CurrentGameState.WrongFlags[CurrentGameState.NumWrongFlags - 1] = new CellCoordinates { Column = i + dI, Row = j + dJ };
+                            }
+                            continue;
+                        }
+                        if (field[i + dI][j + dJ] == -1)          //BOOM!!!
+                        {
+                            CurrentGameState.State = GameState.Loose;
+                            CurrentGameState.NumMinesBombed++;
+                            Array.Resize(ref CurrentGameState.BombedMines, (int)CurrentGameState.NumMinesBombed);
+                            CurrentGameState.BombedMines[CurrentGameState.NumMinesBombed - 1] = new CellCoordinates { Column = i + dI, Row = j + dJ };
+                        }
+                        AutoOpenCells(i + dI, j + dJ);            //auto open current cell and all the empty cells or cells with numbers
                     }
-                    if (CurrentGameState.State == GameState.Loose ||
-                            CurrentGameState.State == GameState.Win)
+                }
 
-                        break;
+                if (CurrentGameState.State == GameState.Loose || CurrentGameState.State == GameState.Win) OpenField();
+                if (CurrentGameState.State == GameState.Win)
+                {
+                    CurrentGameState.BombedMines = null;
+                    CurrentGameState.NumMinesBombed = 0;
+                    CurrentGameState.WrongFlags = null;
+                    CurrentGameState.NumWrongFlags = 0;
                 }
             }
 

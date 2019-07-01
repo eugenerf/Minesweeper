@@ -49,11 +49,12 @@ namespace MineSweeper
         /// <param name="backColor">New Back Color</param>
         /// <param name="imageIndex">New Image index</param>
         /// <param name="visible">New Visibility state</param>
-        public void ChangeButton(Color backColor, int imageIndex, bool visible)
+        public void ChangeButton(Color backColor, int imageIndex, bool visible, bool enabled)
         {
             BackColor = backColor;
             ImageIndex = imageIndex;
             Visible = visible;
+            Enabled = enabled;
         }
 
         /// <summary>
