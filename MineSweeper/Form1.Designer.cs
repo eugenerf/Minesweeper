@@ -216,6 +216,7 @@
             this.Controls.Add(this.butNewGame);
             this.Controls.Add(this.gbMineField);
             this.Controls.Add(this.msMenu);
+            this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MainMenuStrip = this.msMenu;
             this.MaximizeBox = false;

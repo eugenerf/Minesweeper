@@ -99,6 +99,9 @@
     <Compile Include="FormStatistics.Designer.cs">
       <DependentUpon>FormStatistics.cs</DependentUpon>
     </Compile>
+    <Compile Include="MineFieldItems.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="MinesEngine.cs" />
     <Compile Include="MinesSettings.cs" />
     <Compile Include="MinesStatistics.cs" />

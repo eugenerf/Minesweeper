@@ -15,8 +15,10 @@ namespace MineSweeper
         public MinesSettings MS;        //minesweeper settings
         public MinesStatistics MStats;  //minesweeper statistics
         MinesEngine ME;                 //minesweeper engine
-        Button[][] FB;                  //buttons array for the minefield
-        Label[][] FL;                   //labels array for the minefield
+        MineFieldButton fbPrototype;    //Prototype for creating the MineField buttons
+        MineFieldButton[][] FB;         //buttons array for the minefield
+        MineFieldLabel flPrototype;     //Prototype for creating the MineField labels
+        MineFieldLabel[][] FL;          //labels array for the minefield
         bool GameStart = false;         //true when game started
         uint GameSeconds = 0;           //duration of the current game in seconds
         MouseEventArgs LBDown = null,   //left mouse button is now pushed down
@@ -70,6 +72,12 @@ namespace MineSweeper
                 MStats = MinesStatistics.getInstance();
             }
 
+            SetStyle(ControlStyles.UserPaint, true);
+            SetStyle(ControlStyles.AllPaintingInWmPaint, true);
+            SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
+            SetStyle(ControlStyles.ResizeRedraw, true);
+            UpdateStyles();
+
             InitialiseField();
         }
 
@@ -95,63 +103,54 @@ namespace MineSweeper
             gbMineField.Controls.Clear();
             butNewGame.ImageIndex = 2;
 
+            if (fbPrototype == null)
+                fbPrototype = new MineFieldButton(AnchorStyles.Top | AnchorStyles.Left,
+                                                    false,
+                                                    true,
+                                                    new Size(FBSize, FBSize),
+                                                    ilIconsField,
+                                                    Color.DodgerBlue,
+                                                    -1,
+                                                    true,
+                                                    false,
+                                                    FlatStyle.Flat,
+                                                    Cell_Down,
+                                                    Cell_Up);
+
+            if (flPrototype == null)
+                flPrototype = new MineFieldLabel(AnchorStyles.Top | AnchorStyles.Left,
+                                                false,
+                                                true,
+                                                new Size(FBSize, FBSize),
+                                                ilIconsField,
+                                                Color.PowderBlue,
+                                                -1,
+                                                true,
+                                                BorderStyle.FixedSingle,
+                                                new Font("Candara", 14, FontStyle.Bold),
+                                                ContentAlignment.MiddleCenter,
+                                                ContentAlignment.MiddleCenter,
+                                                "",
+                                                Cell_Down,
+                                                Cell_Up,
+                                                MineFieldLabel_DoubleClick);
+
             for (int i = 0; i < oldWidth && i < MS.FieldWidth; i++)
             {
                 Array.Resize(ref FB[i], MS.FieldHeight);
                 Array.Resize(ref FL[i], MS.FieldHeight);
                 for (int j = 0; j < oldHeight && j < MS.FieldHeight; j++)
                 {
-                    FB[i][j].BackColor = Color.DodgerBlue;
-                    FB[i][j].ImageIndex = -1;
-                    FB[i][j].Visible = true;
-
-                    FL[i][j].BackColor = Color.PowderBlue;
-                    FL[i][j].ImageIndex = -1;
-                    FL[i][j].Text = "";
-                    FL[i][j].Visible = false;
-
-                    gbMineField.Controls.Add(FB[i][j]);
-                    gbMineField.Controls.Add(FL[i][j]);
+                    FB[i][j].ChangeButton(Color.DodgerBlue, -1, true);
+                    FL[i][j].ChangeLabel(Color.PowderBlue, -1, "", true);
                 }
                 for (int j = oldHeight; j < MS.FieldHeight; j++)
                 {
-                    FB[i][j] = new Button();
-                    FB[i][j].Anchor = AnchorStyles.Top | AnchorStyles.Left;
-                    FB[i][j].AutoSize = false;
-                    FB[i][j].Enabled = true;
-                    FB[i][j].Location = new Point(FBSize * i + 10, FBSize * j + 10);
-                    FB[i][j].Size = new Size(FBSize, FBSize);
-                    FB[i][j].TabStop = false;
-                    FB[i][j].ImageList = ilIconsField;
-                    FB[i][j].MouseDown += Cell_Down;
-                    FB[i][j].MouseUp += Cell_Up;
-                    FB[i][j].FlatStyle = FlatStyle.Flat;
-                    FB[i][j].BackColor = Color.DodgerBlue;
-                    FB[i][j].ImageIndex = -1;
-                    FB[i][j].Visible = true;
-
-                    FL[i][j] = new Label();
-                    FL[i][j].Anchor = AnchorStyles.Top | AnchorStyles.Left;
-                    FL[i][j].AutoSize = false;
-                    FL[i][j].BorderStyle = BorderStyle.FixedSingle;
-                    FL[i][j].Enabled = true;
-                    FL[i][j].Font = new Font("Candara", 14, FontStyle.Bold);
-                    FL[i][j].ImageAlign = ContentAlignment.MiddleCenter;
-                    FL[i][j].Location = new Point(FBSize * i + 10, FBSize * j + 10);
-                    FL[i][j].Size = new Size(FBSize, FBSize);
-                    FL[i][j].TextAlign = ContentAlignment.MiddleCenter;
-                    FL[i][j].ImageList = ilIconsField;
-                    FL[i][j].MouseDown += Cell_Down;
-                    FL[i][j].MouseUp += Cell_Up;
-                    FL[i][j].DoubleClick += MineFieldLabel_DoubleClick;
-                    FL[i][j].BackColor = Color.PowderBlue;
-                    FL[i][j].ImageIndex = -1;
-                    FL[i][j].Text = "";
-                    FL[i][j].Visible = false;
-
-                    gbMineField.Controls.Add(FB[i][j]);
-                    gbMineField.Controls.Add(FL[i][j]);
+                    FB[i][j] = fbPrototype.GetNew(new Point(FBSize * i + 10, FBSize * j + 10));
+                    FL[i][j] = flPrototype.GetNew(new Point(FBSize * i + 10, FBSize * j + 10));
                 }
+                gbMineField.Controls.AddRange(FB[i]);
+                gbMineField.Controls.AddRange(FL[i]);
             }
 
             for (int i = oldWidth; i < MS.FieldWidth; i++)
@@ -160,43 +159,11 @@ namespace MineSweeper
                 Array.Resize(ref FL[i], MS.FieldHeight);
                 for (int j = 0; j < MS.FieldHeight; j++)
                 {
-                    FB[i][j] = new Button();
-                    FB[i][j].Anchor = AnchorStyles.Top | AnchorStyles.Left;
-                    FB[i][j].AutoSize = false;
-                    FB[i][j].Enabled = true;
-                    FB[i][j].Location = new Point(FBSize * i + 10, FBSize * j + 10);
-                    FB[i][j].Size = new Size(FBSize, FBSize);
-                    FB[i][j].TabStop = false;
-                    FB[i][j].ImageList = ilIconsField;
-                    FB[i][j].MouseDown += Cell_Down;
-                    FB[i][j].MouseUp += Cell_Up;
-                    FB[i][j].FlatStyle = FlatStyle.Flat;
-                    FB[i][j].BackColor = Color.DodgerBlue;
-                    FB[i][j].ImageIndex = -1;
-                    FB[i][j].Visible = true;
-
-                    FL[i][j] = new Label();
-                    FL[i][j].Anchor = AnchorStyles.Top | AnchorStyles.Left;
-                    FL[i][j].AutoSize = false;
-                    FL[i][j].BorderStyle = BorderStyle.FixedSingle;
-                    FL[i][j].Enabled = true;
-                    FL[i][j].Font = new Font("Candara", 14, FontStyle.Bold);
-                    FL[i][j].ImageAlign = ContentAlignment.MiddleCenter;
-                    FL[i][j].Location = new Point(FBSize * i + 10, FBSize * j + 10);
-                    FL[i][j].Size = new Size(FBSize, FBSize);
-                    FL[i][j].TextAlign = ContentAlignment.MiddleCenter;
-                    FL[i][j].ImageList = ilIconsField;
-                    FL[i][j].MouseDown += Cell_Down;
-                    FL[i][j].MouseUp += Cell_Up;
-                    FL[i][j].DoubleClick += MineFieldLabel_DoubleClick;
-                    FL[i][j].BackColor = Color.PowderBlue;
-                    FL[i][j].ImageIndex = -1;
-                    FL[i][j].Text = "";
-                    FL[i][j].Visible = false;
-
-                    gbMineField.Controls.Add(FB[i][j]);
-                    gbMineField.Controls.Add(FL[i][j]);
+                    FB[i][j] = fbPrototype.GetNew(new Point(FBSize * i + 10, FBSize * j + 10));
+                    FL[i][j] = flPrototype.GetNew(new Point(FBSize * i + 10, FBSize * j + 10));
                 }
+                gbMineField.Controls.AddRange(FB[i]);
+                gbMineField.Controls.AddRange(FL[i]);
             }
 
             Size = new Size(MS.FieldWidth * FBSize + 20 + 25, MS.FieldHeight * FBSize + 20 + 30 + 30 + 45);
@@ -241,13 +208,14 @@ namespace MineSweeper
         /// </summary>
         private void RedrawOpened()
         {
+            gbMineField.SuspendLayout();
+
             for (int i = 0; i < ME.Width; i++)
             {
                 for (int j = 0; j < ME.Height; j++)
                 {
-                    if (ME[i, j].state && FB[i][j].Visible != false)
+                    if (ME[i, j].state && FB[i][j].Visible)
                     {
-                        FB[i][j].Visible = false;
                         if (ME[i, j].cell == -1)
                         {
                             FL[i][j].ImageIndex = 0;
@@ -283,10 +251,12 @@ namespace MineSweeper
                             }
                             FL[i][j].Text = ME[i, j].cell.ToString();
                         }
-                        FL[i][j].Visible = true;
+                        FB[i][j].Visible = false;
                     }
                 }
             }
+
+            gbMineField.ResumeLayout();
         }
 
         /// <summary>
@@ -437,7 +407,7 @@ namespace MineSweeper
         }
 
         /// <summary>
-        /// Mouse button goes down on the minefield cell
+        /// Mouse button goes up on the minefield cell
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -599,7 +569,7 @@ namespace MineSweeper
 
         private void FormMineSweeper_Activated(object sender, EventArgs e)
         {
-            if (GameStart) tTime.Start();
+            if (ME.CurrentGameState.State == MinesEngine.GameState.InProgress) tTime.Start();
         }
 
         /// <summary>
@@ -734,7 +704,25 @@ namespace MineSweeper
             gbField.Location = new Point(gbMineField.Location.X, gbMineField.Location.Y);
             gbField.Size = new Size(gbMineField.Size.Width, gbMineField.Size.Height);
 
-            Label[][] labels = null;
+            if (flPrototype == null)
+                flPrototype = new MineFieldLabel(AnchorStyles.Top | AnchorStyles.Left,
+                                                false,
+                                                true,
+                                                new Size(FBSize, FBSize),
+                                                ilIconsField,
+                                                Color.PowderBlue,
+                                                -1,
+                                                false,
+                                                BorderStyle.FixedSingle,
+                                                new Font("Candara", 14, FontStyle.Bold),
+                                                ContentAlignment.MiddleCenter,
+                                                ContentAlignment.MiddleCenter,
+                                                "",
+                                                Cell_Down,
+                                                Cell_Up,
+                                                MineFieldLabel_DoubleClick);
+
+            MineFieldLabel[][] labels = null;
             Array.Resize(ref labels, FL.Length);
             for(int i = 0; i < FL.Length; i++)
             {
@@ -742,22 +730,7 @@ namespace MineSweeper
 
                 for (int j = 0; j < labels[i].Length; j++)
                 {
-                    labels[i][j] = new Label();
-                    labels[i][j].Anchor = AnchorStyles.Top | AnchorStyles.Left;
-                    labels[i][j].AutoSize = false;
-                    labels[i][j].BorderStyle = BorderStyle.FixedSingle;
-                    labels[i][j].Enabled = true;
-                    labels[i][j].Font = new Font("Candara", 14, FontStyle.Bold);
-                    labels[i][j].ImageAlign = ContentAlignment.MiddleCenter;
-                    labels[i][j].Location = new Point(FBSize * i + 10, FBSize * j + 10);
-                    labels[i][j].Size = new Size(FBSize, FBSize);
-                    labels[i][j].TextAlign = ContentAlignment.MiddleCenter;
-                    labels[i][j].ImageList = ilIconsField;
-                    labels[i][j].MouseDown += Cell_Down;
-                    labels[i][j].MouseUp += Cell_Up;
-                    labels[i][j].BackColor = Color.PowderBlue;
-                    labels[i][j].ImageIndex = -1;
-                    labels[i][j].Text = "";
+                    labels[i][j] = flPrototype.GetNew(new Point(FBSize * i + 10, FBSize * j + 10));
                     labels[i][j].Visible = true;
 
                     if (ME[i, j].cell == -1)
@@ -802,16 +775,6 @@ namespace MineSweeper
             formDebug.Controls.Add(gbField);
 
             formDebug.Show();
-        }
-
-        private void FormDebug_FormClosing1(object sender, FormClosingEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
-        private void FormDebug_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            throw new NotImplementedException();
         }
 #endif
     }
