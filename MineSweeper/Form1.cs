@@ -124,10 +124,6 @@ namespace MineSweeper
                 gbMineField.Controls.AddRange(FL[i]);
             }
 
-            gbMineField.Location = new Point(5, 60);
-            lMineIco.Location = new Point(5, 30);
-            lMines.Location = new Point(40, 30);
-
             pbHeartBig.Visible = false;
             pbHeartBigger.Visible = false;
             gbMineField.Controls.Add(pbHeartBig);
@@ -152,22 +148,19 @@ namespace MineSweeper
 
             butNewGame.ImageIndex = 2;
 
-            gbMineField.SuspendLayout();            
-            for(int i = 0; i < MS.FieldWidth; i++)
+            gbMineField.SuspendLayout();
+            for (int i = 0; i < MS.FieldWidth; i++)
             {
-                for(int j = 0; j < MS.FieldHeight; j++)
+                for (int j = 0; j < MS.FieldHeight; j++)
                 {
                     FB[i][j].ChangeButton(Color.DodgerBlue, -1, true, true);
                     FL[i][j].ChangeLabel(Color.PowderBlue, -1, "", true);
                 }
-            }
+            }            
             gbMineField.ResumeLayout();
 
-            Size = new Size(MS.FieldWidth * FBSize  + 30, MS.FieldHeight * FBSize + 115);
+            Size = new Size(MS.FieldWidth * FBSize + 30, MS.FieldHeight * FBSize + 115);
             gbMineField.Size = new Size(MS.FieldWidth * FBSize + 2, MS.FieldHeight * FBSize + 8);
-            lTime.Location = new Point(MS.FieldWidth * FBSize -35, 30);
-            lTimeIco.Location = new Point(MS.FieldWidth * FBSize -70, 30);
-            butNewGame.Location = new Point((MS.FieldWidth * FBSize -10) / 2, 30);
             lMines.Text = MS.NumMines.ToString();
             lTime.Text = "";
 
