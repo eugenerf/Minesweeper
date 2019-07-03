@@ -492,11 +492,11 @@ namespace MineSweeper
         /// </summary>
         private void DrawHeart()
         {
-            gbMineField.Visible = false;
+            gbMineField.Hide();
 
             pbHeartBigger.Visible = false;
             pbHeartBig.Visible = true;
-            gbMineField.Refresh();
+            Refresh();
 
             for (int i = 0; i < 3; i++)
             {
@@ -504,13 +504,13 @@ namespace MineSweeper
 
                 pbHeartBig.Visible = false;
                 pbHeartBigger.Visible = true;
-                gbMineField.Refresh();
+                Refresh();
 
                 Thread.Sleep(700);
 
                 pbHeartBigger.Visible = false;
                 pbHeartBig.Visible = true;
-                gbMineField.Refresh();
+                Refresh();
             }
 
             Thread.Sleep(1000);
@@ -518,7 +518,7 @@ namespace MineSweeper
             pbHeartBig.Visible = false;
             pbHeartBigger.Visible = false;
 
-            gbMineField.Visible = true;
+            gbMineField.Show();
         }
 
         private void MineFieldLabel_DoubleClick(object sender, EventArgs e)
