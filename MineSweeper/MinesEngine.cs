@@ -1,4 +1,7 @@
 ﻿using System;
+#if DEBUG
+using System.Diagnostics;
+#endif
 
 namespace MineSweeper
 {
@@ -168,12 +171,7 @@ namespace MineSweeper
                 res.state = state[i][j];
                 return res;
             }
-            private set
-            {
-                field[i][j] = value.cell;
-                markers[i][j] = value.marker;
-                state[i][j] = value.state;
-            }
+            private set { }
         }
 
         /// <summary>
@@ -232,7 +230,14 @@ namespace MineSweeper
             Width = MS.FieldWidth;
             Height = MS.FieldHeight;
             UseQuestionMarks = MS.UseQuestionMarks;
-            CurrentGameState = new CurrentGameStateInfo { State = GameState.NewGame, BombedMines = null, NumMinesBombed = 0 };
+            CurrentGameState = new CurrentGameStateInfo
+            {
+                State = GameState.NewGame,
+                BombedMines = null,
+                WrongFlags = null,
+                NumMinesBombed = 0,
+                NumWrongFlags = 0
+            };
 
             Array.Resize(ref field, Width);
             Array.Resize(ref markers, Width);
@@ -308,12 +313,20 @@ namespace MineSweeper
         /// <returns>Returns the value of the new cell marker</returns>
         public byte ChangeMarker(int i, int j)
         {
+            if (state[i][j]) return markers[i][j];
+#if DEBUG
+            Debug.WriteLine($"ChangeMarker: \tWAS: markers[{i}][{j}] = {markers[i][j]}, NumFlags = {NumFlags}");
+            Debug.WriteLineIf(UseQuestionMarks, "\tUsing Question marks");
+#endif
             if (markers[i][j] == 1) NumFlags--;
-            if(UseQuestionMarks)
+            if (UseQuestionMarks)
                 markers[i][j] = (markers[i][j] == 2) ? (byte)0 : (byte)(markers[i][j] + 1);
             else
                 markers[i][j] = (markers[i][j] == 1) ? (byte)0 : (byte)(markers[i][j] + 1);
             if (markers[i][j] == 1) NumFlags++;
+#if DEBUG
+            Debug.WriteLine($"\tIS: markers[{i}][{j}] = {markers[i][j]}, NumFlags = {NumFlags}");
+#endif
             return markers[i][j];
         }
 
@@ -465,19 +478,17 @@ namespace MineSweeper
             }
             if (field[i][j] == -1)          //BOOM!!!
             {
-                OpenField();
                 CurrentGameState.State = GameState.Loose;
                 CurrentGameState.NumMinesBombed++;
                 Array.Resize(ref CurrentGameState.BombedMines, (int)CurrentGameState.NumMinesBombed);
                 CurrentGameState.BombedMines[CurrentGameState.NumMinesBombed - 1] = new CellCoordinates { Column = i, Row = j };
-                return CurrentGameState;
             }
             AutoOpenCells(i, j);            //auto open current cell and all the empty cells or cells with numbers
             if (AllOpened())                                //when all cells (except mined) are opened
             {
-                OpenField();                                //open the whole field
                 CurrentGameState.State = GameState.Win;     //and say that user WON the game
             }
+            OpenField();        //open field if needed
             return CurrentGameState;        //game is still in progress
         }
 
@@ -500,17 +511,44 @@ namespace MineSweeper
             if (!state[i][j]) return CurrentGameState;  //if not opened cell was clicked do nothing
 
             int numFlagsAround = field[i][j]; //number of flags required in the surrounding cells
+#if DEBUG
+            Debug.WriteLine($"OpenMany:\n\tnumFlagsAround = {numFlagsAround} (i = {i}, j = {j})");
+#endif
             //going through the surrounding cells
             for (int di = -1; di <= 1; di++)
             {
+#if DEBUG
+                Debug.Write($"\tdi = {di}, i+di = {i+di}");
+                Debug.WriteIf(i + di < 0 || i + di >= Width, " column SKIPPED");
+                Debug.WriteLine("");
+#endif
                 if (i + di < 0 || i + di >= Width) continue;    //out of the field's borders
                 for (int dj = -1; dj <= 1; dj++)
                 {
+#if DEBUG
+                    Debug.Write($"\t\tdj = {dj}, j+dj = {j + dj}");
+                    Debug.WriteIf(j + dj < 0 || j + dj >= Height, " row SKIPPED");
+                    Debug.WriteLine("");
+                    Debug.WriteLineIf(di == 0 && dj == 0, "\t\tcenter cell SKIPPED");
+#endif
                     if (di == 0 && dj == 0) continue;   //we'll skip current cell
                     if (j + dj < 0 || j + dj >= Height) continue;    //out of the field's borders
-                    if (markers[i + di][j + dj] == 1) numFlagsAround--;  //found flag or question - decrease number of required flags
+#if DEBUG
+                    Debug.WriteLine($"\t\tmarkers[{i+di}][{j+dj}] = {markers[i + di][j + dj]}");
+#endif
+                    if (markers[i + di][j + dj] == 1)   //found flag
+                    {
+                        numFlagsAround--;  //decrease number of required flags
+#if DEBUG
+                        Debug.WriteLine($"\t\tdecreased numFlagsAround: {numFlagsAround}");
+#endif
+                    }
                 }
             }
+
+#if DEBUG
+            Debug.WriteLine($"\tRESULT numFlagsAround = {numFlagsAround}");
+#endif
 
             if (numFlagsAround == 0)    //number of flags around equals to the number in current cell
             {
@@ -543,7 +581,8 @@ namespace MineSweeper
                     }
                 }
 
-                if (CurrentGameState.State == GameState.Loose || CurrentGameState.State == GameState.Win) OpenField();
+                OpenField();
+
                 if (CurrentGameState.State == GameState.Win)
                 {
                     CurrentGameState.BombedMines = null;
@@ -561,10 +600,26 @@ namespace MineSweeper
         /// </summary>
         private void OpenField()
         {
+            if (CurrentGameState.State != GameState.Win && CurrentGameState.State != GameState.Loose) return;
+
             for (int i = 0; i < Width; i++)
             {
                 Array.Clear(markers[i], 0, Height);                     //clear all markers
-                for (int j = 0; j < Height; j++) state[i][j] = true;    //open each cell in the field
+                for (int j = 0; j < Height; j++)
+                {
+                    if (CurrentGameState.State == GameState.Win)            //open each cell in the field if win
+                    {
+                        state[i][j] = true;
+                    }
+                    else if (CurrentGameState.State == GameState.Loose)     //or open only mines if loose
+                    {
+                        if (field[i][j] == -1) state[i][j] = true;
+                    }
+                    else                                                    //or open nothing for another game states
+                    {
+                        return;
+                    }
+                }
             }
         }
 

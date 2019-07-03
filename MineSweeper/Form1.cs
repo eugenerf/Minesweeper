@@ -5,20 +5,34 @@ using System.IO;
 using System.Runtime.Serialization.Formatters.Soap;
 using System.Runtime.Serialization;
 using System.Threading;
+using System.Linq;
 
 namespace MineSweeper
 {
     public partial class FormMineSweeper : Form
     {
-        const int FBSize = 30;          //size of the buttons on the field
+        readonly static int CellSize = 30;                      //size of the buttons on the field
+        readonly static Color MistakeColor = Color.Red;         //color of the cell with a mistake
+        readonly static Color ClosedColor = Color.DodgerBlue;   //color of not opened cells of the minefield
+        readonly static Color OpenedColor = Color.PowderBlue;   //color of opened cells of the mine field
+        readonly static Color[] NumberColors = new Color[9]     //colors of the numbers on the minefield
+        {
+            OpenedColor,            //0 (same as back color)
+            Color.Blue,             //1
+            Color.Green,            //2
+            Color.Red,              //3
+            Color.DarkBlue,         //4
+            Color.DarkRed,          //5
+            Color.CornflowerBlue,   //6
+            Color.Black,            //7
+            Color.SlateGray         //8
+        };
 
-        public MinesSettings MS;        //minesweeper settings
-        public MinesStatistics MStats;  //minesweeper statistics
+        public MinesSettings MS = null;        //minesweeper settings
+        public MinesStatistics MStats = null;  //minesweeper statistics
         MinesEngine ME;                 //minesweeper engine
-        MineFieldButton fbPrototype;    //Prototype for creating the MineField buttons
-        MineFieldButton[][] FB;         //buttons array for the minefield
-        MineFieldLabel flPrototype;     //Prototype for creating the MineField labels
-        MineFieldLabel[][] FL;          //labels array for the minefield
+        MineFieldLabel flPrototype = null;     //Prototype for creating the MineField labels
+        MineFieldLabel[][] FL = null;          //labels array for the minefield
         bool GameStart = false;         //true when game started
         uint GameSeconds = 0;           //duration of the current game in seconds
         MouseEventArgs LBDown = null,   //left mouse button is now pushed down
@@ -78,56 +92,24 @@ namespace MineSweeper
             SetStyle(ControlStyles.ResizeRedraw, true);
             UpdateStyles();
             
-            fbPrototype = new MineFieldButton(AnchorStyles.Top | AnchorStyles.Left,
-                                                false,
-                                                true,
-                                                new Size(FBSize, FBSize),
-                                                ilIconsField,
-                                                Color.DodgerBlue,
-                                                -1,
-                                                true,
-                                                false,
-                                                FlatStyle.Flat,
-                                                Cell_Down,
-                                                Cell_Up);
-
-            flPrototype = new MineFieldLabel(AnchorStyles.Top | AnchorStyles.Left,
-                                            false,
-                                            true,
-                                            new Size(FBSize, FBSize),
+            flPrototype = new MineFieldLabel(new Size(CellSize, CellSize),
                                             ilIconsField,
-                                            Color.PowderBlue,
-                                            -1,
-                                            true,
-                                            BorderStyle.FixedSingle,
-                                            new Font("Candara", 14, FontStyle.Bold),
-                                            ContentAlignment.MiddleCenter,
-                                            ContentAlignment.MiddleCenter,
-                                            "",
+                                            ClosedColor,
                                             Cell_Down,
                                             Cell_Up,
                                             MineFieldLabel_DoubleClick);
 
-            Array.Resize(ref FB, MinesSettings.MaxWidth);
             Array.Resize(ref FL, MinesSettings.MaxWidth);
 
             for(int i = 0; i < MinesSettings.MaxWidth; i++)
             {
-                Array.Resize(ref FB[i], MinesSettings.MaxHeight);
                 Array.Resize(ref FL[i], MinesSettings.MaxHeight);
                 for(int j = 0; j < MinesSettings.MaxHeight; j++)
                 {
-                    FB[i][j] = fbPrototype.GetNew(new Point(FBSize * i + 2, FBSize * j + 8));
-                    FL[i][j] = flPrototype.GetNew(new Point(FBSize * i + 2, FBSize * j + 8));
+                    FL[i][j] = flPrototype.GetNew(new Point(CellSize * i + 2, CellSize * j + 8));
                 }
-                gbMineField.Controls.AddRange(FB[i]);
                 gbMineField.Controls.AddRange(FL[i]);
             }
-
-            pbHeartBig.Visible = false;
-            pbHeartBigger.Visible = false;
-            gbMineField.Controls.Add(pbHeartBig);
-            gbMineField.Controls.Add(pbHeartBigger);
 
             InitialiseField();
         }
@@ -150,19 +132,19 @@ namespace MineSweeper
 
             gbMineField.SuspendLayout();
             for (int i = 0; i < MS.FieldWidth; i++)
-            {
                 for (int j = 0; j < MS.FieldHeight; j++)
-                {
-                    FB[i][j].ChangeButton(Color.DodgerBlue, -1, true, true);
-                    FL[i][j].ChangeLabel(Color.PowderBlue, -1, "", true);
-                }
-            }            
+                    FL[i][j].ChangeLabel(ClosedColor, -1, "");
             gbMineField.ResumeLayout();
 
-            Size = new Size(MS.FieldWidth * FBSize + 30, MS.FieldHeight * FBSize + 115);
-            gbMineField.Size = new Size(MS.FieldWidth * FBSize + 2, MS.FieldHeight * FBSize + 8);
+            Size = new Size(MS.FieldWidth * CellSize + 30, MS.FieldHeight * CellSize + 115);
+            gbMineField.Size = new Size(MS.FieldWidth * CellSize + 2, MS.FieldHeight * CellSize + 8);
             lMines.Text = MS.NumMines.ToString();
             lTime.Text = "";
+
+            pbHeartBig.Visible = false;
+            pbHeartBig.Size = gbMineField.Size;
+            pbHeartBigger.Visible = false;
+            pbHeartBigger.Size = gbMineField.Size;
 
 #if DEBUG
             DebugMineField();
@@ -189,30 +171,20 @@ namespace MineSweeper
             {
                 for (int j = 0; j < ME.Height; j++)
                 {
-                    if (ME[i, j].state && FB[i][j].Visible)
+                    if (ME[i, j].state && FL[i][j].BackColor == ClosedColor)
                     {
+                        FL[i][j].BackColor = OpenedColor;
                         if (ME[i, j].cell == -1)
                         {
                             FL[i][j].Text = "";
                             FL[i][j].ImageIndex = 0;
                         }
-                        else if (ME[i, j].cell != 0)
+                        else
                         {
                             FL[i][j].ImageIndex = -1;
-                            switch (ME[i, j].cell)
-                            {
-                                case 1: FL[i][j].ForeColor = Color.Blue; break;
-                                case 2: FL[i][j].ForeColor = Color.Green; break;
-                                case 3: FL[i][j].ForeColor = Color.Red; break;
-                                case 4: FL[i][j].ForeColor = Color.DarkBlue; break;
-                                case 5: FL[i][j].ForeColor = Color.DarkRed; break;
-                                case 6: FL[i][j].ForeColor = Color.CornflowerBlue; break;
-                                case 7: FL[i][j].ForeColor = Color.Black; break;
-                                case 8: FL[i][j].ForeColor = Color.SlateGray; break;
-                            }
-                            FL[i][j].Text = ME[i, j].cell.ToString();
+                            FL[i][j].ForeColor = NumberColors[ME[i, j].cell];
+                            FL[i][j].Text = (ME[i, j].cell > 0) ? ME[i, j].cell.ToString() : "";
                         }
-                        FB[i][j].Visible = false;
                     }
                 }
             }
@@ -224,26 +196,19 @@ namespace MineSweeper
         /// <param name="GS">Current game state</param>
         private void OpenLoose(MinesEngine.CurrentGameStateInfo GS)
         {
+            //show mines
             for (int i = 0; i < ME.Width; i++)
-            {
                 for (int j = 0; j < ME.Height; j++)
-                {
-                    if (ME[i, j].cell == -1)
-                    {
-                        FL[i][j].ImageIndex = 0;
-                        FB[i][j].Visible = false;
-                    }
-                    else FB[i][j].Enabled = false;
-                }
-            }
+                    if (ME[i, j].cell == -1) FL[i][j].ImageIndex = 0;
 
+
+            //highlight mistakes
             for (int k = 0; k < GS.NumMinesBombed; k++)
-                FL[GS.BombedMines[k].Column][GS.BombedMines[k].Row].BackColor = Color.Red;
+                FL[GS.BombedMines[k].Column][GS.BombedMines[k].Row].BackColor = MistakeColor;
             for (int k = 0; k < GS.NumWrongFlags; k++)
             {
-                FB[GS.WrongFlags[k].Column][GS.WrongFlags[k].Row].BackColor = Color.Red;
-                FB[GS.WrongFlags[k].Column][GS.WrongFlags[k].Row].ImageIndex = 1;
-                FB[GS.WrongFlags[k].Column][GS.WrongFlags[k].Row].Visible = true;
+                FL[GS.WrongFlags[k].Column][GS.WrongFlags[k].Row].BackColor = MistakeColor;
+                FL[GS.WrongFlags[k].Column][GS.WrongFlags[k].Row].ImageIndex = 1;
             }
         }
 
@@ -255,32 +220,6 @@ namespace MineSweeper
         private void butNewGame_Click(object sender, EventArgs e)
         {
             InitialiseField();
-        }
-
-        /// <summary>
-        /// Gets the indices of the cell that corresponds to the clicked button on the minefield
-        /// </summary>
-        /// <param name="but">Clicked button</param>
-        /// <param name="column">Output of the column number</param>
-        /// <param name="row">Output of the row number</param>
-        /// <returns>True if indices were successfully found</returns>
-        private bool GetCellIndex(Button but, out int column, out int row)
-        {
-            for (int i = 0; i < FB.Length; i++)
-            {
-                for (int j = 0; j < FB[i].Length; j++)
-                {
-                    if (but.Equals(FB[i][j]))
-                    {
-                        column = i;
-                        row = j;
-                        return true;
-                    }
-                }
-            }
-            row = -1;
-            column = -1;
-            return false;
         }
 
         /// <summary>
@@ -321,15 +260,7 @@ namespace MineSweeper
                 return;
 
             int i = 0, j = 0;
-            if (sender.GetType().ToString().IndexOf("Button") != -1)
-            {
-                if (!GetCellIndex((Button)sender, out i, out j)) return;
-            }
-            else if (sender.GetType().ToString().IndexOf("Label") != -1)
-            {
-                if (!GetCellIndex((Label)sender, out i, out j)) return;
-            }
-            else return;
+            if (!GetCellIndex((Label)sender, out i, out j)) return;
 
             if (e.Button == MouseButtons.Left)
                 LBDown = new MouseEventArgs(MouseButtons.Left, 1, i, j, 0);
@@ -340,14 +271,15 @@ namespace MineSweeper
             {
                 for (int dI = -1; dI <= 1; dI++)
                 {
+                    if (i + dI < 0 || i + dI >= ME.Width) continue;
                     for (int dJ = -1; dJ <= 1; dJ++)
                     {
-                        if (i + dI < 0 || i + dI >= ME.Width) continue;
                         if (j + dJ < 0 || j + dJ >= ME.Height) continue;
-                        FB[i + dI][j + dJ].BackColor = Color.PowderBlue;
+                        FL[i + dI][j + dJ].BackColor = OpenedColor;
                     }
                 }
             }
+            else if (e.Button == MouseButtons.Left) FL[i][j].BackColor = OpenedColor;
         }
 
         /// <summary>
@@ -410,15 +342,7 @@ namespace MineSweeper
                 return;
 
             int i = 0, j = 0;
-            if (sender.GetType().ToString().IndexOf("Button") != -1)
-            {
-                if (!GetCellIndex((Button)sender, out i, out j)) return;
-            }
-            else if (sender.GetType().ToString().IndexOf("Label") != -1)
-            {
-                if (!GetCellIndex((Label)sender, out i, out j)) return;
-            }
-            else return;
+            if (!GetCellIndex((Label)sender, out i, out j)) return;
 
             MouseEventArgs curButton = new MouseEventArgs(e.Button, e.Clicks, i, j, e.Delta);
 
@@ -436,11 +360,11 @@ namespace MineSweeper
             {
                 for (int dI = -1; dI <= 1; dI++)
                 {
+                    if (i + dI < 0 || i + dI >= ME.Width) continue;
                     for (int dJ = -1; dJ <= 1; dJ++)
                     {
-                        if (i + dI < 0 || i + dI >= ME.Width) continue;
                         if (j + dJ < 0 || j + dJ >= ME.Height) continue;
-                        FB[i + dI][j + dJ].BackColor = Color.DodgerBlue;
+                        FL[i + dI][j + dJ].BackColor = ClosedColor;
                     }
                 }
 
@@ -452,10 +376,11 @@ namespace MineSweeper
                         RedrawOpened();
                         break;
                     case MinesEngine.GameState.Loose:
+                        RedrawOpened();
                         OpenLoose(GS);
                         tTime.Stop();
                         butNewGame.ImageIndex = 3;
-                        MStats.CalcStats(ME, MS, GameSeconds);                        
+                        MStats.CalcStats(ME, MS, GameSeconds);
                         break;
                     case MinesEngine.GameState.Win:
                         RedrawOpened();
@@ -469,6 +394,8 @@ namespace MineSweeper
             }
             else if (SameButton(LBDown, curButton))                                  //same left button upped as was down
             {
+                FL[i][j].BackColor = ClosedColor;
+
                 MinesEngine.CurrentGameStateInfo GS = ME.OpenCell(i, j);
 
                 switch (GS.State)
@@ -477,6 +404,7 @@ namespace MineSweeper
                         RedrawOpened();
                         break;
                     case MinesEngine.GameState.Loose:
+                        RedrawOpened();
                         OpenLoose(GS);
                         tTime.Stop();
                         butNewGame.ImageIndex = 3;
@@ -494,13 +422,10 @@ namespace MineSweeper
             }
             else if (SameButton(curButton, RBDown))                                  //same right button upped as was down
             {
-                if (sender.GetType().ToString().IndexOf("Button") != -1)
-                {
-                    ME.ChangeMarker(i, j);
-                    if (ME[i, j].marker > 0) FB[i][j].ImageIndex = ME[i, j].marker;
-                    else FB[i][j].ImageIndex = -1;
-                    lMines.Text = ((int)ME.NumMines - (int)ME.NumFlags).ToString();
-                }
+                ME.ChangeMarker(i, j);
+                if (ME[i, j].marker > 0) FL[i][j].ImageIndex = ME[i, j].marker;
+                else FL[i][j].ImageIndex = -1;
+                lMines.Text = ((int)ME.NumMines - (int)ME.NumFlags).ToString();
             }
             LBDown = null;
             RBDown = null;
@@ -567,24 +492,7 @@ namespace MineSweeper
         /// </summary>
         private void DrawHeart()
         {
-            bool[][] fb = null;
-            bool[][] fl = null;
-
-            Array.Resize(ref fb, FB.Length);
-            Array.Resize(ref fl, FL.Length);
-            for (int i = 0; i < FB.Length; i++)
-            {
-                Array.Resize(ref fb[i], FB[i].Length);
-                Array.Resize(ref fl[i], FL[i].Length);
-                for (int j = 0; j < FB[i].Length; j++)
-                {
-                    fb[i][j] = FB[i][j].Visible;
-                    fl[i][j] = FL[i][j].Visible;
-
-                    FB[i][j].Visible = false;
-                    FL[i][j].Visible = false;
-                }
-            }
+            gbMineField.Visible = false;
 
             pbHeartBigger.Visible = false;
             pbHeartBig.Visible = true;
@@ -610,14 +518,7 @@ namespace MineSweeper
             pbHeartBig.Visible = false;
             pbHeartBigger.Visible = false;
 
-            for(int i = 0; i < FB.Length; i++)
-            {
-                for(int j = 0; j < FB[i].Length; j++)
-                {
-                    FB[i][j].Visible = fb[i][j];
-                    FL[i][j].Visible = fl[i][j];
-                }
-            }
+            gbMineField.Visible = true;
         }
 
         private void MineFieldLabel_DoubleClick(object sender, EventArgs e)
@@ -627,21 +528,7 @@ namespace MineSweeper
                 return;
 
             int i = 0, j = 0;
-            if (sender.GetType().ToString().IndexOf("Label") != -1)
-            {
                 if (!GetCellIndex((Label)sender, out i, out j)) return;
-            }
-            else return;
-
-            for (int dI = -1; dI <= 1; dI++)
-            {
-                for (int dJ = -1; dJ <= 1; dJ++)
-                {
-                    if (i + dI < 0 || i + dI >= ME.Width) continue;
-                    if (j + dJ < 0 || j + dJ >= ME.Height) continue;
-                    FB[i + dI][j + dJ].BackColor = Color.DodgerBlue;
-                }
-            }
 
             MinesEngine.CurrentGameStateInfo GS = ME.OpenMany(i, j);
 
@@ -651,6 +538,7 @@ namespace MineSweeper
                     RedrawOpened();
                     break;
                 case MinesEngine.GameState.Loose:
+                    RedrawOpened();
                     OpenLoose(GS);
                     tTime.Stop();
                     butNewGame.ImageIndex = 3;
@@ -700,42 +588,16 @@ namespace MineSweeper
 
                 for (int j = 0; j < MS.FieldHeight; j++)
                 {
-                    labels[i][j] = flPrototype.GetNew(new Point(FBSize * i + 2, FBSize * j + 8));
-                    labels[i][j].Visible = true;
+                    labels[i][j] = flPrototype.GetNew(new Point(CellSize * i + 2, CellSize * j + 8));
+                    labels[i][j].BackColor = OpenedColor;
 
                     if (ME[i, j].cell == -1)
                     {
                         labels[i][j].ImageIndex = 0;
                     }
-                    else if (ME[i, j].cell != 0)
+                    else
                     {
-                        switch (ME[i, j].cell)
-                        {
-                            case 1:
-                                labels[i][j].ForeColor = Color.Blue;
-                                break;
-                            case 2:
-                                labels[i][j].ForeColor = Color.Green;
-                                break;
-                            case 3:
-                                labels[i][j].ForeColor = Color.Red;
-                                break;
-                            case 4:
-                                labels[i][j].ForeColor = Color.DarkBlue;
-                                break;
-                            case 5:
-                                labels[i][j].ForeColor = Color.DarkRed;
-                                break;
-                            case 6:
-                                labels[i][j].ForeColor = Color.CornflowerBlue;
-                                break;
-                            case 7:
-                                labels[i][j].ForeColor = Color.Black;
-                                break;
-                            case 8:
-                                labels[i][j].ForeColor = Color.SlateGray;
-                                break;
-                        }
+                        labels[i][j].ForeColor = NumberColors[ME[i, j].cell];
                         labels[i][j].Text = ME[i, j].cell.ToString();
                     }
                 }

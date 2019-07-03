@@ -51,7 +51,6 @@
             this.lTimeIco = new System.Windows.Forms.Label();
             this.ilIconsField = new System.Windows.Forms.ImageList(this.components);
             this.msMenu.SuspendLayout();
-            this.gbMineField.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbHeartBigger)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbHeartBig)).BeginInit();
             this.SuspendLayout();
@@ -125,8 +124,6 @@
             // gbMineField
             // 
             resources.ApplyResources(this.gbMineField, "gbMineField");
-            this.gbMineField.Controls.Add(this.pbHeartBigger);
-            this.gbMineField.Controls.Add(this.pbHeartBig);
             this.gbMineField.Name = "gbMineField";
             this.gbMineField.TabStop = false;
             // 
@@ -139,6 +136,7 @@
             // 
             // pbHeartBig
             // 
+            this.pbHeartBig.BackColor = System.Drawing.Color.PowderBlue;
             resources.ApplyResources(this.pbHeartBig, "pbHeartBig");
             this.pbHeartBig.Name = "pbHeartBig";
             this.pbHeartBig.TabStop = false;
@@ -216,6 +214,8 @@
             this.Controls.Add(this.butNewGame);
             this.Controls.Add(this.gbMineField);
             this.Controls.Add(this.msMenu);
+            this.Controls.Add(this.pbHeartBigger);
+            this.Controls.Add(this.pbHeartBig);
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MainMenuStrip = this.msMenu;
@@ -227,7 +227,6 @@
             this.Load += new System.EventHandler(this.FormMineSweeper_Load);
             this.msMenu.ResumeLayout(false);
             this.msMenu.PerformLayout();
-            this.gbMineField.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pbHeartBigger)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbHeartBig)).EndInit();
             this.ResumeLayout(false);
