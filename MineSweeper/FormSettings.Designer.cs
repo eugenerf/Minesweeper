@@ -45,7 +45,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.rbCustom = new System.Windows.Forms.RadioButton();
             this.rbProfessional = new System.Windows.Forms.RadioButton();
-            this.rbAmateur = new System.Windows.Forms.RadioButton();
+            this.rbAdvanced = new System.Windows.Forms.RadioButton();
             this.rbNewbie = new System.Windows.Forms.RadioButton();
             this.cbUseQuestionMarks = new System.Windows.Forms.CheckBox();
             this.gbParameters.SuspendLayout();
@@ -64,7 +64,6 @@
             // 
             // gbParameters
             // 
-            resources.ApplyResources(this.gbParameters, "gbParameters");
             this.gbParameters.Controls.Add(this.nudMines);
             this.gbParameters.Controls.Add(this.label9);
             this.gbParameters.Controls.Add(this.nudWidth);
@@ -79,8 +78,9 @@
             this.gbParameters.Controls.Add(this.label1);
             this.gbParameters.Controls.Add(this.rbCustom);
             this.gbParameters.Controls.Add(this.rbProfessional);
-            this.gbParameters.Controls.Add(this.rbAmateur);
+            this.gbParameters.Controls.Add(this.rbAdvanced);
             this.gbParameters.Controls.Add(this.rbNewbie);
+            resources.ApplyResources(this.gbParameters, "gbParameters");
             this.gbParameters.Name = "gbParameters";
             this.gbParameters.TabStop = false;
             // 
@@ -207,11 +207,11 @@
             this.rbProfessional.Name = "rbProfessional";
             this.rbProfessional.UseVisualStyleBackColor = true;
             // 
-            // rbAmateur
+            // rbAdvanced
             // 
-            resources.ApplyResources(this.rbAmateur, "rbAmateur");
-            this.rbAmateur.Name = "rbAmateur";
-            this.rbAmateur.UseVisualStyleBackColor = true;
+            resources.ApplyResources(this.rbAdvanced, "rbAdvanced");
+            this.rbAdvanced.Name = "rbAdvanced";
+            this.rbAdvanced.UseVisualStyleBackColor = true;
             // 
             // rbNewbie
             // 
@@ -261,7 +261,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.RadioButton rbCustom;
         private System.Windows.Forms.RadioButton rbProfessional;
-        private System.Windows.Forms.RadioButton rbAmateur;
+        private System.Windows.Forms.RadioButton rbAdvanced;
         private System.Windows.Forms.RadioButton rbNewbie;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
