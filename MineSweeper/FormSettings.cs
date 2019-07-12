@@ -134,7 +134,7 @@ namespace MineSweeper
         {
             nudWidth.Enabled = rbCustom.Checked;    //set Width box's enabled state equal to Custom radiobutton checked state
             nudHeight.Enabled = rbCustom.Checked;   //set Height box's enabled state equal to Custom radiobutton checked state
-            nudWidth.Enabled = rbCustom.Checked;    //set Mines box's enabled state equal to Custom radiobutton checked state
+            nudMines.Enabled = rbCustom.Checked;    //set Mines box's enabled state equal to Custom radiobutton checked state
         }   //END (rbCustom_CheckedChanged)
 
         /// <summary>
