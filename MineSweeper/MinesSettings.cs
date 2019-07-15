@@ -123,8 +123,10 @@ namespace MineSweeper
         {
             if (Instance == null)                           //if class instance is not created yet
                 lock (multyThreadLock)                          //lock static members of class
+                {
                     if (Instance == null)                           //if class instance is still not created
                         Instance = new MinesSettings();                 //create unique instance of class with default settings
+                }
             else                                            //if class instance is already created
                 Instance.ChangeSettings(Preset.Newbie, true);   //change settings to default
             return Instance;                                //return unique instance
@@ -138,12 +140,14 @@ namespace MineSweeper
         {
             if (Instance == null)                               //if class instance is not created
                 lock (multyThreadLock)                              //lock static members of class
+                {
                     if (Instance == null)                               //if class instance is still not created
-                        Instance = 
-                            new MinesSettings(preset, 
+                        Instance =
+                            new MinesSettings(preset,
                                             useQuestionMarks);              //create instance with specified preset
+                }
             else                                                //if class instance is already created
-                Instance.ChangeSettings(preset, 
+                Instance.ChangeSettings(preset,
                                         useQuestionMarks);          //change its settings according the specified preset
             return Instance;                                    //return unique instance of class
         }   //END (setSettings - by preset)
@@ -156,15 +160,17 @@ namespace MineSweeper
         {
             if (Instance == null)                                       //if class instance is not created
                 lock (multyThreadLock)                                      //lock static members of the class
+                {
                     if (Instance == null)                                       //if class instance is still not created
-                        Instance = new MinesSettings(width, 
-                                                    height, 
-                                                    mines, 
+                        Instance = new MinesSettings(width,
+                                                    height,
+                                                    mines,
                                                     useQuestionMarks);              //create new instance using specified values
+                }
             else                                                        //if class instance is already created
-                Instance.ChangeSettings(width, 
-                                        height, 
-                                        mines, 
+                Instance.ChangeSettings(width,
+                                        height,
+                                        mines,
                                         useQuestionMarks);                  //change its settings according to specified values
             return Instance;                                            //return unique instance of the class
         }   //END (setSettings - by numeric values)
