@@ -126,7 +126,7 @@ namespace MineSweeper
                 {
                     if (Instance == null)                           //if class instance is still not created
                         Instance = new MinesSettings();                 //create unique instance of class with default settings
-                }
+                }   //ENDLOCK (multy thread lock)
             else                                            //if class instance is already created
                 Instance.ChangeSettings(Preset.Newbie, true);   //change settings to default
             return Instance;                                //return unique instance
@@ -145,7 +145,7 @@ namespace MineSweeper
                         Instance =
                             new MinesSettings(preset,
                                             useQuestionMarks);              //create instance with specified preset
-                }
+                }   //ENDLOCK (multy thread lock)
             else                                                //if class instance is already created
                 Instance.ChangeSettings(preset,
                                         useQuestionMarks);          //change its settings according the specified preset
@@ -166,7 +166,7 @@ namespace MineSweeper
                                                     height,
                                                     mines,
                                                     useQuestionMarks);              //create new instance using specified values
-                }
+                }   //ENDLOCK (multy thread lock)
             else                                                        //if class instance is already created
                 Instance.ChangeSettings(width,
                                         height,
